@@ -1,0 +1,191 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carro de Compras</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/diseños.css' %}">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm bg-white navbar-dark ">
+        <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
+
+            <a class="navbar-brand text-dark fw-bold m-0" href="{% url 'index' %}">GAMING STORE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <form class="d-flex mx-auto w-100 px-4" style="width: 50%; max-width: 700px;">
+                <input class="form-control me-2" type="text" placeholder="Buscar juegos..." aria-label="Search">
+            </form>
+
+            <div class="d-flex align-items-center gap-4">
+
+                <a href="{% url 'perfil' %}"
+                    class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center"
+                    style="width: 45px; height: 45px; overflow: hidden;">
+                    <img src="{% static 'img/logo.png' %}" alt="Avatar" style="width:50px; height:50px; object-fit: cover;">
+                </a>
+
+                <a class="navbar-brand m-0 d-flex align-items-center justify-content-center"
+                    href="{% url 'carro_de_compras' %}">
+                    <img src="{% static 'img/caroo.png' %}" alt="Carro de compras" style="width:50px;" class="rounded-pill">
+                </a>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Segundo navbar -->
+    <nav class="navbar navbar-expand-sm py-1 shadow-sm" style="background-color: var(--color2);">
+        <div class="container-fluid px-5 justify-content-center">
+            <ul class="navbar-nav align-items-center">
+
+
+                <li class="nav-item mx-3">
+                    <a class="nav-link fw-bold" href="#" data-bs-toggle="offcanvas" data-bs-target="#menu"
+                        style="color: var(--color4) !important; font-size: 0.9rem; transition: color 0.3s;"
+                        onmouseover="this.style.color='var(--color3)'" onmouseout="this.style.color='var(--color4)'">☰
+                        Categorías</a>
+                </li>
+
+                <li class="nav-item mx-3 ">
+                    <a class="nav-link text-white" href="{% url 'mas_ventas' %}"
+                        style="font-size: 0.9rem; transition: color 0.3s;"
+                        onmouseover="this.style.color='var(--color4)'" onmouseout="this.style.color='white'">Lo más
+                        vendido</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link text-white" href="{% url 'nuevos_lanzamientos' %}"
+                        style="font-size: 0.9rem; transition: color 0.3s;"
+                        onmouseover="this.style.color='var(--color4)'" onmouseout="this.style.color='white'">Nuevos
+                        Lanzamientos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-start" id="menu">
+        <div class="offcanvas-header">
+            <h3 class="offcanvas-title">Categorías</h3>
+            <button type="button" class="btn-close  " data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Accion</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;;">Aventura</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">metroidvania</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Shooters </a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Estrategia </a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Simulación </a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Mundo Abierto</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Peleas</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important; ">Novela visual</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Puzzle</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important; ">Deportes</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Carreras</a></li>
+            <li><a class="dropdown-item" href="#" style="color: var(--color4) !important;">Juegos de mesa</a></li>
+        </div>
+    </div>
+
+
+    <div class="container mt-5 text-white p-5">
+        <h2>Carro de Compras</h2>
+        <p>Tu carro de compras está vacío.</p>
+        <hr>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row ">
+            <h3>Producto/s</h3>
+            <div class="col-sm-8 border border-white p-5">
+                <div class="row ">
+                    <img src="{% static 'img/call_of_juarez.jpg' %}" alt="Call of Juarez" style="width:150px;">
+                    <div class="col-sm-4 text-white m-3 ">
+                        <h4>Call of Juarez</h4>
+                        <p>Precio: $19.99</p>
+                        <p>Plataforma: XBOX 360</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="input-group input-group-sm m-4" style="width: 120px;">
+
+                            <!-- Botón de Restar -->
+                            <button class="btn btn-outline-secondary bg-primary text-white" type="button"
+                                id="btn-restar">-</button>
+
+                            <!-- número en el centro -->
+                            <input type="text" class="form-control text-center " value="1" id="input-cantidad" readonly>
+
+                            <!-- Botón de Sumar -->
+                            <button class="btn btn-outline-secondary bg-primary text-white" type="button"
+                                id="btn-sumar">+</button>
+
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close ms-auto" aria-label="Eliminar" id="btn-eliminar"></button>
+
+                </div>
+            </div>
+            <div class="col-sm-4 border border-secondary p-5">
+                <h3>Resumen de Compra</h3>
+                <p>Subtotal: $19.99</p>
+                <p>Envío: $5.00</p>
+                <input type="text" class="form-control m-1" placeholder="Codigo de descuento">
+                <button class="btn btn-outline-secondary m-1 bg-primary text-white">Aplicar</button>
+                <a href="{% url 'compra' %}" class="btn btn-primary w-100">Finalizar Compra</a>
+                <img src="{% static 'img/Metodos de Pago.jpg' %}" alt="Métodos de Pago" style="width:150px;"
+                    class="img-fluid mt-3">
+                <hr>
+                <h4>Total: $24.99</h4>
+            </div>
+
+        </div>
+    </div>
+</body>
+<div class="pt-5 pb-4 mt-5" style="background-color: var(--color1); border-top: 1px solid var(--color3);">
+    <div class="container text-center text-md-start">
+        <div class="row text-center text-md-start">
+
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="mb-4 fw-bold" style="color: var(--color4);">Gaming Store</h5>
+                <p style="color: #a0a4b0;">
+                </p>
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Enlaces</h5>
+                <p><a href="{% url 'perfil' %}" class="footer-link">Mi Perfil</a></p>
+                <p><a href="{% url 'carro_de_compras' %}" class="footer-link">Carro de Compras</a></p>
+                <p><a href="#" class="footer-link" data-bs-toggle="offcanvas"
+                        data-bs-target="#menuLateral">Categorías</a></p>
+                <p><a href="ofertas.html" class="footer-link">Ofertas Especiales</a></p>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Soporte</h5>
+                <p><a href="#" class="footer-link">Preguntas Frecuentes</a></p>
+                <p><a href="#" class="footer-link">Soporte Técnico</a></p>
+                <p><a href="#" class="footer-link">Términos de Servicio</a></p>
+                <p><a href="#" class="footer-link">Política de Privacidad</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Contacto</h5>
+                <p style="color: #a0a4b0;"> soporte@gamingstore.com</p>
+                <p style="color: #a0a4b0;"> +56 9 1234 5678</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

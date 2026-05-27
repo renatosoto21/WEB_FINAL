@@ -1,0 +1,7 @@
+# Entornos virtuales (ESTO NO SE SUBE)
+venv/
+env/
+
+# Archivos compilados de Python
+__pycache__/
+*.pyc
