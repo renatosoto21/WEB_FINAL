@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gaming Store Admin - Control Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Extraído de image_6.png */
+            --bg-deep: #0a0a0a;          /* Fondo muy oscuro de la página */
+            --bg-navbar: #1a0f29;        /* Morado oscuro de las barras de navegación */
+            --bg-card: #151515;          /* Fondo de tarjetas ligeramente más claro */
+            --accent-cyan: #00ffff;      /* Cyan del logo GAMING STORE */
+            --btn-purple: #3d2b56;       /* Morado de botones como "Ver todo" */
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;       /* Texto gris de la barra secundaria */
+            --border-color: #2a2f36;
+            --accent-danger: #ff4757;    /* Rojo vibrante para alertas */
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Estilo Navbar Superior (Copiado de la Home) */
+        .admin-nav {
+            background-color: var(--bg-navbar) !important;
+            border-bottom: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            padding: 1rem 3rem; /* Espaciado generoso similar a la Home */
+        }
+
+        .navbar-brand-gaming {
+            color: var(--accent-cyan) !important;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.5rem;
+        }
+
+        .nav-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Estilo Tarjetas de Métricas */
+        .metric-card-gaming {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .metric-card-gaming:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.1);
+        }
+
+        .metric-title {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        /* Indicadores de color sutiles */
+        .accent-line-cyan { border-left: 3px solid var(--accent-cyan); }
+        .accent-line-purple { border-left: 3px solid var(--btn-purple); }
+        .accent-line-danger { border-left: 3px solid var(--accent-danger); }
+
+        /* Estilo Tabla de Inventario */
+        .inventory-card-gaming {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+
+        .card-header-gaming {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+        }
+
+        .table-gaming {
+            --bs-table-bg: transparent;
+            --bs-table-color: var(--text-main);
+            --bs-table-border-color: var(--border-color);
+            --bs-table-striped-bg: #1a1a1a;
+            margin-bottom: 0;
+        }
+        
+        .table-gaming thead th {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 1rem 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .table-gaming tbody tr {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-gaming tbody tr:hover {
+            background-color: #202020 !important;
+        }
+
+        /* Badges estilizados */
+        .badge-gaming {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .badge-success-gaming {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .badge-danger-gaming {
+            background-color: rgba(255, 71, 87, 0.1);
+            color: var(--accent-danger);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        /* Botones Estilo Home Page */
+        
+        /* Botón Principal (Cyan como el logo) */
+        .btn-gaming-accent {
+            background-color: transparent;
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+        
+        .btn-gaming-accent:hover {
+            background-color: var(--accent-cyan);
+            color: #000;
+        }
+
+        /* Botón Secundario (Morado como "Ver todo") */
+        .btn-gaming-purple {
+            background-color: var(--btn-purple);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-gaming-purple:hover {
+            background-color: #4f3970; /* Un poco más claro al hover */
+            color: #ffffff;
+        }
+
+        /* *** NUEVO CSS: Botón de Borrar Gaming Sólido *** */
+        .btn-gaming-danger {
+            background-color: var(--accent-danger);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-gaming-danger:hover {
+            background-color: #ff6b81; /* Rojo más claro al hover */
+            color: #ffffff;
+        }
+
+        /* Sombras suaves para las portadas */
+        .game-cover-gaming {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+            border: 1px solid #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark admin-nav mb-5">
+        <div class="container-fluid p-0">
+            <div class="d-flex align-items-center">
+                <span class="navbar-brand-gaming mb-0 h1 me-4">Gaming Store</span>
+                <span class="nav-subtitle h6 mb-0 d-none d-md-block">Admin Control Panel</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <a href="/" class="btn btn-gaming-purple btn-sm px-4">Volver a la Tienda</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-5">
+        
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card metric-card-gaming accent-line-cyan shadow">
+                    <div class="card-body p-4 text-center">
+                        <p class="metric-title mb-2">Títulos Disponibles</p>
+                        <h1 class="display-5 metric-value mb-0">{{ total_titulos }}</h1>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card metric-card-gaming accent-line-purple shadow">
+                    <div class="card-body p-4 text-center">
+                        <p class="metric-title mb-2">Stock Total Unidades</p>
+                        <h1 class="display-5 metric-value mb-0" style="color: var(--btn-purple);">{{ total_stock }}</h1>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card metric-card-gaming {% if juegos_agotados > 0 %}accent-line-danger{% else %}accent-line-cyan{% endif %} shadow">
+                    <div class="card-body p-4 text-center">
+                        <p class="metric-title mb-2">Juegos Agotados</p>
+                        <h1 class="display-5 metric-value mb-0 {% if juegos_agotados > 0 %}text-danger{% else %}text-secondary{% endif %}">{{ juegos_agotados }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card inventory-card-gaming shadow-lg mb-5">
+            <div class="card-header card-header-gaming bg-transparent d-flex justify-content-between align-items-center">
+                <h3 class="mb-0 fs-5 text-uppercase fw-bold text-white">Inventario de Videojuegos</h3>
+                <a href="{% url 'crear_juego' %}" class="btn btn-gaming-accent px-4">+ Agregar Nuevo</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-gaming align-middle">
+                        <thead class="text-uppercase">
+                            <tr>
+                                <th class="ps-4" style="width: 80px;">Carátula</th>
+                                <th>Título del Juego</th>
+                                <th>Precio (CLP/USD)</th>
+                                <th>Stock Actual</th>
+                                <th class="text-center" style="width: 160px;">Gestión</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for juego in juegos %}
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    {% if juego.imagen %}
+                                        <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" style="width: 45px; height: 60px; object-fit: cover;" class="rounded game-cover-gaming">
+                                    {% else %}
+                                        <div class="text-center bg-dark rounded game-cover-gaming border" style="width: 45px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                            <span style="font-size: 0.5rem; color: #555;">N/A</span>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="fw-bold" style="color: #ffffff; font-size: 1.05rem;">{{ juego.titulo }}</div>
+                                </td>
+                                <td>
+                                    <span class="fs-6 text-white-50" style="font-weight: 600;">${{ juego.precio }}</span>
+                                </td>
+                                <td>
+                                    {% if juego.stock > 0 %}
+                                        <span class="badge badge-gaming badge-success-gaming">{{ juego.stock }} UN.</span>
+                                    {% else %}
+                                        <span class="badge badge-gaming badge-danger-gaming">AGOTADO</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-grid gap-2 col-11 mx-auto">
+                                        <a href="{% url 'editar_juego' juego.id %}" class="btn btn-gaming-purple btn-sm fw-semibold px-3">Editar</a>
+                                        <a href="{% url 'eliminar_juego' juego.id %}" class="btn btn-gaming-danger btn-sm fw-semibold px-3">Borrar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">Aún no hay videojuegos registrados en el inventario.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

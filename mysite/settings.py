@@ -118,3 +118,11 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+import os
+
+# Ruta en la URL para acceder a las imágenes (ej: /media/portadas/juego.jpg)
+MEDIA_URL = '/media/'
+
+# Carpeta real en tu computadora donde Django creará y guardará los archivos
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
