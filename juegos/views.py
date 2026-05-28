@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Sum # Importamos Sum para totalizar el stock
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Sum
 from .models import Videojuego
 from .forms import VideojuegoForm
 
@@ -76,3 +79,45 @@ def eliminar_juego(request, pk):
         return redirect('panel_admin')
         
     return render(request, 'juegos/eliminar_juego.html', {'juego': juego})
+
+# 1. VISTA DE LOGIN
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # Si es administrador, lo mandamos al dashboard
+                if user.is_staff:
+                    return redirect('panel_admin')
+                # Si es un cliente normal, lo mandamos a la página de inicio
+                return redirect('/') 
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'juegos/login.html', {'form': form})
+
+# 2. VISTA DE LOGOUT (Cerrar sesión)
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('/')
+
+# 3. PROTEGER TU DASHBOARD EXISTENTE
+# Agrega este decorador justo arriba de tu función del panel
+@staff_member_required(login_url='login')
+def panel_admin(request):
+    juegos = Videojuego.objects.all()
+    total_titulos = juegos.count()
+    total_stock = juegos.aggregate(Sum('stock'))['stock__sum'] or 0
+    juegos_agotados = juegos.filter(stock=0).count()
+    
+    context = {
+        'juegos': juegos,
+        'total_titulos': total_titulos,
+        'total_stock': total_stock,
+        'juegos_agotados': juegos_agotados
+    }
+    return render(request, 'juegos/panel_admin.html', context)
