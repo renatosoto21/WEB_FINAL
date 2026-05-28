@@ -28,7 +28,28 @@ def iniciar_sesion(request):
 
 
 # 3. LA FUNCIÓN QUE FALTABA: REGISTRO
+from .forms import RegistroUsuarioForm
+
 def registrarse(request):
-    # Dejamos este render básico para que tu servidor vuelva a la vida.
-    # Si tenías una lógica compleja aquí antes, puedes reescribirla dentro de esta función.
-    return render(request, 'perfil/registrarse.html')
+    error_msg = None
+    if request.method == 'POST':
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/iniciar-sesion/') # Al registrarse, lo mandamos a loguearse
+        else:
+            error_msg = "Error en el registro. Verifica los datos."
+    else:
+        form = RegistroUsuarioForm()
+        
+    return render(request, 'perfil/registrarse.html', {'form': form, 'error_msg': error_msg})
+
+# Asegúrate de que 'logout' esté importado arriba junto a login y authenticate
+from django.contrib.auth import logout 
+
+# ... tus otras vistas (perfil, iniciar_sesion, registrarse) ...
+
+# NUEVA VISTA PARA CERRAR SESIÓN
+def cerrar_sesion(request):
+    logout(request) # Django borra las cookies de sesión del navegador
+    return redirect('/') # Nos manda directo a la página principal

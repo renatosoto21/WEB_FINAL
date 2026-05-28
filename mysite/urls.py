@@ -10,10 +10,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('juegos.urls')),  
+    path('', include('juegos.urls')),
     path('', include('perfil.urls')),
-    path('', include('carrito.urls')),
+    path('carrito/', include('carrito.urls')),
 ]
 
+# Forzamos a Django a servir tanto MEDIA como STATIC en desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.BASE_DIR / 'static')

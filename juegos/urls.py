@@ -11,4 +11,6 @@ urlpatterns = [
     path('admin-panel/nuevo/', views.crear_juego, name='crear_juego'),
     path('admin-panel/editar/<int:pk>/', views.editar_juego, name='editar_juego'),
     path('admin-panel/eliminar/<int:pk>/', views.eliminar_juego, name='eliminar_juego'),
+    path('admin-panel/agregar/', views.agregar_juego, name='agregar_juego'),
+    path('eliminar-usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
 ]

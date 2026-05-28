@@ -5,6 +5,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Sum
 from .models import Videojuego
 from .forms import VideojuegoForm
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 def index(request):
     return render(request, 'juegos/index.html')
@@ -121,3 +123,40 @@ def panel_admin(request):
         'juegos_agotados': juegos_agotados
     }
     return render(request, 'juegos/panel_admin.html', context)
+
+@staff_member_required(login_url='/iniciar-sesion/')
+def agregar_juego(request):
+    if request.method == 'POST':
+        # Pasamos los datos del formulario (incluyendo archivos/imágenes si tienes)
+        form = VideojuegoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save() # Guarda el nuevo juego en la base de datos
+            return redirect('panel_admin') # Nos regresa al panel
+    else:
+        form = VideojuegoForm()
+        
+    return render(request, 'juegos/agregar_juego.html', {'form': form})
+
+@staff_member_required(login_url='/iniciar-sesion/')
+def panel_admin(request):
+    videojuegos = Videojuego.objects.all()
+    usuarios_registrados = User.objects.all() # <-- Traemos a todos los usuarios
+    
+    context = {
+        'videojuegos': videojuegos,
+        'usuarios': usuarios_registrados, # <-- Los pasamos al contexto
+    }
+    return render(request, 'juegos/panel_admin.html', context)
+
+def eliminar_usuario(request, user_id):
+    # Solo permitimos eliminar si es un POST, por seguridad
+    if request.method == 'POST':
+        usuario = get_object_or_404(User, id=user_id)
+        # Evitamos que se elimine a sí mismo accidentalmente
+        if usuario != request.user:
+            usuario.delete()
+            messages.success(request, 'Usuario eliminado correctamente.')
+        else:
+            messages.error(request, 'No puedes eliminarte a ti mismo.')
+            
+    return redirect('nombre_de_tu_vista_de_usuarios')
