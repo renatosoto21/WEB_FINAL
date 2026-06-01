@@ -1,0 +1,136 @@
+{% extends "juegos/base.html" %}
+{% load static %}
+
+{% block title %}{{ categoria.nombre }} - Gaming Store{% endblock %}
+
+{% block extra_css %}
+<style>
+    .categoria-header {
+        background: linear-gradient(135deg, #3d2b56 0%, #1a1a2e 100%);
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #00ffff;
+    }
+
+    .categoria-header h1 {
+        color: #00ffff;
+        font-weight: bold;
+    }
+
+    .categoria-header p {
+        color: #b3b3b3;
+        font-size: 1.1rem;
+    }
+
+    .game-card {
+        background-color: #151515;
+        border: 1px solid #2a2f36;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .game-card:hover {
+        transform: translateY(-8px);
+        border-color: #00ffff;
+        box-shadow: 0 8px 24px rgba(0, 255, 255, 0.2);
+    }
+
+    .game-card img {
+        border-radius: 8px 8px 0 0;
+        object-fit: cover;
+        height: 250px;
+        width: 100%;
+        display: block;
+    }
+
+    .game-card-body {
+        padding: 1rem;
+    }
+
+    .game-title {
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .game-price {
+        color: #00ffff;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-agregar {
+        background-color: #3d2b56;
+        border-color: #3d2b56;
+        color: #ffffff;
+        width: 100%;
+    }
+
+    .btn-agregar:hover {
+        background-color: #5a3d7a;
+        border-color: #5a3d7a;
+        color: #ffffff;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 0;
+        color: #666;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #444;
+    }
+
+    body {
+        background-color: #0a0a0a;
+        color: #ffffff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="categoria-header">
+    <div class="container px-5">
+        <h1>{{ categoria.nombre }}</h1>
+        {% if categoria.descripcion %}
+        <p>{{ categoria.descripcion }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container px-5">
+    {% if juegos %}
+    <div class="row row-cols-2 row-cols-md-5 g-4">
+        {% for juego in juegos %}
+        <div class="col">
+            <div class="game-card">
+                {% if juego.imagen %}
+                <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}">
+                {% else %}
+                <img src="{% static 'img/no-image.png' %}" alt="Sin imagen">
+                {% endif %}
+                <div class="game-card-body">
+                    <div class="game-title">{{ juego.titulo }}</div>
+                    <div class="game-price">${{ juego.precio }}</div>
+                    <button class="btn btn-agregar btn-sm">Agregar al Carrito</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <h4>No hay juegos en esta categoría</h4>
+        <p>Vuelve pronto para encontrar más títulos</p>
+        <a href="{% url 'index' %}" class="btn btn-outline-primary mt-3">Volver al inicio</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

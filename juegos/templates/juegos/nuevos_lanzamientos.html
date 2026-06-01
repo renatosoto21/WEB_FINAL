@@ -1,234 +1,66 @@
+{% extends "juegos/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevos Lanzamientos</title>
+{% block title %}Nuevos Lanzamientos - Gaming Store{% endblock %}
 
-    <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-    <link rel="stylesheet" href="{% static 'css/diseños.css' %}">
-</head>
-
-<body>
-
-    <nav class="navbar navbar-expand-sm bg-white navbar-dark ">
-        <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
-
-            <a class="navbar-brand text-dark fw-bold m-0" href="{% url 'index' %}">Gaming Store</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <form class="d-flex mx-auto w-100 px-4" style="width: 50%; max-width: 700px;">
-                <input class="form-control me-2" type="text" placeholder="Buscar juegos..." aria-label="Search">
-            </form>
-
-            <div class="d-flex align-items-center gap-4">
-
-                <a href="{% url 'perfil' %}"
-                    class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center"
-                    style="width: 45px; height: 45px; overflow: hidden;">
-                    <img src="{% static 'img/logo.png' %}" alt="Avatar" style="width:50px; height:50px; object-fit: cover;">
-                </a>
-
-                <a class="navbar-brand m-0 d-flex align-items-center justify-content-center"
-                    href="{% url 'carro_de_compras' %}">
-                    <img src="{% static 'img/caroo.png' %}" alt="Carro de compras" style="width:50px;" class="rounded-pill">
-                </a>
-
-            </div>
-        </div>
-    </nav>
-
-
-
-    <!-- Segundo navbar -->
-    <nav class="navbar navbar-expand-sm py-1 shadow-sm" style="background-color: var(--color2);">
-        <div class="container-fluid px-5 justify-content-center">
-            <ul class="navbar-nav align-items-center">
-
-
-                <li class="nav-item mx-3">
-                    <a class="nav-link fw-bold" href="#" data-bs-toggle="offcanvas" data-bs-target="#menu"
-                        style="color: var(--color4) !important; font-size: 0.9rem; transition: color 0.3s;"
-                        onmouseover="this.style.color='var(--color3)'" onmouseout="this.style.color='var(--color4)'">☰
-                        Categorías</a>
-                </li>
-
-                <li class="nav-item mx-3 ">
-                    <a class="nav-link text-white" href="{% url 'mas_ventas' %}"
-                        style="font-size: 0.9rem; transition: color 0.3s;"
-                        onmouseover="this.style.color='var(--color4)'" onmouseout="this.style.color='white'">Lo más
-                        vendido</a>
-                </li>
-                <li class="nav-item mx-3">
-                    <a class="nav-link text-white" href="{% url 'nuevos_lanzamientos' %}"
-                        style="font-size: 0.9rem; transition: color 0.3s;"
-                        onmouseover="this.style.color='var(--color4)'" onmouseout="this.style.color='white'">Nuevos
-                        Lanzamientos</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-
-    <div class="offcanvas offcanvas-start" id="menu">
-        <div class="offcanvas-header">
-            <h3 class="offcanvas-title">☰Categorías</h3>
-            <button type="button" class="btn-close  " data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <li><a class="dropdown-item" href="Categorias/Accion.html"
-                    style="color: var(--color4) !important;">Accion</a></li>
-            <li><a class="dropdown-item" href="Categorias/Aventura.html"
-                    style="color: var(--color4) !important;;">Aventura</a></li>
-            <li><a class="dropdown-item" href="Categorias/Metroidvania.html"
-                    style="color: var(--color4) !important;">metroidvania</a></li>
-            <li><a class="dropdown-item" href="Categorias/Shooters.html"
-                    style="color: var(--color4) !important;">Shooters </a></li>
-            <li><a class="dropdown-item" href="Categorias/Estrategia.html"
-                    style="color: var(--color4) !important;">Estrategia </a></li>
-            <li><a class="dropdown-item" href="Categorias/Simulacion.html"
-                    style="color: var(--color4) !important;">Simulación </a></li>
-            <li><a class="dropdown-item" href="Categorias/Mundo_Abierto.html"
-                    style="color: var(--color4) !important;">Mundo Abierto</a></li>
-            <li><a class="dropdown-item" href="Categorias/Peleas.html"
-                    style="color: var(--color4) !important;">Peleas</a></li>
-            <li><a class="dropdown-item" href="Categorias/Novela_Visual.html"
-                    style="color: var(--color4) !important; ">Novela visual</a></li>
-            <li><a class="dropdown-item" href="Categorias/Puzzle.html"
-                    style="color: var(--color4) !important;">Puzzle</a></li>
-            <li><a class="dropdown-item" href="Categorias/Deportes.html"
-                    style="color: var(--color4) !important; ">Deportes</a></li>
-            <li><a class="dropdown-item" href="Categorias/Carreras.html"
-                    style="color: var(--color4) !important;">Carreras</a></li>
-            <li><a class="dropdown-item" href="Categorias/Juegos_de_Mesa.html"
-                    style="color: var(--color4) !important;">Juegos de mesa</a></li>
-        </div>
+{% block content %}
+<div class="container mt-4 pt-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Nuevos Lanzamientos</h2>
     </div>
+</div>
 
-
-
-
-
-
-    <div class="container mt-4 pt-3">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Nuevos Lanzamientos</h2>
+<div class="container mt-5">
+    <div class="row row-cols-2 row-cols-md-5 g-4">
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" src="{% static 'img/gta6.jpg' %}" alt="GTA 6">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">GTA 6</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$100.00</h5>
+                </div>
+            </div>
         </div>
-    </div>
 
-
-
-    <div class="container mt-5">
-        <div class="row row-cols-2 row-cols-md-5 g-4">
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img class="card-img-top" src="{% static 'img/gta6.jpg' %}" alt="GTA 6" style=" object-fit: cover;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">GTA 6</h5>
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">$100.00</h5>
-                    </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" src="{% static 'img/until-dawn-banner.jpg' %}" alt="Until Dawn">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">Until Dawn</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$60.00</h5>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img class="card-img-top" src="{% static 'img/pragmatajpg.jpg' %}" alt="pragmata" style=" object-fit: cover;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">Pragmata</h5>
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">$50.00</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img class="card-img-top" src="{% static 'img/doom .jpg' %}" alt="Doom" style=" object-fit: cover;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">doom the dark ages </h5>
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">$20.00</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img class="card-img-top" src="{% static 'img/death stranding2jpg.jpg' %}" alt="death stranding"
-                        style=" object-fit: cover;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">death stranding</h5>
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">$35.00</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img class="card-img-top" src="{% static 'img/subnautica.jpg' %}" alt="Subnautica" style=" object-fit: cover;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">Subnautica</h5>
-                        <h5 class="card-title fw-bold" style="font-size: 1rem;">$25.00</h5>
-                    </div>
-                </div>
-            </div>
-
-
-
         </div>
-    </div>
-    <div class="container mt-4 pt-3">
-        <div class="d-flex justify-content-center align-items-center mb-4">
-            <a href="#" class="btn btn-light">Ver mas</a>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" src="{% static 'img/tlou-banner.jpg' %}" alt="The Last of Us">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">The Last of Us</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$70.00</h5>
+                </div>
+            </div>
         </div>
-    </div>
 
-
-</body>
-
-
-<div class="pt-5 pb-4 mt-5" style="background-color: var(--color1); border-top: 1px solid var(--color3);">
-    <div class="container text-center text-md-start">
-        <div class="row text-center text-md-start">
-
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="mb-4 fw-bold" style="color: var(--color4);">Gaming Store</h5>
-                <p style="color: #a0a4b0;">
-                </p>
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" src="{% static 'img/Eldenring.jpg' %}" alt="Elden Ring">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">Elden Ring</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$50.00</h5>
+                </div>
             </div>
+        </div>
 
-            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Enlaces</h5>
-                <p><a href="{% url 'perfil' %}" class="footer-link">Mi Perfil</a></p>
-                <p><a href="{% url 'carro_de_compras' %}" class="footer-link">Carro de Compras</a></p>
-                <p><a href="#" class="footer-link" data-bs-toggle="offcanvas"
-                        data-bs-target="#menuLateral">Categorías</a></p>
-                <p><a href="ofertas.html" class="footer-link">Ofertas Especiales</a></p>
-            </div>
-
-            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Soporte</h5>
-                <p><a href="#" class="footer-link">Preguntas Frecuentes</a></p>
-                <p><a href="#" class="footer-link">Soporte Técnico</a></p>
-                <p><a href="#" class="footer-link">Términos de Servicio</a></p>
-                <p><a href="#" class="footer-link">Política de Privacidad</a></p>
-            </div>
-
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Contacto</h5>
-                <p style="color: #a0a4b0;"> soporte@gamingstore.com</p>
-                <p style="color: #a0a4b0;"> +56 9 1234 5678</p>
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" src="{% static 'img/Hollow_knight.png' %}" alt="Hollow Knight">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">Hollow Knight</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$15.00</h5>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-</html>
+{% endblock %}

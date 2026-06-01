@@ -1,4 +1,39 @@
 from django.contrib import admin
-from .models import Videojuego
+from .models import Videojuego, Categoria
 
-admin.site.register(Videojuego)
+class VideojuegoInline(admin.TabularInline):
+    model = Videojuego
+    extra = 0
+    fields = ['titulo', 'precio', 'stock']
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'get_juegos_count', 'fecha_creacion']
+    search_fields = ['nombre']
+    prepopulated_fields = {'slug': ('nombre',)}
+
+    def get_juegos_count(self, obj):
+        return obj.videojuegos.count()
+    get_juegos_count.short_description = 'Cantidad de Juegos'
+
+    inlines = [VideojuegoInline]
+
+@admin.register(Videojuego)
+class VideojuegoAdmin(admin.ModelAdmin):
+    list_display = ['titulo', 'categoria', 'precio', 'stock', 'en_oferta']
+    list_filter = ['categoria', 'en_oferta', 'destacado', 'fecha_creacion']
+    search_fields = ['titulo', 'descripcion']
+    fieldsets = (
+        ('Información Básica', {
+            'fields': ('titulo', 'descripcion', 'categoria')
+        }),
+        ('Precios y Stock', {
+            'fields': ('precio', 'stock')
+        }),
+        ('Imagen', {
+            'fields': ('imagen',)
+        }),
+        ('Estado', {
+            'fields': ('en_oferta', 'destacado')
+        }),
+    )
