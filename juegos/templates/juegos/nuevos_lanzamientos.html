@@ -12,55 +12,29 @@
 
 <div class="container mt-5">
     <div class="row row-cols-2 row-cols-md-5 g-4">
+        {% for juego in juegos%}
         <div class="col">
             <div class="card h-100 shadow-sm">
-                <img class="card-img-top" src="{% static 'img/gta6.jpg' %}" alt="GTA 6">
+                {% if juego.imagen %}
+                <img class="card-img-top" src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}"
+                    style="object-fit: cover; height: 250px;">
+                {% else %}
+                <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin imagen"
+                    style="object-fit: cover; height: 250px;">
+                {% endif %}
                 <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">GTA 6</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$100.00</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">{{ juego.titulo }}</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
+                    <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar al
+                        Carrito</button>
                 </div>
             </div>
         </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img class="card-img-top" src="{% static 'img/until-dawn-banner.jpg' %}" alt="Until Dawn">
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">Until Dawn</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$60.00</h5>
-                </div>
-            </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img class="card-img-top" src="{% static 'img/tlou-banner.jpg' %}" alt="The Last of Us">
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">The Last of Us</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$70.00</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img class="card-img-top" src="{% static 'img/Eldenring.jpg' %}" alt="Elden Ring">
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">Elden Ring</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$50.00</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img class="card-img-top" src="{% static 'img/Hollow_knight.png' %}" alt="Hollow Knight">
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">Hollow Knight</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">$15.00</h5>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
