@@ -12,6 +12,10 @@ class Videojuego(models.Model):
     imagen = models.ImageField(upload_to='portadas/', null=True, blank=True)
     
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    
+    en_oferta = models.BooleanField(default=False)
+
+    destacado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.titulo

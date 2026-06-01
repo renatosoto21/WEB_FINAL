@@ -9,7 +9,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 def index(request):
-    return render(request, 'juegos/index.html')
+    #trae todos los videojuegos de la base de datos
+    ultimos_añadidos = Videojuego.objects.order_by('-fecha_creacion')[:4] # Trae los 4 más recientes    
+    juegos_en_oferta = Videojuego.objects.filter(en_oferta=True)[:4] # Trae los 4 en oferta
+    juegos_destacados = Videojuego.objects.filter(destacado=True)[:4] #
+    context = {
+        'ultimos': ultimos_añadidos,
+        'ofertas': juegos_en_oferta,
+        'destacados': juegos_destacados
+    }
+    return render(request, 'juegos/index.html', context)
 
 def mas_ventas(request):
     return render(request, 'juegos/mas_ventas.html')
@@ -23,7 +32,7 @@ def panel_admin(request):
     
     # Trae todos los videojuegos de la base de datos
     juegos = Videojuego.objects.all()
-    
+    lista_usuarios = User.objects.all()
     # --- MÉTRICAS PARA EL DASHBOARD ---
     total_titulos = juegos.count() # Cuenta cuántos juegos hay en total
     total_stock = juegos.aggregate(Sum('stock'))['stock__sum'] or 0 # Suma todas las unidades de stock
@@ -34,7 +43,8 @@ def panel_admin(request):
         'juegos': juegos,
         'total_titulos': total_titulos,
         'total_stock': total_stock,
-        'juegos_agotados': juegos_agotados
+        'juegos_agotados': juegos_agotados,
+        'lista_usuarios': lista_usuarios
     }
     
     # Se los pasa a la plantilla HTML
