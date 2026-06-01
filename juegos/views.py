@@ -83,13 +83,14 @@ def editar_juego(request, pk):
 
 
 # 4. Vista para Eliminar un juego
+@staff_member_required(login_url='/iniciar-sesion/')
 def eliminar_juego(request, pk):
     juego = get_object_or_404(Videojuego, pk=pk)
-    
+
     if request.method == 'POST':
         juego.delete() # Borra de la base de datos
         return redirect('panel_admin')
-        
+
     return render(request, 'juegos/eliminar_juego.html', {'juego': juego})
 
 # 1. VISTA DE LOGIN

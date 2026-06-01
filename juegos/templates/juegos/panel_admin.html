@@ -78,6 +78,16 @@
         background-color: #ffc107 !important;
         color: #000 !important;
     }
+
+    /* Ajuste para los botones de eliminar dentro de la tabla */
+    .btn-outline-danger {
+        color: #dc3545 !important;
+        border-color: #dc3545 !important;
+    }
+    .btn-outline-danger:hover {
+        background-color: #dc3545 !important;
+        color: #fff !important;
+    }
     </style>
     
 </head>
@@ -134,6 +144,7 @@
                                 <td>${{ juego.precio }}</td>
                                 <td>
                                     <a href="/admin-panel/editar/{{ juego.id }}/" class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <a href="/admin-panel/eliminar/{{ juego.id }}/" class="btn btn-sm btn-outline-danger">Eliminar</a>
                                 </td>
                             </tr>
                             {% empty %}
