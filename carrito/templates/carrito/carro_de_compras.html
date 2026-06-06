@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/diseños.css' %}">
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-sm bg-white navbar-dark ">
@@ -34,12 +35,14 @@
                 <a href="{% url 'perfil' %}"
                     class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center"
                     style="width: 45px; height: 45px; overflow: hidden;">
-                    <img src="{% static 'img/logo.png' %}" alt="Avatar" style="width:50px; height:50px; object-fit: cover;">
+                    <img src="{% static 'img/logo.png' %}" alt="Avatar"
+                        style="width:50px; height:50px; object-fit: cover;">
                 </a>
 
                 <a class="navbar-brand m-0 d-flex align-items-center justify-content-center"
-                    href="{% url 'carro_de_compras' %}">
-                    <img src="{% static 'img/caroo.png' %}" alt="Carro de compras" style="width:50px;" class="rounded-pill">
+                    href="{% url 'ver_carrito' %}">
+                    <img src="{% static 'img/caroo.png' %}" alt="Carro de compras" style="width:50px;"
+                        class="rounded-pill">
                 </a>
 
             </div>
@@ -97,60 +100,68 @@
         </div>
     </div>
 
+    <div class="contenedor-carrito">
 
-    <div class="container mt-5 text-white p-5">
-        <h2>Carro de Compras</h2>
-        <p>Tu carro de compras está vacío.</p>
-        <hr>
-    </div>
+        {% if juegos_en_carrito %}
 
-    <div class="container mt-5">
-        <div class="row ">
-            <h3>Producto/s</h3>
-            <div class="col-sm-8 border border-white p-5">
-                <div class="row ">
-                    <img src="{% static 'img/call_of_juarez.jpg' %}" alt="Call of Juarez" style="width:150px;">
-                    <div class="col-sm-4 text-white m-3 ">
-                        <h4>Call of Juarez</h4>
-                        <p>Precio: $19.99</p>
-                        <p>Plataforma: XBOX 360</p>
+        <div class="lista-productos">
+            {% for juego in juegos_en_carrito %}
+
+            <div class="card mb-4 p-4"
+                style="background-color: #2b2b2b; color: white; border: 2px solid #555; border-radius: 12px; overflow: hidden;">
+                <div class="row g-0 align-items-center">
+
+                    <div class="col-md-3 text-center">
+                        {% if juego.imagen %}
+                        <img src="{{ juego.imagen }}" alt="{{ juego.titulo }}" class="img-fluid rounded"
+                            style="max-height: 150px; object-fit: cover; width: 100%;">
+                        {% endif %}
                     </div>
 
-                    <div class="col-sm-4">
-                        <div class="input-group input-group-sm m-4" style="width: 120px;">
-
-                            <!-- Botón de Restar -->
-                            <button class="btn btn-outline-secondary bg-primary text-white" type="button"
-                                id="btn-restar">-</button>
-
-                            <!-- número en el centro -->
-                            <input type="text" class="form-control text-center " value="1" id="input-cantidad" readonly>
-
-                            <!-- Botón de Sumar -->
-                            <button class="btn btn-outline-secondary bg-primary text-white" type="button"
-                                id="btn-sumar">+</button>
-
+                    <div class="col-md-7 ps-4">
+                        <div class="card-body">
+                            <h3 class="card-title mb-3 fw-bold">{{ juego.titulo }}</h3>
+                            <p>Precio unitario: ${{ juego.precio }}</p>
+                            <p><b>Cantidad: {{ juego.cantidad }}</b></p>
                         </div>
                     </div>
-                    <button type="button" class="btn-close ms-auto" aria-label="Eliminar" id="btn-eliminar"></button>
+
+                    <div class="col-md-2 text-center">
+                        <a href="{% url 'eliminar_del_carrito' juego.id %}"
+                            style="color: #ff4d4d; font-size: 35px; font-weight: bold; text-decoration: none;"
+                            title="Eliminar del carrito">
+                            ✕
+                        </a>
+                    </div>
 
                 </div>
             </div>
-            <div class="col-sm-4 border border-secondary p-5">
-                <h3>Resumen de Compra</h3>
-                <p>Subtotal: $19.99</p>
-                <p>Envío: $5.00</p>
-                <input type="text" class="form-control m-1" placeholder="Codigo de descuento">
-                <button class="btn btn-outline-secondary m-1 bg-primary text-white">Aplicar</button>
-                <a href="{% url 'compra' %}" class="btn btn-primary w-100">Finalizar Compra</a>
-                <img src="{% static 'img/Metodos de Pago.jpg' %}" alt="Métodos de Pago" style="width:150px;"
-                    class="img-fluid mt-3">
-                <hr>
-                <h4>Total: $24.99</h4>
-            </div>
 
+            {% endfor %}
         </div>
+
+        <div class="ir-a-pagar text-center"
+            style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #444; margin-bottom: 50px;">
+            <h2 style="margin-bottom: 20px;">Total a pagar: ${{ total }}</h2>
+            <a href="{% url 'pagina_pagar' %}">
+                <button class="btn btn-primary btn-lg"
+                    style="padding: 15px 40px; font-size: 20px; font-weight: bold;">Ir a Pagar</button>
+            </a>
+        </div>
+
+        {% else %}
+        <div class="text-center" style="margin-top: 60px; margin-bottom: 80px;">
+            <h3 style="color: white;">Tu carro de compras está vacío.</h3>
+            <p style="color: #cccccc;">¡Aún no has agregado ningún juego a tu lista!</p>
+            <br>
+            <a href="{% url 'index' %}" class="btn btn-primary" style="font-weight: bold; padding: 10px 20px;">
+                Volver a la tienda
+            </a>
+        </div>
+        {% endif %}
+
     </div>
+
 </body>
 <div class="pt-5 pb-4 mt-5" style="background-color: var(--color1); border-top: 1px solid var(--color3);">
     <div class="container text-center text-md-start">
@@ -165,7 +176,7 @@
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Enlaces</h5>
                 <p><a href="{% url 'perfil' %}" class="footer-link">Mi Perfil</a></p>
-                <p><a href="{% url 'carro_de_compras' %}" class="footer-link">Carro de Compras</a></p>
+                <p><a href="{% url 'ver_carrito' %}" class="footer-link">Carro de Compras</a></p>
                 <p><a href="#" class="footer-link" data-bs-toggle="offcanvas"
                         data-bs-target="#menuLateral">Categorías</a></p>
                 <p><a href="ofertas.html" class="footer-link">Ofertas Especiales</a></p>
