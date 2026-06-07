@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from .forms import UsuarioUpdateForm, PerfilUpdateForm
+from .models import Perfil
 
 # 1. VISTA DE PERFIL
 def perfil(request):
@@ -53,3 +56,31 @@ from django.contrib.auth import logout
 def cerrar_sesion(request):
     logout(request) # Django borra las cookies de sesión del navegador
     return redirect('/') # Nos manda directo a la página principal
+
+
+
+@login_required(login_url='/iniciar-sesion/')
+def editar_perfil(request):
+    # Buscamos el perfil del usuario, o le creamos uno en blanco si no tiene
+    perfil, created = Perfil.objects.get_or_create(usuario=request.user)
+
+    if request.method == 'POST':
+        # Recibimos el texto (POST) y la foto (FILES)
+        u_form = UsuarioUpdateForm(request.POST, instance=request.user)
+        p_form = PerfilUpdateForm(request.POST, request.FILES, instance=request.user.perfil)
+
+        # Si ambos formularios están correctos, guardamos
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect('perfil') # Lo regresamos a ver su perfil actualizado
+    else:
+        # Si entra por primera vez a editar, cargamos sus datos actuales
+        u_form = UsuarioUpdateForm(instance=request.user)
+        p_form = PerfilUpdateForm(instance=request.user.perfil)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'perfil/editar_perfil.html', context)

@@ -38,11 +38,17 @@
 
             <div class="d-flex align-items-center gap-4">
                 <a href="/iniciar-sesion/" class="btn text-white" style="background-color: #3d2b56;">Iniciar Sesion</a>
+
                 <a href="{% url 'perfil' %}"
                     class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center"
                     style="width: 45px; height: 45px; overflow: hidden;">
+                    {% if request.user.is_authenticated and request.user.perfil.foto_perfil %}
+                    <img src="{{ request.user.perfil.foto_perfil.url }}" alt="Avatar"
+                        style="width:50px; height:50px; object-fit: cover;">
+                    {% else %}
                     <img src="{% static 'img/logo.png' %}" alt="Avatar"
                         style="width:50px; height:50px; object-fit: cover;">
+                    {% endif %}
                 </a>
 
                 <a class="navbar-brand m-0 d-flex align-items-center justify-content-center"
@@ -103,7 +109,8 @@
     </main>
 
     <!-- Footer -->
-    <footer style="background-color: #0a0a0a; border-top: 1px solid #2a2f36; margin-top: 3rem; padding: 2rem 0; color: #666;">
+    <footer
+        style="background-color: #0a0a0a; border-top: 1px solid #2a2f36; margin-top: 3rem; padding: 2rem 0; color: #666;">
         <div class="container text-center px-5">
             <p>&copy; 2024 Gaming Store. Todos los derechos reservados.</p>
         </div>

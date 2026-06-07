@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Modificar Perfil - Gaming Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/diseños.css' %}">
+    <style>
+        /* Estilos para que el formulario se vea modo oscuro */
+        body { background-color: #0a0a0a; color: white; }
+        .form-control { background-color: #151515; color: white; border: 1px solid #2a2f36; }
+        .form-control:focus { background-color: #221535; color: white; border-color: #00ffff; box-shadow: none; }
+        label { font-weight: bold; margin-top: 10px; margin-bottom: 5px; color: #b3b3b3; }
+        .card-custom { background-color: #111111; border: 1px solid #2a2f36; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm bg-white navbar-dark ">
+        <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
+            <a class="navbar-brand text-dark fw-bold m-0" href="{% url 'index' %}">GAMING STORE</a>
+            
+            <div class="d-flex align-items-center gap-4">
+                <a href="{% url 'perfil' %}" class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; overflow: hidden;">
+                    <img src="{% static 'img/logo.png' %}" alt="Avatar" style="width:50px; height:50px; object-fit: cover;">
+                </a>
+                <a class="navbar-brand m-0 d-flex align-items-center justify-content-center" href="{% url 'ver_carrito' %}">
+                    <img src="{% static 'img/caroo.png' %}" alt="Carro de compras" style="width:50px;" class="rounded-pill">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card-custom p-4 shadow">
+                    <h2 class="text-center mb-4" style="color: #00ffff;">Actualizar Mis Datos</h2>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {{ u_form.as_p }}
+                        
+                        {{ p_form.as_p }}
+                        
+                        <div class="d-flex gap-3 mt-4">
+                            <a href="{% url 'perfil' %}" class="btn btn-outline-light w-50">Cancelar</a>
+                            <button type="submit" class="btn text-white w-50 fw-bold" style="background-color: #3d2b56;">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-5 pb-4 mt-5" style="background-color: var(--color1); border-top: 1px solid var(--color3);">
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <div class="col-md-3 mx-auto mt-3">
+                    <h5 class="mb-4 fw-bold" style="color: var(--color4);">Gaming Store</h5>
+                </div>
+                <div class="col-md-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-white">Enlaces</h5>
+                    <p><a href="{% url 'perfil' %}" class="text-white-50 text-decoration-none">Mi Perfil</a></p>
+                </div>
+                <div class="col-md-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-white">Soporte</h5>
+                    <p><a href="#" class="text-white-50 text-decoration-none">Soporte Técnico</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

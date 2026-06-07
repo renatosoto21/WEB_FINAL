@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Perfil
 
 class RegistroUsuarioForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), label="Contraseña")
@@ -13,7 +14,7 @@ class RegistroUsuarioForm(forms.ModelForm):
             'email': 'Correo electrónico',
             'first_name': 'Nombre',
             'last_name': 'Apellido',
-        }
+        } 
 
     # Validamos que ambas contraseñas coincidan
     def clean(self):
@@ -31,3 +32,16 @@ class RegistroUsuarioForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+    # Formulario para actualizar los datos básicos
+
+class UsuarioUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+# Formulario exclusivo para subir la foto
+class PerfilUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['foto_perfil']
