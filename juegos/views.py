@@ -87,10 +87,12 @@ def cerrar_sesion(request):
 def panel_admin(request):
     videojuegos = Videojuego.objects.all()
     usuarios_registrados = User.objects.all()
+    categorias = Categoria.objects.all()
 
     context = {
         'videojuegos': videojuegos,
         'usuarios': usuarios_registrados,
+        'categorias': categorias,
     }
     return render(request, 'juegos/admin/panel_admin.html', context)
 
@@ -151,37 +153,47 @@ def admin_categorias(request):
     return render(request, 'juegos/admin/admin_categorias.html', context)
 
 @staff_member_required(login_url='/iniciar-sesion/')
-def admin_agregar_categoria(request):
+def crear_categoria(request):
     if request.method == 'POST':
-        form = CategoriaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('admin_categorias')
-    else:
-        form = CategoriaForm()
-
-    return render(request, 'juegos/admin/admin_form_categoria.html', {'form': form, 'accion': 'Agregar'})
+        nombre_recibido = request.POST.get('nombre') # Captura lo que se escribió en el input
+        
+        if nombre_recibido:
+            # Creamos el registro en la base de datos
+            Categoria.objects.create(nombre=nombre_recibido)
+            
+    return redirect('panel_admin') # Regresa al panel con los datos actualizados
 
 @staff_member_required(login_url='/iniciar-sesion/')
-def admin_editar_categoria(request, pk):
-    categoria = get_object_or_404(Categoria, pk=pk)
-
+def editar_categoria(request, cat_id):
+    # Buscamos la categoría o devolvemos error 404 si no existe
+    categoria = get_object_or_404(Categoria, id=cat_id)
+    
     if request.method == 'POST':
-        form = CategoriaForm(request.POST, instance=categoria)
-        if form.is_valid():
-            form.save()
-            return redirect('admin_categorias')
-    else:
-        form = CategoriaForm(instance=categoria)
-
-    return render(request, 'juegos/admin/admin_form_categoria.html', {'form': form, 'accion': 'Editar'})
+        # Capturamos el nuevo nombre del formulario
+        nuevo_nombre = request.POST.get('nuevo_nombre')
+        if nuevo_nombre:
+            categoria.nombre = nuevo_nombre
+            categoria.save()
+            
+    # Siempre redirigimos al panel, ya sea después de editar o si alguien entró por accidente
+    return redirect('panel_admin')
 
 @staff_member_required(login_url='/iniciar-sesion/')
-def admin_eliminar_categoria(request, pk):
-    categoria = get_object_or_404(Categoria, pk=pk)
+def eliminar_categoria(request, cat_id):
+    # Buscamos la categoría y la borramos de una
+    categoria_a_borrar = Categoria.objects.get(id=cat_id)
+    categoria_a_borrar.delete()
+    
+    return redirect('panel_admin')
 
-    if request.method == 'POST':
-        categoria.delete()
-        return redirect('admin_categorias')
-
-    return render(request, 'juegos/admin/admin_eliminar_categoria.html', {'categoria': categoria})
+@staff_member_required(login_url='/iniciar-sesion/')
+def eliminar_usuario(request, user_id):
+    # Buscamos al usuario en la base de datos
+    usuario_a_eliminar = User.objects.get(id=user_id)
+    
+    # Doble chequeo de seguridad: que el usuario que intenta borrar no sea él mismo
+    if request.user.id != usuario_a_eliminar.id:
+        usuario_a_eliminar.delete() # ¡Adiós usuario!
+        
+    # Redirigimos de vuelta al panel de admin
+    return redirect('panel_admin') # Cambia 'panel_admin' si el nombre de tu URL es distinto

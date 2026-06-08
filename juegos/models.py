@@ -21,6 +21,16 @@ class Categoria(models.Model):
 
 class Videojuego(models.Model):
     titulo = models.CharField(max_length=100)
+
+    plataforma = [
+        ('PC', 'PC'),
+        ('PS5', 'PlayStation 5'),
+        ('Xbox Series X', 'Xbox Series X'),
+        ('Nintendo Switch', 'Nintendo Switch'),
+        ('PS4', 'PlayStation 4'),
+        ('Xbox One', 'Xbox One'),
+    ]
+    plataforma = models.CharField(max_length=50, choices=plataforma, default='PC')
     
     descripcion = models.TextField()
     

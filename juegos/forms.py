@@ -4,7 +4,7 @@ from .models import Videojuego, Categoria
 class VideojuegoForm(forms.ModelForm):
     class Meta:
         model = Videojuego
-        fields = ['titulo', 'descripcion', 'precio', 'stock', 'imagen', 'categoria']
+        fields = ['titulo', 'descripcion', 'precio', 'stock', 'imagen', 'categoria','plataforma']
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -13,6 +13,7 @@ class VideojuegoForm(forms.ModelForm):
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
             'imagen': forms.FileInput(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'plataforma': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class CategoriaForm(forms.ModelForm):

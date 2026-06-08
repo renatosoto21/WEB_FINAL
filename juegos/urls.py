@@ -20,9 +20,12 @@ urlpatterns = [
     path('admin-panel/editar/<int:pk>/', views.editar_juego, name='editar_juego'),
     path('admin-panel/eliminar/<int:pk>/', views.eliminar_juego, name='eliminar_juego'),
 
+    # Admin Panel - Usuarios
+    path('panel-admin/eliminar-usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
+
     # Admin Panel - Categorías
     path('admin-panel/categorias/', views.admin_categorias, name='admin_categorias'),
-    path('admin-panel/categorias/nueva/', views.admin_agregar_categoria, name='admin_agregar_categoria'),
-    path('admin-panel/categorias/editar/<int:pk>/', views.admin_editar_categoria, name='admin_editar_categoria'),
-    path('admin-panel/categorias/eliminar/<int:pk>/', views.admin_eliminar_categoria, name='admin_eliminar_categoria'),
+    path('panel-admin/crear-categoria/', views.crear_categoria, name='crear_categoria'),
+    path('panel-admin/editar-categoria/<int:cat_id>/', views.editar_categoria, name='editar_categoria'),
+    path('panel-admin/eliminar-categoria/<int:cat_id>/', views.eliminar_categoria, name='eliminar_categoria'),
 ]
