@@ -79,7 +79,7 @@ def iniciar_sesion(request):
 
 def cerrar_sesion(request):
     logout(request)
-    return redirect('/')
+    return redirect('index')
 
 # ========== VISTAS ADMIN - VIDEOJUEGOS ==========
 
