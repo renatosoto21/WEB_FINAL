@@ -22,7 +22,7 @@ class Categoria(models.Model):
 class Videojuego(models.Model):
     titulo = models.CharField(max_length=100)
 
-    plataforma = [
+    PLATAFORMAS = [
         ('PC', 'PC'),
         ('PS5', 'PlayStation 5'),
         ('Xbox Series X', 'Xbox Series X'),
@@ -30,7 +30,8 @@ class Videojuego(models.Model):
         ('PS4', 'PlayStation 4'),
         ('Xbox One', 'Xbox One'),
     ]
-    plataforma = models.CharField(max_length=50, choices=plataforma, default='PC')
+    plataforma = models.CharField(max_length=50, choices=PLATAFORMAS, default='PC')
+
     
     descripcion = models.TextField()
     

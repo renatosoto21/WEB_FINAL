@@ -20,7 +20,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(Videojuego)
 class VideojuegoAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'categoria', 'precio', 'stock', 'en_oferta']
+    list_display = ['titulo', 'categoria', 'precio', 'stock', 'en_oferta','plataforma']
     list_filter = ['categoria', 'en_oferta', 'destacado', 'fecha_creacion']
     search_fields = ['titulo', 'descripcion']
     fieldsets = (
