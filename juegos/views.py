@@ -6,7 +6,7 @@ from django.db.models import Sum
 from .models import Videojuego, Categoria
 from .forms import VideojuegoForm, CategoriaForm
 from django.contrib.auth.models import User
-
+from .models import Videojuego 
 # ========== VISTAS PÚBLICAS ==========
 
 def index(request):
@@ -58,7 +58,38 @@ def listar_categorias(request):
     context = {'categorias': categorias}
     return render(request, 'juegos/categorias_list.html', context)
 
-# ========== VISTAS DE AUTENTICACIÓN ==========
+# Función 1: Muestra la página de favoritos
+def ver_favoritos(request):
+    print("--- CARGANDO PANTALLA DE FAVORITOS ---")
+    if request.user.is_authenticated:
+        mis_juegos = request.user.perfil.juegos_favoritos.all()
+        print(f"Juegos encontrados: {mis_juegos}")
+    else:
+        mis_juegos = []
+        
+    # ¡ESTA LÍNEA ES LA CLAVE! Si no tiene el diccionario al final, el HTML no sabrá qué mostrar
+    return render(request, 'juegos/favoritos.html', {'mis_juegos': mis_juegos})
+
+
+# Función 2: Atrapa el ID y guarda el juego
+def agregar_favorito(request, juego_id):
+    print(f"--- INTENTANDO AGREGAR JUEGO ID: {juego_id} ---") # Chismoso 1
+    
+    if request.user.is_authenticated:
+        print(f"Usuario detectado: {request.user.username}") # Chismoso 2
+        
+        juego_seleccionado = get_object_or_404(Videojuego, id=juego_id)
+        
+        if juego_seleccionado in request.user.perfil.juegos_favoritos.all():
+            request.user.perfil.juegos_favoritos.remove(juego_seleccionado)
+            print("Resultado: El juego ya estaba, así que lo QUILTE.") # Chismoso 3
+        else:
+            request.user.perfil.juegos_favoritos.add(juego_seleccionado)
+            print("Resultado: Juego AGREGADO exitosamente a la base de datos.") # Chismoso 4
+    else:
+        print("ERROR: El sistema dice que el usuario NO ha iniciado sesión.") # Chismoso 5
+        
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
 
 def iniciar_sesion(request):
     if request.method == 'POST':

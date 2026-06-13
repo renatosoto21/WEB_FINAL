@@ -5,5 +5,7 @@ class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
 
     foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+    juegos_favoritos = models.ManyToManyField('juegos.Videojuego', blank=True)
+
     def __str__(self):
         return f"Perfil de {self.usuario.username}"

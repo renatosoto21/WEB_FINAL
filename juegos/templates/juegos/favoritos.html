@@ -1,0 +1,44 @@
+{% extends "juegos/base.html" %}
+{% load static %}
+{% block title %}Favoritos - Gaming Store{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top: 80px; margin-bottom: 80px;">
+    <div class="row justify-content-center">
+        
+        <div class="col-md-8 p-4" style="background-color: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; box-shadow: 0px 4px 15px rgba(0,0,0,0.5);">
+
+            <h2 class="text-center" style="margin-bottom: 20px; font-weight: bold; color: #00ffff;">Mis Juegos Favoritos</h2>
+            <hr style="border-color: #555; margin-top: 20px; margin-bottom: 20px;">
+
+            {% for juego in mis_juegos %}
+            
+            <div class="d-flex align-items-center mb-3 p-3" style="background-color: #2a2a2a; border-radius: 8px;">
+                {% if juego.imagen %}
+                <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 2px solid #3d2b56;">
+                {% endif %}
+                
+                <div class="ms-4 flex-grow-1">
+                    <h4 class="m-0 fw-bold">{{ juego.titulo }}</h4>
+                    <span class="text-white-50" style="font-size: 1.1rem;">${{ juego.precio }}</span>
+                </div>
+                
+                <a href="{% url 'agregar_favoritos' juego.id %}" class="btn btn-outline-danger px-4 py-2 fw-bold">
+                    Eliminar
+                </a>
+            </div>
+
+            {% empty %}
+            <div class="text-center py-5">
+                <i class="bi bi-heart-break text-white-50 mb-3" style="font-size: 4rem;"></i>
+                <h4 class="text-white-50">Aún no has agregado juegos a tu lista.</h4>
+                <a href="{% url 'index' %}" class="btn mt-3 text-white px-4 py-2" style="background-color: #3d2b56; font-size: 1.1rem;">Explorar juegos</a>
+            </div>
+            
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

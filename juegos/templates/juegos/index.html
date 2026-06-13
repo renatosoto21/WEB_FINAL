@@ -71,18 +71,24 @@
         <div class="col-md-3 mb-4">
             <div class="card bg-transparent text-white border-0 h-100 position-relative">
 
-                <a href="{% url 'agregar_al_carrito' juego.id %}"
+
+
+                <a href="{% url 'agregar_favoritos' juego.id %}"
                     style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
-                    title="Agregar al carrito">
-                    +
+                    title="Agregar a favoritos">
+                    ♡
                 </a>
+
+
 
                 {% if juego.imagen %}
                 <img src="{{ juego.imagen.url }}" class="card-img-top rounded" alt="{{ juego.titulo }}">
                 {% endif %}
-                <div class="card-body text-center p-2">
+                <div class="card-body text-center">
                     <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
-                    
+                    <h6 class="card-title mb-0">${{ juego.precio}}</h6>
+                    <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar al Carrito</button>
+                    </a>
                 </div>
 
             </div>

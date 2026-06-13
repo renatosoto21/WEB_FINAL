@@ -8,6 +8,8 @@ urlpatterns = [
     path('nuevos_lanzamientos/', views.nuevos_lanzamientos, name='nuevos_lanzamientos'),
     path('categorias/', views.listar_categorias, name='listar_categorias'),
     path('categoria/<slug:slug>/', views.ver_categoria, name='ver_categoria'),
+    path('mis_favoritos/', views.ver_favoritos, name='ver_favoritos'),
+    path('agregar_favoritos/<int:juego_id>/', views.agregar_favorito, name='agregar_favoritos'),
 
     # Autenticación
     path('iniciar-sesion/', views.iniciar_sesion, name='login'),
