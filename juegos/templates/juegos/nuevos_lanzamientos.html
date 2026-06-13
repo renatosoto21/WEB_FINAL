@@ -15,6 +15,11 @@
         {% for juego in juegos%}
         <div class="col">
             <div class="card h-100 shadow-sm">
+                <a href="{% url 'agregar_favoritos' juego.id %}"
+                    style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
+                    title="Agregar a favoritos">
+                    ♡
+                </a>
                 {% if juego.imagen %}
                 <img class="card-img-top" src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}"
                     style="object-fit: cover; height: 250px;">
