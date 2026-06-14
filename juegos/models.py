@@ -45,6 +45,8 @@ class Videojuego(models.Model):
     
     en_oferta = models.BooleanField(default=False)
 
+    precio_oferta = models.IntegerField(null=True, blank=True)
+
     destacado = models.BooleanField(default=False)
 
     categoria = models.ForeignKey(
