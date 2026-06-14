@@ -4,7 +4,7 @@ from .models import Videojuego, Categoria
 class VideojuegoForm(forms.ModelForm):
     class Meta:
         model = Videojuego
-        fields = ['titulo', 'descripcion', 'precio', 'stock', 'imagen', 'categoria','plataforma']
+        fields = ['titulo', 'descripcion', 'precio', 'stock', 'imagen', 'categoria','plataforma','precio_oferta', 'en_oferta', 'destacado']
 
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
