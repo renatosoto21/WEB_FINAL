@@ -86,8 +86,11 @@
                 {% endif %}
                 <div class="card-body text-center">
                     <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
-                    <h6 class="card-title mb-0">${{ juego.precio}}</h6>
-                    <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar al Carrito</button>
+                    <h6 class="card-title mb-0">${{ juego.precio }}</h6>
+
+                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
+                            al Carrito</button>
                     </a>
                 </div>
 
@@ -115,7 +118,8 @@
                 <div class="card-body text-center p-2">
                     <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
                     <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar al Carrito</button>
+                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
+                            al Carrito</button>
                     </a>
                 </div>
             </div>
@@ -142,7 +146,8 @@
                 <div class="card-body text-center p-2">
                     <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
                     <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar al Carrito</button>
+                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
+                            al Carrito</button>
                     </a>
                 </div>
             </div>

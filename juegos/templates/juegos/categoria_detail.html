@@ -127,7 +127,10 @@
                 <div class="game-card-body">
                     <div class="game-title">{{ juego.titulo }}</div>
                     <div class="game-price">${{ juego.precio }}</div>
-                    <button class="btn btn-agregar btn-sm">Agregar al Carrito</button>
+                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
+                            al Carrito</button>
+                    </a>
                 </div>
             </div>
         </div>
