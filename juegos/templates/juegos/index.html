@@ -1,6 +1,6 @@
 {% extends "juegos/base.html" %}
 {% load static %}
-{% block title %}Home - Gaming Store{% endblock %}
+{% block title %}Gaming Store{% endblock %}
 {% block content %}
 
 <div class="container-fluid mt-4 px-5">
@@ -60,63 +60,72 @@
     </div>
 </div>
 
+<!-- Juegos últimos añadidos -->
 <div class="container mt-4 pt-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Lo ultimo añadido</h2>
-        <a href="{% url 'nuevos_lanzamientos' %}" class="btn btn-light">Ver todo</a>
+        <h2>Nuestro Catalogo</h2>
+        <a href="{% url 'nuestro_catalogo' %}" class="btn btn-light">Ver todo</a>
     </div>
-
-    <div class="row">
-        {% for juego in ultimos %}
-        <div class="col-md-3 mb-4">
-            <div class="card bg-transparent text-white border-0 h-100 position-relative">
-
-
-
+    <div class="row row-cols-4 row-cols-md-4 g-3">
+        {% for juego in ultimos%}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
                 <a href="{% url 'agregar_favoritos' juego.id %}"
                     style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
                     title="Agregar a favoritos">
                     ♡
                 </a>
-
-
-
                 {% if juego.imagen %}
-                <img src="{{ juego.imagen.url }}" class="card-img-top rounded" alt="{{ juego.titulo }}">
+                <img class="card-img-top" src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}"
+                    style="object-fit: cover; height: 425px;">
+                {% else %}
+                <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin imagen"
+                    style="object-fit: cover; height: 425px;">
                 {% endif %}
                 <div class="card-body text-center">
-                    <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
-                    <h6 class="card-title mb-0">${{ juego.precio }}</h6>
-
+                    <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
                     <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
                         <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
                             al Carrito</button>
                     </a>
                 </div>
-
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <p class="text-white text-center">Aún no hay juegos en esta categoría.</p>
+            <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
         {% endfor %}
     </div>
 
+
+
+<!-- Ofertas -->
     <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-        <h2>Ofertas imperdibles</h2>
+        <h2>Lo más Vendido</h2>
         <a href="{% url 'mas_ventas' %}" class="btn btn-light">Ver todo</a>
     </div>
 
-    <div class="row">
-        {% for juego in ofertas %}
-        <div class="col-md-3 mb-4">
-            <div class="card bg-transparent text-white border-0 h-100">
+    <div class="row row-cols-2 row-cols-md-4 g-4">
+        {% for juego in ofertas%}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <a href="{% url 'agregar_favoritos' juego.id %}"
+                    style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
+                    title="Agregar a favoritos">
+                    ♡
+                </a>
                 {% if juego.imagen %}
-                <img src="{{ juego.imagen.url }}" class="card-img-top rounded" alt="{{ juego.titulo }}">
+                <img class="card-img-top" src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}"
+                    style="object-fit: cover; height: 385px;">
+                {% else %}
+                <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin imagen"
+                    style="object-fit: cover; height: 385px;">
                 {% endif %}
-                <div class="card-body text-center p-2">
-                    <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">{{ juego.titulo }}</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
                     <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
                         <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
                             al Carrito</button>
@@ -126,25 +135,37 @@
         </div>
         {% empty %}
         <div class="col-12">
-            <p class="text-white text-center">Aún no hay ofertas disponibles.</p>
+            <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
         {% endfor %}
     </div>
 
+
+<!-- Juegos destacados -->
     <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-        <h2>Juegos Destacados</h2>
+        <h2>Nuevos Lanzamientos</h2>
         <a href="{% url 'nuevos_lanzamientos' %}" class="btn btn-light">Ver todo</a>
     </div>
 
-    <div class="row">
-        {% for juego in destacados %}
-        <div class="col-md-3 mb-4">
-            <div class="card bg-transparent text-white border-0 h-100">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for juego in destacados%}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <a href="{% url 'agregar_favoritos' juego.id %}"
+                    style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
+                    title="Agregar a favoritos">
+                    ♡
+                </a>
                 {% if juego.imagen %}
-                <img src="{{ juego.imagen.url }}" class="card-img-top rounded" alt="{{ juego.titulo }}">
+                <img class="card-img-top" src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}"
+                    style="object-fit: cover; height: 385px;">
+                {% else %}
+                <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin imagen"
+                    style="object-fit: cover; height: 385px;">
                 {% endif %}
-                <div class="card-body text-center p-2">
-                    <h6 class="card-title mb-0">{{ juego.titulo }}</h6>
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">{{ juego.titulo }}</h5>
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
                     <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
                         <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
                             al Carrito</button>
@@ -154,7 +175,7 @@
         </div>
         {% empty %}
         <div class="col-12">
-            <p class="text-white text-center">Aún no hay juegos destacados.</p>
+            <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
         {% endfor %}
     </div>

@@ -10,6 +10,7 @@ urlpatterns = [
     path('categoria/<slug:slug>/', views.ver_categoria, name='ver_categoria'),
     path('mis_favoritos/', views.ver_favoritos, name='ver_favoritos'),
     path('agregar_favoritos/<int:juego_id>/', views.agregar_favorito, name='agregar_favoritos'),
+    path('nuestro_catalogo/', views.nuestro_catalogo, name='nuestro_catalogo'),
 
     # Autenticación
     path('iniciar-sesion/', views.iniciar_sesion, name='login'),

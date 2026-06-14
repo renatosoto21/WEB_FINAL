@@ -28,12 +28,12 @@ class VideojuegoAdmin(admin.ModelAdmin):
             'fields': ('titulo', 'descripcion', 'categoria')
         }),
         ('Precios y Stock', {
-            'fields': ('precio', 'precio_oferta', 'stock')
+            'fields': ('precio', 'stock', 'en_oferta', 'precio_oferta')
         }),
         ('Imagen', {
             'fields': ('imagen',)
         }),
         ('Estado', {
-            'fields': ('en_oferta', 'destacado')
+            'fields': ('destacado', )
         }),
     )

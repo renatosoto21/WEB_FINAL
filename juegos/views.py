@@ -41,6 +41,15 @@ def nuevos_lanzamientos(request):
     }
     return render(request, 'juegos/nuevos_lanzamientos.html', context)
 
+def nuestro_catalogo(request):
+    categorias = Categoria.objects.all()
+    juegos = Videojuego.objects.order_by('titulo')
+    context = {
+        'categorias': categorias,
+        'juegos': juegos,
+    }
+    return render(request, 'juegos/nuestro_catalogo.html', context)
+
 def ver_categoria(request, slug):
     categoria = get_object_or_404(Categoria, slug=slug)
     juegos = categoria.videojuegos.all()

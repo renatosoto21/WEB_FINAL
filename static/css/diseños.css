@@ -176,3 +176,22 @@
      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
      padding-bottom: 2rem;
  }
+
+ /* Categoria header  */
+
+     .categoria-header {
+        background: linear-gradient(135deg, #3d2b56 0%, #1a1a2e 100%);
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #00ffff;
+    }
+
+    .categoria-header h1 {
+        color: #00ffff;
+        font-weight: bold;
+    }
+
+    .categoria-header p {
+        color: #b3b3b3;
+        font-size: 1.1rem;
+    }

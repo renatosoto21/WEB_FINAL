@@ -101,10 +101,7 @@
 {% block content %}
 <div class="categoria-header">
     <div class="container px-5">
-        <h1>{{ categoria.nombre }}</h1>
-        {% if categoria.descripcion %}
-        <p>{{ categoria.descripcion }}</p>
-        {% endif %}
+        <h1>Nuestro Catalogo</h1>
     </div>
 </div>
 
@@ -112,7 +109,7 @@
 <div class="container px-5">
     {% if juegos %}
     <div class="container mt-1">
-    <div class="row row-cols-5 row-cols-md-5 g-2">
+    <div class="row row-cols-5 row-cols-md-5 g-3">
         {% for juego in juegos%}
         <div class="col">
             <div class="card h-100 shadow-sm">
@@ -143,13 +140,6 @@
             <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
         {% endfor %}
-    </div>
-    {% else %}
-    <div class="empty-state">
-        <i class="bi bi-inbox"></i>
-        <h4>No hay juegos en esta categoría</h4>
-        <p>Vuelve pronto para encontrar más títulos</p>
-        <a href="{% url 'index' %}" class="btn btn-outline-primary mt-3">Volver al inicio</a>
     </div>
     {% endif %}
 </div>
