@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
@@ -31,30 +32,18 @@ class Videojuego(models.Model):
         ('Xbox One', 'Xbox One'),
     ]
     plataforma = models.CharField(max_length=50, choices=PLATAFORMAS, default='PC')
-
-    
     descripcion = models.TextField()
-    
     precio = models.IntegerField()
-    
     stock = models.IntegerField(default=0)
-    
     imagen = models.ImageField(upload_to='portadas/', null=True, blank=True)
-
     # Imágenes adicionales para el detalle del juego
     imagen1 = models.ImageField(upload_to='juegos/', null=True, blank=True)
     imagen2 = models.ImageField(upload_to='juegos/', null=True, blank=True)
     imagen3 = models.ImageField(upload_to='juegos/', null=True, blank=True)
-
-
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    
     en_oferta = models.BooleanField(default=False)
-
     precio_oferta = models.IntegerField(null=True, blank=True)
-
     destacado = models.BooleanField(default=False)
-
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.SET_NULL,
@@ -65,3 +54,12 @@ class Videojuego(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+class Compra(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mis_compras')
+    juego = models.ForeignKey(Videojuego, on_delete=models.SET_NULL, null=True)
+    precio_pagado = models.IntegerField() # Para saber cuánto costaba en ese momento
+    fecha_compra = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.usuario.username} compró {self.juego.titulo}"

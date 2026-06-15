@@ -6,7 +6,7 @@ from django.db.models import Sum
 from .models import Videojuego, Categoria
 from .forms import VideojuegoForm, CategoriaForm
 from django.contrib.auth.models import User
-from .models import Videojuego 
+from .models import Videojuego, Categoria, Compra
 from django.http import JsonResponse
 
 # ========== VISTAS PÚBLICAS ==========
@@ -317,3 +317,13 @@ def buscar_en_vivo(request):
             juegos_lista.append(diccionario)
             
     return JsonResponse(juegos_lista, safe=False)
+
+def historial_compras(request):
+    # Protegemos la vista para que solo entren usuarios logueados
+    if not request.user.is_authenticated:
+        return redirect('index') # O a tu página de login
+        
+    # Buscamos las compras del usuario y las ordenamos por la más reciente
+    compras = Compra.objects.filter(usuario=request.user).order_by('-fecha_compra')
+    
+    return render(request, 'juegos/historial_compras.html', {'compras': compras})

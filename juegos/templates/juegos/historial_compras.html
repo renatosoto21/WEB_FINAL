@@ -1,0 +1,47 @@
+{% extends "juegos/base.html" %}
+{% load static %}
+{% block title %}Mi Historial - Gaming Store{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top: 80px; margin-bottom: 80px;">
+    <div class="row justify-content-center">
+        
+        <div class="col-md-8 p-4" style="background-color: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; box-shadow: 0px 4px 15px rgba(0,0,0,0.5);">
+
+            <h2 class="text-center" style="margin-bottom: 20px; font-weight: bold; color: #00ffff;">Historial de Compras</h2>
+            <hr style="border-color: #555; margin-top: 20px; margin-bottom: 20px;">
+
+            {% for compra in compras %}
+            
+            <div class="d-flex align-items-center mb-3 p-3" style="background-color: #2a2a2a; border-radius: 8px; border-left: 4px solid #00ffff;">
+                {% if compra.juego.imagen %}
+                <img src="{{ compra.juego.imagen.url }}" alt="{{ compra.juego.titulo }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 2px solid #3d2b56;">
+                {% endif %}
+                
+                <div class="ms-4 flex-grow-1">
+                    <h4 class="m-0 fw-bold">{{ compra.juego.titulo }}</h4>
+                    <span class="text-white-50" style="font-size: 0.9rem;">
+                        Comprado el: {{ compra.fecha_compra|date:"d M Y - H:i" }}
+                    </span>
+                </div>
+                
+                <div class="text-end">
+                    <span class="d-block text-white-50 small">Precio pagado</span>
+                    <span class="fw-bold" style="color: #00ffff; font-size: 1.2rem;">${{ compra.precio_pagado }}</span>
+                </div>
+            </div>
+
+            {% empty %}
+            <div class="text-center py-5">
+                <i class="bi bi-bag-x text-white-50 mb-3" style="font-size: 4rem;"></i>
+                <h4 class="text-white-50">Aún no has realizado ninguna compra.</h4>
+                <a href="{% url 'index' %}" class="btn mt-3 text-white px-4 py-2" style="background-color: #3d2b56; font-size: 1.1rem;">Ir a la tienda</a>
+            </div>
+            
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

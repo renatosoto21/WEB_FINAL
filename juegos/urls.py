@@ -14,7 +14,9 @@ urlpatterns = [
     path('juego/<int:juego_id>/', views.detalle_juego, name='detalle_juego'),
     path('buscar/', views.buscar, name='buscar'),
     path('buscar_en_vivo/', views.buscar_en_vivo, name='buscar_en_vivo'),
-    # Autenticación
+    path('historial_compras/', views.historial_compras, name='historial_compras'),
+    
+    # Autenticación 
     path('iniciar-sesion/', views.iniciar_sesion, name='login'),
     path('cerrar-sesion/', views.cerrar_sesion, name='logout'),
 

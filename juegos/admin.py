@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Videojuego, Categoria
+from .models import Videojuego, Compra
 
 class VideojuegoInline(admin.TabularInline):
     model = Videojuego
@@ -37,3 +38,4 @@ class VideojuegoAdmin(admin.ModelAdmin):
             'fields': ('destacado', )
         }),
     )
+    admin.site.register(Compra)
