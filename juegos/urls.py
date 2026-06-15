@@ -11,7 +11,9 @@ urlpatterns = [
     path('mis_favoritos/', views.ver_favoritos, name='ver_favoritos'),
     path('agregar_favoritos/<int:juego_id>/', views.agregar_favorito, name='agregar_favoritos'),
     path('nuestro_catalogo/', views.nuestro_catalogo, name='nuestro_catalogo'),
-
+    path('juego/<int:juego_id>/', views.detalle_juego, name='detalle_juego'),
+    path('buscar/', views.buscar, name='buscar'),
+    path('buscar_en_vivo/', views.buscar_en_vivo, name='buscar_en_vivo'),
     # Autenticación
     path('iniciar-sesion/', views.iniciar_sesion, name='login'),
     path('cerrar-sesion/', views.cerrar_sesion, name='logout'),

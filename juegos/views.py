@@ -7,6 +7,8 @@ from .models import Videojuego, Categoria
 from .forms import VideojuegoForm, CategoriaForm
 from django.contrib.auth.models import User
 from .models import Videojuego 
+from django.http import JsonResponse
+
 # ========== VISTAS PÚBLICAS ==========
 
 def index(request):
@@ -15,12 +17,26 @@ def index(request):
     juegos_destacados = Videojuego.objects.filter(destacado=True)[:4]
     categorias = Categoria.objects.all()
 
+    # 1. Creamos nuestra lista vacía tradicional
+    favoritos_guardados = []
+    
+    # 2. Validamos si la persona tiene su sesión iniciada
+    if request.user.is_authenticated:
+        mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
+        
+        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
+        for juego in mis_juegos_favoritos:
+            favoritos_guardados.append(juego.id)
+
+    # 4. Agregamos los favoritos al diccionario (context) que ya tenías
     context = {
         'ultimos': ultimos_añadidos,
         'ofertas': juegos_en_oferta,
         'destacados': juegos_destacados,
         'categorias': categorias,
+        'favoritos': favoritos_guardados,  # <--- Aquí va nuestra lista nueva
     }
+    
     return render(request, 'juegos/index.html', context)
 
 def mas_ventas(request):
@@ -80,15 +96,15 @@ def ver_favoritos(request):
     return render(request, 'juegos/favoritos.html', {'mis_juegos': mis_juegos})
 
 
-# Función 2: Atrapa el ID y guarda el juego
+# Función 2: Atrapa el ID, guarda el juego y avisa a JavaScript el color
 def agregar_favorito(request, juego_id):
     print(f"--- INTENTANDO AGREGAR JUEGO ID: {juego_id} ---") # Chismoso 1
-    
+
     if request.user.is_authenticated:
         print(f"Usuario detectado: {request.user.username}") # Chismoso 2
-        
+
         juego_seleccionado = get_object_or_404(Videojuego, id=juego_id)
-        
+
         if juego_seleccionado in request.user.perfil.juegos_favoritos.all():
             request.user.perfil.juegos_favoritos.remove(juego_seleccionado)
             print("Resultado: El juego ya estaba, así que lo QUILTE.") # Chismoso 3
@@ -97,8 +113,9 @@ def agregar_favorito(request, juego_id):
             print("Resultado: Juego AGREGADO exitosamente a la base de datos.") # Chismoso 4
     else:
         print("ERROR: El sistema dice que el usuario NO ha iniciado sesión.") # Chismoso 5
-        
+
     return redirect(request.META.get('HTTP_REFERER', 'index'))
+
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -237,3 +254,66 @@ def eliminar_usuario(request, user_id):
         
     # Redirigimos de vuelta al panel de admin
     return redirect('panel_admin') # Cambia 'panel_admin' si el nombre de tu URL es distinto
+
+
+# VISTA DETALLE DE JUEGO (PÚBLICA)
+def detalle_juego(request, juego_id):
+    juego = get_object_or_404(Videojuego, id=juego_id)
+    
+    # Buscamos 4 juegos cualquiera para la zona de "Similares"
+    # Usamos exclude para no recomendar el mismo juego que ya estamos viendo
+    juegos_similares = Videojuego.objects.exclude(id=juego_id)[0:4]
+    
+    contexto = {
+        'juego': juego,
+        'similares': juegos_similares
+    }
+    
+    return render(request, 'juegos/detalle_juego.html', contexto)
+
+
+def buscar(request):
+    # 1. Atrapamos lo que el usuario escribió (la variable 'q')
+    texto_busqueda = request.GET.get('q', '')
+    
+    # 2. Creamos una lista vacía por si no encuentra nada
+    juegos_encontrados = []
+    
+    # 3. Si el usuario escribió algo, buscamos en la base de datos
+    if texto_busqueda:
+        # __icontains busca si el texto está en cualquier parte del título (sin importar mayúsculas)
+        juegos_encontrados = Videojuego.objects.filter(titulo__icontains=texto_busqueda)
+        
+    contexto = {
+        'juegos': juegos_encontrados,
+        'texto_busqueda': texto_busqueda
+    }
+    
+    return render(request, 'juegos/resultados_busqueda.html', contexto)
+
+
+
+def buscar_en_vivo(request):
+    texto = request.GET.get('q', '')
+    juegos_lista = []
+    
+    if texto != '':
+        juegos = Videojuego.objects.filter(titulo__icontains=texto)[0:5]
+        
+        for juego in juegos:
+            # 1. Creamos una variable simple para guardar la ruta de la foto
+            ruta_foto = ""
+            
+            # 2. Si el juego tiene imagen guardada, obtenemos su URL
+            if juego.imagen:
+                ruta_foto = juego.imagen.url
+                
+            # 3. Agregamos la foto a nuestro diccionario
+            diccionario = {
+                'id': juego.id,
+                'titulo': juego.titulo,
+                'imagen': ruta_foto
+            }
+            juegos_lista.append(diccionario)
+            
+    return JsonResponse(juegos_lista, safe=False)

@@ -37,8 +37,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <form class="d-flex mx-auto w-100 px-4" style="width: 50%; max-width: 700px;">
-                <input class="form-control me-2" type="text" placeholder="Buscar juegos..." aria-label="Search">
+            <form action="{% url 'buscar' %}" method="GET" class="d-flex w-100"
+                style="max-width: 600px; margin: 0 auto; position: relative;">
+                <input type="text" id="buscador-vivo" name="q" class="form-control" placeholder="Buscar juegos..."
+                    autocomplete="off">
+
+                <div id="caja-resultados"
+                    style="position: absolute; top: 100%; left: 0; width: 100%; background-color: #2b2b2b; z-index: 1000; border-radius: 5px; display: none; border: 1px solid #444;">
+                </div>
             </form>
 
 
@@ -136,6 +142,67 @@
     </footer>
 
     {% block extra_js %}{% endblock %}
+
+    <script>
+        let buscador = document.getElementById("buscador-vivo");
+        let caja = document.getElementById("caja-resultados");
+
+        buscador.addEventListener("keyup", function () {
+            let texto = buscador.value;
+
+            if (texto.length > 0) {
+                fetch("/buscar_en_vivo/?q=" + texto)
+                    .then(function (respuesta) {
+                        return respuesta.json();
+                    })
+                    .then(function (datos) {
+                        caja.innerHTML = "";
+
+                        if (datos.length > 0) {
+                            caja.style.display = "block";
+
+                            for (let i = 0; i < datos.length; i++) {
+                                let juego = datos[i];
+
+                                // Si no hay foto, usamos tu imagen por defecto de "Sin imagen"
+                                let foto_mostrar = juego.imagen;
+                                if (foto_mostrar === "") {
+                                    foto_mostrar = "/static/img/no-image.png";
+                                }
+
+                                let enlace = document.createElement("a");
+                                enlace.href = "/juego/" + juego.id + "/";
+
+                                // Aplicamos tus colores y usamos flexbox para que quede la imagen al lado del texto
+                                enlace.style = "display: flex; align-items: center; padding: 10px; color: white; text-decoration: none; border-bottom: 1px solid #444; background-color: #7b2cbf; transition: 0.2s;";
+
+                                // Efecto hover con tu color morado
+                                enlace.onmouseover = function () { this.style.backgroundColor = "#00f0ff"; }
+                                enlace.onmouseout = function () { this.style.backgroundColor = "#7b2cbf"; }
+
+                                // Metemos la imagen y el título adentro del enlace
+                                enlace.innerHTML = `
+                            <img src="${foto_mostrar}" style="width: 40px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+                            <span style="font-weight: bold; font-size: 15px;">${juego.titulo}</span>
+                        `;
+
+                                caja.appendChild(enlace);
+                            }
+                        } else {
+                            caja.style.display = "none";
+                        }
+                    });
+            } else {
+                caja.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", function (evento) {
+            if (evento.target.id !== "buscador-vivo") {
+                caja.style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

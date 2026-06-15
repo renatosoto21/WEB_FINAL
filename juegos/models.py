@@ -40,7 +40,13 @@ class Videojuego(models.Model):
     stock = models.IntegerField(default=0)
     
     imagen = models.ImageField(upload_to='portadas/', null=True, blank=True)
-    
+
+    # Imágenes adicionales para el detalle del juego
+    imagen1 = models.ImageField(upload_to='juegos/', null=True, blank=True)
+    imagen2 = models.ImageField(upload_to='juegos/', null=True, blank=True)
+    imagen3 = models.ImageField(upload_to='juegos/', null=True, blank=True)
+
+
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     
     en_oferta = models.BooleanField(default=False)

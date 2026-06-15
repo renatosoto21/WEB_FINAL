@@ -229,6 +229,7 @@
                                     <th>Título</th>
                                     <th>Plataforma</th>
                                     <th>Precio</th>
+                                    <th>Stock</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -247,6 +248,7 @@
                                     <td>{{ juego.titulo}}</td>
                                     <td>{{ juego.plataforma }}</td>
                                     <td>${{ juego.precio }}</td>
+                                    <td>{{ juego.stock }}</td>
                                     <td>
                                         <a href="/admin-panel/editar/{{ juego.id }}/"
                                             class="btn btn-sm btn-outline-warning">Editar</a>
