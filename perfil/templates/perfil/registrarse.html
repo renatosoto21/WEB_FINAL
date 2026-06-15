@@ -23,7 +23,7 @@
             <div class="alert alert-danger bg-danger text-white border-0 py-2 small mb-3 text-center">{{ error_msg }}</div>
         {% endif %}
         
-        <form method="POST">
+        <form method="POST" action="">
             {% csrf_token %}
             {% for field in form %}
                 <div class="mb-2">
