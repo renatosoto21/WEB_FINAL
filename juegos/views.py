@@ -327,3 +327,24 @@ def historial_compras(request):
     compras = Compra.objects.filter(usuario=request.user).order_by('-fecha_compra')
     
     return render(request, 'juegos/historial_compras.html', {'compras': compras})
+
+
+
+def procesar_compra_directa(request, juego_id):
+    # 1. Si el usuario no ha iniciado sesión, lo mandamos a loguearse
+    if not request.user.is_authenticated:
+        return redirect('login')
+        
+    if request.method == 'POST' or request.method == 'GET':
+        # 2. Buscamos el videojuego que quiere comprar
+        juego = get_object_or_404(Videojuego, id=juego_id)
+        
+        # 3. CREAMOS EL RECIBO REAL EN LA BASE DE DATOS
+        Compra.objects.create(
+            usuario=request.user,
+            juego=juego,
+            precio_pagado=juego.precio # Guardamos el precio de ESTE momento exacto
+        )
+        
+        # 4. Lo redirigimos automáticamente a su historial para que vea su juego
+        return redirect('historial_compras')

@@ -15,7 +15,6 @@ urlpatterns = [
     path('buscar/', views.buscar, name='buscar'),
     path('buscar_en_vivo/', views.buscar_en_vivo, name='buscar_en_vivo'),
     path('historial_compras/', views.historial_compras, name='historial_compras'),
-    
     # Autenticación 
     path('iniciar-sesion/', views.iniciar_sesion, name='login'),
     path('cerrar-sesion/', views.cerrar_sesion, name='logout'),

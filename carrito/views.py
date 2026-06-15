@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from juegos.models import Videojuego 
+from juegos.models import Videojuego, Compra
 
 
 def compra(request):
@@ -86,16 +87,6 @@ def eliminar_del_carrito(request, juego_id):
     return redirect('ver_carrito')
 
 def finalizar_compra(request):
-    # Dejamos el carrito vacío en la memoria porque la compra ya se completó
-    request.session['carro'] = {}
-    request.session.modified = True
-    
-    # Mostramos la página de gracias
-    return render(request, 'carrito/gracias.html')
-
-
-
-def finalizar_compra(request):
     # 1. Obtenemos el carro actual de la memoria de la sesión
     carro = request.session.get('carro', {})
     
@@ -114,6 +105,17 @@ def finalizar_compra(request):
                 
             # Guardamos los cambios de este juego en la base de datos
             juego_db.save()
+            
+            # ---> AQUÍ AÑADIMOS LO QUE FALTABA: EL REGISTRO AL HISTORIAL <---
+            if request.user.is_authenticated:
+                # Si compró más de 1 unidad del mismo juego, creamos un recibo por cada unidad
+                for _ in range(info['cantidad']):
+                    Compra.objects.create(
+                        usuario=request.user,
+                        juego=juego_db,
+                        precio_pagado=info['precio']
+                    )
+            # -----------------------------------------------------------------
             
         except Videojuego.DoesNotExist:
             # Si el juego ya no existe en la base de datos, simplemente continúa con el siguiente
