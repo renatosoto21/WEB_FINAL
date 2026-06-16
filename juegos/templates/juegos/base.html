@@ -50,28 +50,26 @@
 
 
             <div class="d-flex align-items-center gap-2">
-
                 {% if request.user.is_authenticated %}
                 <a href="{% url 'ver_favoritos' %}" class="d-flex align-items-center text-decoration-none"
                     style="margin-right: 15px;">
-                    <i class="bi bi-heart-fill" style="color: red; font-size: 1.8rem;"></i>
+                    <i class="bi bi-heart-fill" style="color: red; font-size: 2.5rem;"></i>
                 </a>
                 <a href="{% url 'perfil' %}"
                     class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center"
                     style="width: 45px; height: 45px; overflow: hidden;">
                     {% if request.user.perfil.foto_perfil %}
-                    <img src="{{ request.user.perfil.foto_perfil.url }}" alt="Avatar"
+                        <img src="{{ request.user.perfil.foto_perfil.url }}" alt="Avatar"
                         style="width:50px; height:50px; object-fit: cover;">
                     {% else %}
-                    <img src="{% static 'img/logo.png' %}" alt="Avatar"
+                        <img src="{% static 'img/logo.png' %}" alt="Avatar"
                         style="width:50px; height:50px; object-fit: cover;">
+                    {% endif %}
                     <a class="navbar-brand m-0 d-flex align-items-center justify-content-center"
                         href="{% url 'ver_carrito' %}">
                         <img src="{% static 'img/caroo.png' %}" alt="Carro de compras" style="width:50px;"
-                            class="rounded-pill">
+                        class="rounded-pill">
                     </a>
-                    {% endif %}
-                </a>
                 </a>
                 {% else %}
 
@@ -208,7 +206,7 @@
                                 let juego = datos[i];
 
                                 // Si no hay foto, usamos tu imagen por defecto de "Sin imagen"
-                                let foto_mostrar = juego.portada;
+                                let foto_mostrar = juego.imagen;
                                 if (foto_mostrar === "") {
                                     foto_mostrar = "/static/img/no-image.png";
                                 }

@@ -238,11 +238,11 @@
                                 <tr>
                                     <td>{{ juego.id }}</td>
                                     <td>
-                                        {% if juego.imagen %}
-                                        <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" class="img-thumbnail"
+                                        {% if juego.portada %}
+                                        <img src="{{ juego.portada.url }}" alt="{{ juego.titulo }}" class="img-thumbnail"
                                             style="max-width: 100px; height: auto;">
                                         {% else %}
-                                        <span class="text-muted">Sin imagen</span>
+                                        <span class="text-muted">Sin portada</span>
                                         {% endif %}
                                     </td>
                                     <td>{{ juego.titulo}}</td>

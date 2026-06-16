@@ -55,17 +55,17 @@ def agregar_al_carrito(request, juego_id):
         if id_texto in carro:
             carro[id_texto]['cantidad'] = carro[id_texto]['cantidad'] + 1
         else:
-            # Hacemos un if muy simple para guardar la ruta de la imagen si es que tiene una
-            ruta_imagen = ""
-            if juego.imagen:
-                ruta_imagen = juego.imagen.url
+            # Hacemos un if muy simple para guardar la ruta de la portada si es que tiene una
+            ruta_portada = ""
+            if juego.portada:
+                ruta_portada = juego.portada.url
             
-            # Agregamos la variable 'imagen' al diccionario
+            # Agregamos la variable 'portada' al diccionario
             carro[id_texto] = {
                 'titulo': juego.titulo,
                 'precio': int(juego.precio),
                 'cantidad': 1,
-                'imagen': ruta_imagen # <-- ¡Esta es la línea nueva!
+                'portada': ruta_portada # <-- ¡Esta es la línea nueva!
             }
 
         request.session['carro'] = carro

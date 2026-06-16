@@ -15,10 +15,7 @@
                 <input type="text" class="form-control mb-2" placeholder="Código de descuento">
                 <button class="btn btn-primary btn-sm" style="padding: 5px 15px;">Aplicar</button>
             </div>
-            
-            <a href="{% url 'finalizar_compra' %}" class="btn btn-primary w-100" style="padding: 12px; font-size: 18px; font-weight: bold;">
-                Finalizar Compra
-            </a>
+        
             
             <div class="text-start mt-3 mb-3">
                 <img src="/static/img/Metodos de Pago.jpg" alt="Webpay" style="height: 40px; background-color: white; padding: 5px; border-radius: 5px;">
@@ -27,6 +24,10 @@
             <hr style="border-color: #555; margin-top: 20px; margin-bottom: 20px;">
             
             <h3>Total a Pagar: ${{ total }}</h3>
+
+            <a href="{% url 'finalizar_compra' %}" class="btn btn-primary w-100" style="padding: 12px; font-size: 18px; font-weight: bold;">
+                Finalizar Compra
+            </a>
             
         </div>
 
