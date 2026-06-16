@@ -35,7 +35,7 @@ class Videojuego(models.Model):
     descripcion = models.TextField()
     precio = models.IntegerField()
     stock = models.IntegerField(default=0)
-    imagen = models.ImageField(upload_to='portadas/', null=True, blank=True)
+    portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
     # Imágenes adicionales para el detalle del juego
     imagen1 = models.ImageField(upload_to='juegos/', null=True, blank=True)
     imagen2 = models.ImageField(upload_to='juegos/', null=True, blank=True)
