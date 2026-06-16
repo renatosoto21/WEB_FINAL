@@ -303,15 +303,15 @@ def buscar_en_vivo(request):
             # 1. Creamos una variable simple para guardar la ruta de la foto
             ruta_foto = ""
             
-            # 2. Si el juego tiene imagen guardada, obtenemos su URL
-            if juego.imagen:
-                ruta_foto = juego.imagen.url
+            # 2. Si el juego tiene portada guardada, obtenemos su URL
+            if juego.portada:
+                ruta_foto = juego.portada.url
                 
             # 3. Agregamos la foto a nuestro diccionario
             diccionario = {
                 'id': juego.id,
                 'titulo': juego.titulo,
-                'imagen': ruta_foto
+                'portada': ruta_foto
             }
             juegos_lista.append(diccionario)
             

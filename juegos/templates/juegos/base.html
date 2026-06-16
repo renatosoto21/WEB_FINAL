@@ -178,10 +178,7 @@
             </div>
         </div>
     </footer>
-
-
-
-
+    
     {% block extra_js %}{% endblock %}
 
     <script>
@@ -205,8 +202,8 @@
                             for (let i = 0; i < datos.length; i++) {
                                 let juego = datos[i];
 
-                                // Si no hay foto, usamos tu imagen por defecto de "Sin imagen"
-                                let foto_mostrar = juego.imagen;
+                                // Si no hay foto, usamos tu portada por defecto de "Sin portada"
+                                let foto_mostrar = juego.portada;
                                 if (foto_mostrar === "") {
                                     foto_mostrar = "/static/img/no-image.png";
                                 }
@@ -214,14 +211,14 @@
                                 let enlace = document.createElement("a");
                                 enlace.href = "/juego/" + juego.id + "/";
 
-                                // Aplicamos tus colores y usamos flexbox para que quede la imagen al lado del texto
+                                // Aplicamos tus colores y usamos flexbox para que quede la portada al lado del texto
                                 enlace.style = "display: flex; align-items: center; padding: 10px; color: white; text-decoration: none; border-bottom: 1px solid #444; background-color: #7b2cbf; transition: 0.2s;";
 
                                 // Efecto hover con tu color morado
                                 enlace.onmouseover = function () { this.style.backgroundColor = "#00f0ff"; }
                                 enlace.onmouseout = function () { this.style.backgroundColor = "#7b2cbf"; }
 
-                                // Metemos la imagen y el título adentro del enlace
+                                // Metemos la portada y el título adentro del enlace
                                 enlace.innerHTML = `
                             <img src="${foto_mostrar}" style="width: 40px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
                             <span style="font-weight: bold; font-size: 15px;">${juego.titulo}</span>
