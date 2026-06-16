@@ -139,12 +139,50 @@
     </main>
 
     <!-- Footer -->
-    <footer
-        style="background-color: #0a0a0a; border-top: 1px solid #2a2f36; margin-top: 3rem; padding: 2rem 0; color: #666;">
-        <div class="container text-center px-5">
-            <p>&copy; 2024 Gaming Store. Todos los derechos reservados.</p>
+    <footer>
+        <div class="pt-5 pb-4 mt-5" style="background-color: var(--color1); border-top: 1px solid var(--color3);">
+            <div class="container text-center text-md-start">
+                <div class="row text-center text-md-start">
+                    <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <h5 class="mb-4 fw-bold" style="color: var(--color4);">Gaming Store</h5>
+                        <p style="color: #a0a4b0;"></p>
+                    </div>
+
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                        <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Enlaces</h5>
+                        <p><a href="{% url 'perfil' %}" class="footer-link">Mi Perfil</a></p>
+                        <p><a href="{% url 'ver_carrito' %}" class="footer-link">Carro de Compras</a></p>
+                        <p><a href="#" class="footer-link" data-bs-toggle="offcanvas"
+                                data-bs-target="#menu">Categorías</a></p>
+                        <p><a href="{% url 'mas_ventas' %}" class="footer-link">Ofertas Especiales</a></p>
+                    </div>
+
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                        <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Soporte</h5>
+                        <p><a href="#" class="footer-link">Preguntas Frecuentes</a></p>
+                        <p><a href="#" class="footer-link">Términos de Servicio</a></p>
+                        <p><a href="#" class="footer-link">Política de Privacidad</a></p>
+                    </div>
+
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <h5 class="text-uppercase mb-4 fw-bold" style="color: #ffffff;">Contacto</h5>
+                        <p style="color: #a0a4b0;">soporte@gamingstore.com</p>
+                        <p style="color: #a0a4b0;">+56 9 1234 5678</p>
+                    </div>
+                </div>
+
+                <hr class="mt-4 mb-3" style="border-color: var(--color3);">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <p style="color: #a0a4b0;">&copy; 2024 Gaming Store. Todos los derechos reservados.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
+
+
+
 
     {% block extra_js %}{% endblock %}
 
