@@ -260,15 +260,19 @@ def eliminar_usuario(request, user_id):
 def detalle_juego(request, juego_id):
     # 1. Atrapamos el juego actual
     juego_actual = get_object_or_404(Videojuego, id=juego_id)
-    
+
     # 2. Buscamos juegos de la misma categoría, excluyendo el actual (máximo 4)
     lista_similares = Videojuego.objects.filter(categoria=juego_actual.categoria).exclude(id=juego_actual.id)[0:4]
-    
+
+    # 3. Traemos TODAS las categorías para mandarlas al menú lateral
+    lista_categorias = Categoria.objects.all()
+
     contexto = {
         'juego': juego_actual,
-        'similares': lista_similares,  # <--- ¡LA CLAVE ESTÁ AQUÍ! El nombre tiene que ser idéntico al de tu HTML
+        'similares': lista_similares, 
+        'categorias': lista_categorias,  # <--- Agregamos esta variable al diccionario
     }
-    
+
     return render(request, 'juegos/detalle_juego.html', contexto)
 
 def buscar(request):
