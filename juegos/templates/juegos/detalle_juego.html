@@ -88,10 +88,19 @@
 
                 <hr style="border-color: #444; margin: 20px 0;">
 
-                <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn w-100 mb-3"
-                    style="background-color: #3d2b56; color: white; padding: 12px; font-size: 18px; font-weight: bold;">
-                    Agregar al Carrito
+                {% if juego.stock > 0 %}
+                <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                    <button class="btn w-100 mb-3"
+                        style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                        Agregar al Carrito
+                    </button>
                 </a>
+                {% else %}
+                <button class="btn w-100 mb-3" disabled
+                    style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
+                    Sin Stock
+                </button>
+                {% endif %}
 
                 <a href="{% url 'agregar_favoritos' juego.id %}" class="btn btn-outline-danger w-100"
                     style="padding: 10px; font-size: 16px; font-weight: bold;">

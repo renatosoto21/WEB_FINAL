@@ -100,15 +100,28 @@
                         style="object-fit: cover; height: 425px;">
                     {% endif %}
                 </a>
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
+
                     <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
                         <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
                     </a>
+
                     <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
-                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
-                            al Carrito</button>
-                    </a>
+
+                    <div class="mt-auto">
+                        {% if juego.stock > 0 %}
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                            <button class="btn btn-sm"
+                                style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
+                                Carrito</button>
+                        </a>
+                        {% else %}
+                        <button class="btn btn-sm" disabled
+                            style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
+                            Stock</button>
+                        {% endif %}
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -145,13 +158,28 @@
                         style="object-fit: cover; height: 425px;">
                     {% endif %}
                 </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">{{ juego.titulo }}</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
-                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
-                            al Carrito</button>
+                <div class="card-body text-center d-flex flex-column">
+
+                    <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
+                        <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
                     </a>
+
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
+
+                    <div class="mt-auto">
+                        {% if juego.stock > 0 %}
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                            <button class="btn btn-sm"
+                                style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
+                                Carrito</button>
+                        </a>
+                        {% else %}
+                        <button class="btn btn-sm" disabled
+                            style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
+                            Stock</button>
+                        {% endif %}
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -187,13 +215,28 @@
                         style="object-fit: cover; height: 425px;">
                     {% endif %}
                 </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">{{ juego.titulo }}</h5>
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
-                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                        <button class="btn btn-sm" style="background-color: #3d2b56; color: white; width: 100%;">Agregar
-                            al Carrito</button>
+                <div class="card-body text-center d-flex flex-column">
+
+                    <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
+                        <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
                     </a>
+
+                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
+
+                    <div class="mt-auto">
+                        {% if juego.stock > 0 %}
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                            <button class="btn btn-sm"
+                                style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
+                                Carrito</button>
+                        </a>
+                        {% else %}
+                        <button class="btn btn-sm" disabled
+                            style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
+                            Stock</button>
+                        {% endif %}
+                    </div>
+
                 </div>
             </div>
         </div>

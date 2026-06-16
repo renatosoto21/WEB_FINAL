@@ -48,26 +48,30 @@ def agregar_al_carrito(request, juego_id):
     carro = request.session.get('carro', {})
     juego = Videojuego.objects.get(id=juego_id)
     id_texto = str(juego_id)
-    
-    if id_texto in carro:
-        carro[id_texto]['cantidad'] = carro[id_texto]['cantidad'] + 1
-    else:
-        # Hacemos un if muy simple para guardar la ruta de la imagen si es que tiene una
-        ruta_imagen = ""
-        if juego.imagen:
-            ruta_imagen = juego.imagen.url
-            
-        # Agregamos la variable 'imagen' al diccionario
-        carro[id_texto] = {
-            'titulo': juego.titulo,
-            'precio': int(juego.precio),
-            'cantidad': 1,
-            'imagen': ruta_imagen  # <-- ¡Esta es la línea nueva!
-        }
+
+    # ¡AQUÍ ESTÁ EL CANDADO! Solo entra si el stock es mayor a 0
+    if juego.stock > 0:
         
-    request.session['carro'] = carro
-    request.session.modified = True
-    
+        if id_texto in carro:
+            carro[id_texto]['cantidad'] = carro[id_texto]['cantidad'] + 1
+        else:
+            # Hacemos un if muy simple para guardar la ruta de la imagen si es que tiene una
+            ruta_imagen = ""
+            if juego.imagen:
+                ruta_imagen = juego.imagen.url
+            
+            # Agregamos la variable 'imagen' al diccionario
+            carro[id_texto] = {
+                'titulo': juego.titulo,
+                'precio': int(juego.precio),
+                'cantidad': 1,
+                'imagen': ruta_imagen # <-- ¡Esta es la línea nueva!
+            }
+
+        request.session['carro'] = carro
+        request.session.modified = True
+
+    # Si no hay stock, Python se salta todo lo de arriba y simplemente redirige al carrito
     return redirect('ver_carrito')
 
 def eliminar_del_carrito(request, juego_id):

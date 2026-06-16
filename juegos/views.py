@@ -258,19 +258,18 @@ def eliminar_usuario(request, user_id):
 
 # VISTA DETALLE DE JUEGO (PÚBLICA)
 def detalle_juego(request, juego_id):
-    juego = get_object_or_404(Videojuego, id=juego_id)
+    # 1. Atrapamos el juego actual
+    juego_actual = get_object_or_404(Videojuego, id=juego_id)
     
-    # Buscamos 4 juegos cualquiera para la zona de "Similares"
-    # Usamos exclude para no recomendar el mismo juego que ya estamos viendo
-    juegos_similares = Videojuego.objects.exclude(id=juego_id)[0:4]
+    # 2. Buscamos juegos de la misma categoría, excluyendo el actual (máximo 4)
+    lista_similares = Videojuego.objects.filter(categoria=juego_actual.categoria).exclude(id=juego_actual.id)[0:4]
     
     contexto = {
-        'juego': juego,
-        'similares': juegos_similares
+        'juego': juego_actual,
+        'similares': lista_similares,  # <--- ¡LA CLAVE ESTÁ AQUÍ! El nombre tiene que ser idéntico al de tu HTML
     }
     
     return render(request, 'juegos/detalle_juego.html', contexto)
-
 
 def buscar(request):
     # 1. Atrapamos lo que el usuario escribió (la variable 'q')
