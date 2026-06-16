@@ -14,8 +14,8 @@
             {% for juego in mis_juegos %}
             
             <div class="d-flex align-items-center mb-3 p-3" style="background-color: #2a2a2a; border-radius: 8px;">
-                {% if juego.imagen %}
-                <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 2px solid #3d2b56;">
+                {% if juego.portada %}
+                <img src="{{ juego.portada.url }}" alt="{{ juego.titulo }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; border: 2px solid #3d2b56;">
                 {% endif %}
                 
                 <div class="ms-4 flex-grow-1">

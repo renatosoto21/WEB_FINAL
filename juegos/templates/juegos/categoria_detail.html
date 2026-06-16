@@ -123,11 +123,11 @@
                 </a>
                 </a>
                 <a href="{% url 'detalle_juego' juego.id %}">
-                    {% if juego.imagen %}
-                    <img class="card-img-top" src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}"
+                    {% if juego.portada %}
+                    <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
                         style="object-fit: cover; height: 300px;">
                     {% else %}
-                    <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin imagen"
+                    <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin portada"
                         style="object-fit: cover; height: 300px;">
                     {% endif %}
                 </a>
