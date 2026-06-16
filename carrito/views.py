@@ -49,29 +49,35 @@ def agregar_al_carrito(request, juego_id):
     juego = Videojuego.objects.get(id=juego_id)
     id_texto = str(juego_id)
 
-    # ¡AQUÍ ESTÁ EL CANDADO! Solo entra si el stock es mayor a 0
+    # CANDADO 1: Que el juego tenga al menos 1 unidad en la tienda
     if juego.stock > 0:
         
         if id_texto in carro:
-            carro[id_texto]['cantidad'] = carro[id_texto]['cantidad'] + 1
+            # CANDADO 2 (¡EL NUEVO!): Solo sumamos si lo que ya tengo en el carro es MENOR al stock real
+            if carro[id_texto]['cantidad'] < juego.stock:
+                carro[id_texto]['cantidad'] = carro[id_texto]['cantidad'] + 1
+            else:
+                # Si la cantidad en el carro ya es igual al stock, ignoramos el clic y no sumamos más
+                pass
         else:
-            # Hacemos un if muy simple para guardar la ruta de la portada si es que tiene una
+            # Si el juego no estaba en el carro, lo agregamos por primera vez con cantidad 1
             ruta_portada = ""
             if juego.portada:
                 ruta_portada = juego.portada.url
             
-            # Agregamos la variable 'portada' al diccionario
             carro[id_texto] = {
                 'titulo': juego.titulo,
                 'precio': int(juego.precio),
                 'cantidad': 1,
-                'portada': ruta_portada # <-- ¡Esta es la línea nueva!
+                'portada': ruta_portada 
             }
+
+        if request.user.is_authenticated:
+            request.user.perfil.juegos_favoritos.remove(juego)
 
         request.session['carro'] = carro
         request.session.modified = True
 
-    # Si no hay stock, Python se salta todo lo de arriba y simplemente redirige al carrito
     return redirect('ver_carrito')
 
 def eliminar_del_carrito(request, juego_id):
