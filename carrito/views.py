@@ -1,17 +1,16 @@
 from django.shortcuts import render, redirect
 from juegos.models import Videojuego
-from juegos.models import Videojuego, Compra
+from juegos.models import Videojuego, Compra, Categoria
 
 
 def compra(request):
     return render(request, 'carrito/compra.html')
 
-
-
 def ver_carrito(request):
     carro = request.session.get('carro', {})
     juegos_guardados = [] 
     total_precio = 0
+    categorias = Categoria.objects.all()
     
     for key, valor in carro.items():
         # Guardamos el ID real dentro del diccionario temporal para usarlo en el botón de eliminar
@@ -23,7 +22,8 @@ def ver_carrito(request):
         
     contexto = {
         'juegos_en_carrito': juegos_guardados,
-        'total': total_precio
+        'total': total_precio,
+        'categorias': categorias,
     }
     return render(request, 'carrito/carro_de_compras.html', contexto)
 

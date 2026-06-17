@@ -3,10 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .forms import UsuarioUpdateForm, PerfilUpdateForm
 from .models import Perfil
+from juegos.models import Categoria
 
 # 1. VISTA DE PERFIL
 def perfil(request):
-    return render(request, 'perfil/perfil.html')
+    categorias = Categoria.objects.all()
+    
+    contexto = {
+        'categorias': categorias,
+    }
+    
+    
+    return render(request, 'perfil/perfil.html', contexto)
 
 
 # 2. VISTA DE LOGIN (La que estamos usando)

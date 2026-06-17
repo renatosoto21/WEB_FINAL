@@ -29,7 +29,7 @@ def index(request):
             favoritos_guardados.append(juego.id)
 
     # 4. Agregamos los favoritos al diccionario (context) que ya tenías
-    context = {
+    contexto = {
         'ultimos': ultimos_añadidos,
         'ofertas': juegos_en_oferta,
         'destacados': juegos_destacados,
@@ -37,7 +37,7 @@ def index(request):
         'favoritos': favoritos_guardados,  # <--- Aquí va nuestra lista nueva
     }
     
-    return render(request, 'juegos/index.html', context)
+    return render(request, 'juegos/index.html', contexto)
 
 def mas_ventas(request):
     categorias = Categoria.objects.all()
@@ -52,7 +52,7 @@ def mas_ventas(request):
 
 def nuevos_lanzamientos(request):
     categorias = Categoria.objects.all()
-    juegos = Videojuego.objects.order_by('-fecha_creacion')[:10]
+    juegos = Videojuego.objects.order_by('-fecha_creacion')[:99]
     context = {
         'categorias': categorias,
         'juegos': juegos,
@@ -87,6 +87,7 @@ def listar_categorias(request):
 
 # Función 1: Muestra la página de favoritos
 def ver_favoritos(request):
+    categorias = Categoria.objects.all()
     print("--- CARGANDO PANTALLA DE FAVORITOS ---")
     if request.user.is_authenticated:
         mis_juegos = request.user.perfil.juegos_favoritos.all()
@@ -94,8 +95,13 @@ def ver_favoritos(request):
     else:
         mis_juegos = []
         
+    contexto = {
+        'categorias': categorias,
+        'mis_juegos': mis_juegos,
+    }
+        
     # ¡ESTA LÍNEA ES LA CLAVE! Si no tiene el diccionario al final, el HTML no sabrá qué mostrar
-    return render(request, 'juegos/favoritos.html', {'mis_juegos': mis_juegos})
+    return render(request, 'juegos/favoritos.html', contexto)
 
 
 # Función 2: Atrapa el ID, guarda el juego y avisa a JavaScript el color
