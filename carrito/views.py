@@ -47,17 +47,26 @@ def ver_carrito(request):
 
 def procesar_pago(request):
     carro = request.session.get('carro', {})
-    
     precio_total = 0
     
     # Sumamos el precio de los juegos
     for key, valor in carro.items():
-        subtotal_juego = valor['precio'] * valor['cantidad']
-        precio_total = precio_total + subtotal_juego
+            try:
+                juego_db = Videojuego.objects.get(id=int(key))
+                
+                # Verificamos cuál es el precio real a cobrar en este momento
+                if juego_db.en_oferta and juego_db.precio_oferta:
+                    precio_real = juego_db.precio_oferta
+                else:
+                    precio_real = juego_db.precio
+                    
+            except Videojuego.DoesNotExist:
+                # Si hay un error, usamos el precio base guardado
+                precio_real = valor.get('precio', 0)
+                
+            subtotal_juego = precio_real * valor['cantidad']
+            precio_total = precio_total + subtotal_juego
         
-        
-        
-    # Empaquetamos solo el total
     contexto = {
         'total': precio_total
     }
