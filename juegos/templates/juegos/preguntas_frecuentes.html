@@ -1,0 +1,78 @@
+{% extends "juegos/base.html" %}
+{% block title %}Preguntas Frecuentes - Gaming Store{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 60px; margin-bottom: 80px;">
+    <h2 class="text-center mb-4" style="color: #00ffff; font-weight: bold;">Preguntas Frecuentes</h2>
+    <hr style="border-color: #555; margin-bottom: 40px;">
+
+    <div class="accordion" id="acordeonPreguntas">
+
+        <div class="accordion-item" style="background-color: #2b2b2b; border: 1px solid #444; margin-bottom: 10px; border-radius: 8px; overflow: hidden;">
+            <h2 class="accordion-header" id="titulo1">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta1" style="background-color: #3d2b56; color: white; box-shadow: none;">
+                    ¿Cómo recibo mi juego después de comprar?
+                </button>
+            </h2>
+            <div id="respuesta1" class="accordion-collapse collapse" data-bs-parent="#acordeonPreguntas">
+                <div class="accordion-body text-white" style="background-color: #1a1a1a;">
+                    Puedes retirarlo presencialmente en nuestro local enseñando tu documento de identidad y el comprobante de compra.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #2b2b2b; border: 1px solid #444; margin-bottom: 10px; border-radius: 8px; overflow: hidden;">
+            <h2 class="accordion-header" id="titulo2">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta2" style="background-color: #3d2b56; color: white; box-shadow: none;">
+                    ¿Qué métodos de pago aceptan?
+                </button>
+            </h2>
+            <div id="respuesta2" class="accordion-collapse collapse" data-bs-parent="#acordeonPreguntas">
+                <div class="accordion-body text-white" style="background-color: #1a1a1a;">
+                    Por el momento solo aceptamos tarjetas de débito.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #2b2b2b; border: 1px solid #444; margin-bottom: 10px; border-radius: 8px; overflow: hidden;">
+            <h2 class="accordion-header" id="titulo3">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta3" style="background-color: #3d2b56; color: white; box-shadow: none;">
+                    ¿Qué pasa si compro un juego que dice "Sin Stock"?
+                </button>
+            </h2>
+            <div id="respuesta3" class="accordion-collapse collapse" data-bs-parent="#acordeonPreguntas">
+                <div class="accordion-body text-white" style="background-color: #1a1a1a;">
+                    Nuestro sistema no permite agregar al carrito juegos sin stock. Sin embargo, puedes agregarlo a tu lista de "Favoritos" y revisar más tarde. ¡Te avisaremos visualmente cuando vuelva a estar disponible!
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #2b2b2b; border: 1px solid #444; margin-bottom: 10px; border-radius: 8px; overflow: hidden;">
+            <h2 class="accordion-header" id="titulo4">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta4" style="background-color: #3d2b56; color: white; box-shadow: none;">
+                    ¿Puedo pedir un reembolso si el juego no me gusta?
+                </button>
+            </h2>
+            <div id="respuesta4" class="accordion-collapse collapse" data-bs-parent="#acordeonPreguntas">
+                <div class="accordion-body text-white" style="background-color: #1a1a1a;">
+                    Tienes 10 días para realizar la devolucion, pasado ese tiempo no será posible.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #2b2b2b; border: 1px solid #444; margin-bottom: 10px; border-radius: 8px; overflow: hidden;">
+            <h2 class="accordion-header" id="titulo5">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta5" style="background-color: #3d2b56; color: white; box-shadow: none;">
+                    ¿Para qué sirve la lista de Favoritos?
+                </button>
+            </h2>
+            <div id="respuesta5" class="accordion-collapse collapse" data-bs-parent="#acordeonPreguntas">
+                <div class="accordion-body text-white" style="background-color: #1a1a1a;">
+                    Es tu lista de deseos personal. Te permite guardar juegos que te interesan para comprarlos más adelante. Además, te notificaremos visualmente cuando alguno de tus juegos favoritos vuelva a estar disponible en stock.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

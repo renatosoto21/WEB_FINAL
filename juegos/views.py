@@ -361,3 +361,21 @@ def procesar_compra_directa(request, juego_id):
         
         # 4. Lo redirigimos automáticamente a su historial para que vea su juego
         return redirect('historial_compras')
+
+
+# --- PÁGINAS DE SOPORTE ---
+
+def preguntas_frecuentes(request):
+    lista_categorias = Categoria.objects.all()
+    contexto = {'categorias': lista_categorias}
+    return render(request, 'juegos/preguntas_frecuentes.html', contexto)
+
+def terminos_servicio(request):
+    lista_categorias = Categoria.objects.all()
+    contexto = {'categorias': lista_categorias}
+    return render(request, 'juegos/terminos_servicio.html', contexto)
+
+def politica_privacidad(request):
+    lista_categorias = Categoria.objects.all()
+    contexto = {'categorias': lista_categorias}
+    return render(request, 'juegos/politica_privacidad.html', contexto)
