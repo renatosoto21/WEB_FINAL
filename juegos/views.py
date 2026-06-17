@@ -53,9 +53,11 @@ def mas_ventas(request):
 def nuevos_lanzamientos(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.order_by('-fecha_creacion')[:99]
+    ultimos_añadidos = Videojuego.objects.order_by('-fecha_creacion')[:99]
     context = {
         'categorias': categorias,
         'juegos': juegos,
+        'ultimos': ultimos_añadidos,
     }
     return render(request, 'juegos/nuevos_lanzamientos.html', context)
 

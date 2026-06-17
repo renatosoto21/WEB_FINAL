@@ -13,11 +13,29 @@ def ver_carrito(request):
     categorias = Categoria.objects.all()
     
     for key, valor in carro.items():
-        # Guardamos el ID real dentro del diccionario temporal para usarlo en el botón de eliminar
         valor['id'] = key  
+        
+        try:
+            # Buscamos el juego en la Base de Datos con tus modelos exactos
+            juego_db = Videojuego.objects.get(id=int(key))
+            
+            # Pasamos las propiedades del modelo al diccionario del carro
+            valor['en_oferta'] = juego_db.en_oferta
+            valor['precio_oferta'] = juego_db.precio_oferta if juego_db.precio_oferta else 0
+            valor['precio'] = juego_db.precio # Mantiene el precio original para el <strike>
+            
+        except Videojuego.DoesNotExist:
+            valor['en_oferta'] = False
+            valor['precio_oferta'] = 0
+        
         juegos_guardados.append(valor)
         
-        subtotal_juego = valor['precio'] * valor['cantidad']
+        # Si está en oferta, calcula el total usando el precio de oferta
+        if valor['en_oferta']:
+            subtotal_juego = valor['precio_oferta'] * valor['cantidad']
+        else:
+            subtotal_juego = valor['precio'] * valor['cantidad']
+            
         total_precio = total_precio + subtotal_juego
         
     contexto = {
@@ -36,6 +54,8 @@ def procesar_pago(request):
     for key, valor in carro.items():
         subtotal_juego = valor['precio'] * valor['cantidad']
         precio_total = precio_total + subtotal_juego
+        
+        
         
     # Empaquetamos solo el total
     contexto = {

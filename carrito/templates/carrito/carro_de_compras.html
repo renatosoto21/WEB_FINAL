@@ -5,11 +5,8 @@
 
 
 <div class="contenedor-carrito container mt-5">
-
     {% if juegos_en_carrito %}
-    
     <div class="row">
-        
         <div class="col-md-8">
             <div class="lista-productos">
                 {% for juego in juegos_en_carrito %}
@@ -25,8 +22,14 @@
                         
                         <div class="col-md-7 ps-4">
                             <div class="card-body">
-                                <h3 class="card-title mb-3 fw-bold">{{ juego.titulo }}</h3>
-                                <p>Precio unitario: ${{ juego.precio }}</p>
+                                <h3 class="card-title mb-2 fw-bold">{{ juego.titulo }}</h3>
+                                {% if juego.en_oferta %}
+                                    <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
+                                    <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio_oferta }}</h5>
+                                    {% else %}
+                                    <br>
+                                    <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
+                                {% endif %}
                                 <p><b>Cantidad: {{ juego.cantidad }}</b></p>
                             </div>
                         </div>
