@@ -24,14 +24,13 @@ class Videojuego(models.Model):
     titulo = models.CharField(max_length=100)
 
     PLATAFORMAS = [
-        ('PC', 'PC'),
         ('PS5', 'PlayStation 5'),
         ('Xbox Series X', 'Xbox Series X'),
         ('Nintendo Switch', 'Nintendo Switch'),
         ('PS4', 'PlayStation 4'),
         ('Xbox One', 'Xbox One'),
     ]
-    plataforma = models.CharField(max_length=50, choices=PLATAFORMAS, default='PC')
+    plataforma = models.CharField(max_length=50, choices=PLATAFORMAS, default='PS5')
     descripcion = models.TextField()
     precio = models.IntegerField()
     stock = models.IntegerField(default=0)

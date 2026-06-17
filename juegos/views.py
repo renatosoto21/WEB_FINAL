@@ -41,10 +41,12 @@ def index(request):
 
 def mas_ventas(request):
     categorias = Categoria.objects.all()
-    juegos = Videojuego.objects.all()[:10]
+    juegos = Videojuego.objects.all()[:99]
+    ofertas = Videojuego.objects.filter(en_oferta=True)[:99]
     context = {
         'categorias': categorias,
         'juegos': juegos,
+        'ofertas': ofertas,
     }
     return render(request, 'juegos/mas_ventas.html', context)
 

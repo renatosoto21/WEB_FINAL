@@ -75,9 +75,20 @@
             <div class="p-4"
                 style="background-color: #2b2b2b; border: 2px solid #555; border-radius: 12px; position: sticky; top: 20px;">
 
-                <h5 class="text-uppercase" style="color: #aaa; font-size: 14px;">Precio Final</h5>
-                <h2 class="fw-bold mb-4" style="font-size: 36px; color: #fff;">${{ juego.precio }}</h2>
 
+                {%if juego.en_oferta%}
+                <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">Precio original: 
+                    <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
+                </h5>
+                <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.plataforma}} </h5>
+                <h2 class="fw-bold mb-4" style="font-size: 36px; color: #fff;">Oferta: ${{ juego.precio_oferta }}</h2>
+                {% else %}
+                <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.titulo}}: </h5>
+                <h5 class="text-uppercase" style="color: #aaa; font-size: 15px;">{{juego.plataforma}} </h5>
+                <h2 class="fw-bold mb-4" style="font-size: 36px; color: #fff;">${{ juego.precio }}</h2>
+                {% endif %}
+
+                
                 {% if juego.stock > 0 %}
                 <p style="color: #ffffff; font-weight: bold;">✓ Stock disponible: {{ juego.stock }} unidades</p>
                 {% else %}
@@ -132,7 +143,26 @@
                         <a href="{% url 'detalle_juego' similar.id %}" style="text-decoration: none; color: white;">
                             <h6 class="card-title mb-2">{{ similar.titulo }}</h6>
                         </a>
-                        <h6 class="card-title mb-0">${{ similar.precio }}</h6>
+                        {% if similar.en_oferta %}
+                        <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ similar.precio }}</strike>
+                        <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ similar.precio_oferta }}</h5>
+                        {% else %}
+                        <br>
+                        <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ similar.precio }}</h5>
+                        {% endif %}
+                        <div class="mt-auto">
+                            {% if juego.stock > 0 %}
+                            <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                                <button class="btn btn-sm"
+                                    style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
+                                    Carrito</button>
+                            </a>
+                            {% else %}
+                            <button class="btn btn-sm" disabled
+                                style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
+                                Stock</button>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

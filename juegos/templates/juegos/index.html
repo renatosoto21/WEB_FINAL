@@ -3,6 +3,8 @@
 {% block title %}Gaming Store{% endblock %}
 {% block content %}
 
+
+<!-- Carrusel -->
 <div class="container-fluid mt-4 px-5">
     <div id="demo" class="carousel slide container-fluid" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -76,7 +78,7 @@
     </div>
 </div>
 
-<!-- Juegos últimos añadidos -->
+<!-- Nuestro catalogo -->
 <div class="container mt-4 pt-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Nuestro Catalogo</h2>
@@ -106,7 +108,13 @@
                         <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
                     </a>
 
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
+                    {% if juego.en_oferta %}
+                    <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
+                    <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio_oferta }}</h5>
+                    {% else %}
+                    <br>
+                    <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
+                    {% endif %}
 
                     <div class="mt-auto">
                         {% if juego.stock > 0 %}
@@ -130,121 +138,133 @@
             <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
         {% endfor %}
-    </div>
+</div>
 
-
-
-    <!-- Ofertas -->
-    <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-        <h2>Lo más Vendido</h2>
+<!-- Ofertas -->
+<div class="container mt-4 pt-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Nuestras Ofertas</h2>
         <a href="{% url 'mas_ventas' %}" class="btn btn-light">Ver todo</a>
     </div>
 
-    <div class="row row-cols-2 row-cols-md-4 g-4">
-        {% for juego in ofertas%}
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <a href="{% url 'agregar_favoritos' juego.id %}"
-                    style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
-                    title="Agregar a favoritos">
-                    ♡
-                </a>
-                <a href="{% url 'detalle_juego' juego.id %}">
-                    {% if juego.portada %}
-                    <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
-                        style="object-fit: cover; height: 425px;">
-                    {% else %}
-                    <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin"
-                        style="object-fit: cover; height: 425px;">
-                    {% endif %}
-                </a>
-                <div class="card-body text-center d-flex flex-column">
-
-                    <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
-                        <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
-                    </a>
-
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
-
-                    <div class="mt-auto">
-                        {% if juego.stock > 0 %}
-                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                            <button class="btn btn-sm"
-                                style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
-                                Carrito</button>
+        <div class="row row-cols-4 row-cols-md-4 g-3">
+            {% for juego in ofertas%}
+                {% if juego.en_oferta %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <a href="{% url 'agregar_favoritos' juego.id %}"
+                            style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
+                            title="Agregar a favoritos">
+                            ♡
                         </a>
-                        {% else %}
-                        <button class="btn btn-sm" disabled
-                            style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
-                            Stock</button>
-                        {% endif %}
+                        <a href="{% url 'detalle_juego' juego.id %}">
+                            {% if juego.portada %}
+                            <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
+                                style="object-fit: cover; height: 425px;">
+                            {% else %}
+                            <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin"
+                                style="object-fit: cover; height: 425px;">
+                            {% endif %}
+                        </a>
+                        <div class="card-body text-center d-flex flex-column">
+                            <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
+                                <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                            </a>
+                            {% if juego.en_oferta %}
+                            <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
+                            <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio_oferta }}</h5>
+                            {% else %}
+                            <br>
+                            <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
+                            {% endif %}
+                            <div class="mt-auto">
+                                {% if juego.stock > 0 %}
+                                <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                                    <button class="btn btn-sm"
+                                        style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
+                                        Carrito</button>
+                                </a>
+                                {% else %}
+                                <button class="btn btn-sm" disabled
+                                    style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
+                                    Stock</button>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-
                 </div>
+                {% endif %}
+            {% empty %}
+            <div class="col-12">
+                <p class="text-white text-center">No hay juegos disponibles.</p>
             </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <div class="col-12">
-            <p class="text-white text-center">No hay juegos disponibles.</p>
-        </div>
-        {% endfor %}
     </div>
+</div>
 
-
-    <!-- Juegos destacados -->
-    <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-        <h2>Nuevos Lanzamientos</h2>
+<!-- Juegos destacados -->
+<div class="container mt-4 pt-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Nuestros Destacados</h2>
         <a href="{% url 'nuevos_lanzamientos' %}" class="btn btn-light">Ver todo</a>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        {% for juego in destacados%}
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <a href="{% url 'agregar_favoritos' juego.id %}"
-                    style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
-                    title="Agregar a favoritos">
-                    ♡
-                </a>
-                <a href="{% url 'detalle_juego' juego.id %}">
-                    {% if juego %}
-                    <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
-                        style="object-fit: cover; height: 425px;">
-                    {% else %}
-                    <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin"
-                        style="object-fit: cover; height: 425px;">
-                    {% endif %}
-                </a>
-                <div class="card-body text-center d-flex flex-column">
-
-                    <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
-                        <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+        <div class="row row-cols-4 row-cols-md-4 g-3">
+            {% for juego in destacados%}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <a href="{% url 'agregar_favoritos' juego.id %}"
+                        style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
+                        title="Agregar a favoritos">
+                        ♡
                     </a>
-
-                    <h5 class="card-title fw-bold" style="font-size: 1rem;">${{ juego.precio }}</h5>
-
-                    <div class="mt-auto">
-                        {% if juego.stock > 0 %}
-                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                            <button class="btn btn-sm"
-                                style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
-                                Carrito</button>
-                        </a>
+                    <a href="{% url 'detalle_juego' juego.id %}">
+                        {% if juego %}
+                        <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
+                            style="object-fit: cover; height: 425px;">
                         {% else %}
-                        <button class="btn btn-sm" disabled
-                            style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
-                            Stock</button>
+                        <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin"
+                            style="object-fit: cover; height: 425px;">
                         {% endif %}
-                    </div>
+                    </a>
+                    <div class="card-body text-center d-flex flex-column">
 
+                        <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
+                            <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                        </a>
+
+                        {% if juego.en_oferta %}
+                        <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
+                        <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio_oferta }}</h5>
+                        {% else %}
+                        <br>
+                        <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
+                        {% endif %}
+
+                        <div class="mt-auto">
+                            {% if juego.stock > 0 %}
+                            <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                                <button class="btn btn-sm"
+                                    style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
+                                    Carrito</button>
+                            </a>
+                            {% else %}
+                            <button class="btn btn-sm" disabled
+                                style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
+                                Stock</button>
+                            {% endif %}
+                        </div>
+
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-white text-center">No hay juegos disponibles.</p>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <div class="col-12">
-            <p class="text-white text-center">No hay juegos disponibles.</p>
-        </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

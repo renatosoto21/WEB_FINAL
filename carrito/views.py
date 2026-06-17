@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from juegos.models import Videojuego 
+from juegos.models import Videojuego
 from juegos.models import Videojuego, Compra
 
 

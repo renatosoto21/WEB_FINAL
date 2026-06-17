@@ -18,7 +18,7 @@
                         <div class="col-md-3 text-center">
                             {% if juego.portada %}
                             <img src="{{ juego.portada }}" alt="{{ juego.titulo }}" class="img-fluid rounded" 
-                                 style="height: 180px; width: 100%; object-fit: contain;">
+                                style="height: 180px; width: 100%; object-fit: contain;">
                             {% endif %}
                         </div>
                         
@@ -32,8 +32,8 @@
                         
                         <div class="col-md-2 text-center">
                             <a href="{% url 'eliminar_del_carrito' juego.id %}" 
-                               style="color: #ff4d4d; font-size: 35px; font-weight: bold; text-decoration: none;" 
-                               title="Eliminar del carrito">
+                            style="color: #ff4d4d; font-size: 35px; font-weight: bold; text-decoration: none;" 
+                            title="Eliminar del carrito">
                                 X
                             </a>
                         </div>
