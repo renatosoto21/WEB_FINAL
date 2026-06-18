@@ -42,7 +42,7 @@ def index(request):
 def mas_ventas(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.all()[:99]
-    ofertas = Videojuego.objects.order_by('-fecha_oferta').filter(en_oferta=True)[:99]
+    ofertas = Videojuego.objects.filter(en_oferta=True)[:99]
     context = {
         'categorias': categorias,
         'juegos': juegos,
@@ -53,7 +53,7 @@ def mas_ventas(request):
 def nuevos_lanzamientos(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.order_by('-fecha_creacion')[:99]
-    juegos_destacados = Videojuego.objects.order_by('fecha_destacado').filter(destacado=True)[:99]
+    juegos_destacados = Videojuego.objects.filter(destacado=True)[:99]
     context = {
         'categorias': categorias,
         'juegos': juegos,
