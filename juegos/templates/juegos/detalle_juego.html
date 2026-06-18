@@ -98,25 +98,48 @@
                 <p style="font-size: 14px; color: #ccc;">Método: Retiro presencial en local comercial.</p>
 
                 <hr style="border-color: #444; margin: 20px 0;">
+                
+                {% if request.user.is_authenticated %}
 
-                {% if juego.stock > 0 %}
-                <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                    <button class="btn w-100 mb-3"
-                        style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
-                        Agregar al Carrito
-                    </button>
-                </a>
+                    {% if juego.stock > 0 %}
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                            <button class="btn w-100 mb-3"
+                                style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                                Agregar al Carrito
+                            </button>
+                        </a>
+                    {% else %}
+                        <button class="btn w-100 mb-3" disabled
+                            style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
+                            Sin Stock
+                        </button>
+                        <a href="{% url 'agregar_favoritos' juego.id %}" class="btn btn-outline-danger w-100"
+                            style="padding: 10px; font-size: 16px; font-weight: bold;">
+                            ♡ Añadir a Favoritos
+                        </a>
+                    {% endif %}
+                
                 {% else %}
-                <button class="btn w-100 mb-3" disabled
-                    style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
-                    Sin Stock
-                </button>
+
+                    <p style="color: #ffffff; ">¿Ya tiene cuenta?, Inicie sesión aqui: </p>
+                    <a href="{% url 'iniciar_sesion' %}" class="btn text-white d-flex" style="text-decoration: underline;">
+                        <button class="btn w-100 mb-2"
+                            style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                            Iniciar Sesion
+                        </button>
+                    </a>
+                    <p style="color: #ffffff;">¿No tiene cuenta?, Registrese aqui: </p>
+                    <a href="{% url 'registrarse' %}" class="btn text-white d-flex" style="text-decoration: underline;">
+                        <button class="btn w-100 mb-2"
+                            style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                            Registrarse
+                        </button>
+                    </a>
+
+                
                 {% endif %}
 
-                <a href="{% url 'agregar_favoritos' juego.id %}" class="btn btn-outline-danger w-100"
-                    style="padding: 10px; font-size: 16px; font-weight: bold;">
-                    ♡ Añadir a Favoritos
-                </a>
+
 
             </div>
         </div>

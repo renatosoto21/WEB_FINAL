@@ -99,14 +99,15 @@
 {% block content %}
 <div class="categoria-header">
     <div class="container px-5">
-        <h1>Ultimos Agregados</h1>
+        <h1>Nuestros Destacados</h1>
     </div>
 </div>
 
 
 <div class="container mt-4 pt-3">
     <div class="row row-cols-5 row-cols-md-5 g-2">
-            {% for juego in ultimos%}
+        {% for juego in destacados%}
+
             <div class="col">
                 <div class="card h-100 shadow-sm">
                     <a href="{% url 'agregar_favoritos' juego.id %}"
@@ -150,11 +151,12 @@
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-12">
-                <p class="text-white text-center">No hay juegos disponibles.</p>
-            </div>
-            {% endfor %}
+
+        {% empty %}
+        <div class="col-12">
+            <p class="text-white text-center">No hay juegos disponibles.</p>
         </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
