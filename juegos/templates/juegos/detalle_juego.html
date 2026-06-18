@@ -108,6 +108,10 @@
                                 Agregar al Carrito
                             </button>
                         </a>
+                        <a href="{% url 'agregar_favoritos' juego.id %}" class="btn btn-outline-danger w-100"
+                            style="padding: 10px; font-size: 16px; font-weight: bold;">
+                            ♡ Añadir a Favoritos
+                        </a>
                     {% else %}
                         <button class="btn w-100 mb-3" disabled
                             style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
@@ -117,6 +121,7 @@
                             style="padding: 10px; font-size: 16px; font-weight: bold;">
                             ♡ Añadir a Favoritos
                         </a>
+
                     {% endif %}
                 
                 {% else %}
