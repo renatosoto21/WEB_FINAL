@@ -43,7 +43,9 @@ class Videojuego(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     en_oferta = models.BooleanField(default=False)
     precio_oferta = models.IntegerField(null=True, blank=True)
+    fecha_oferta = models.DateTimeField(null=True, blank=True)
     destacado = models.BooleanField(default=False)
+    fecha_destacado = models.DateTimeField(null=True, blank=True)
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.SET_NULL,
