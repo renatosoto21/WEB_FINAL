@@ -39,9 +39,8 @@
             <a class="navbar-brand text-dark fw-bold m-0 d-flex align-items-center" href="{% url 'index' %}">
                 <img src="{% static 'img/logogo.png' %}" alt="Logo Gaming Store"
                     style="height: 70px; margin-right: 10px;">
-            </a> 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapsibleNavbar">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -60,12 +59,22 @@
             <div class="d-flex align-items-center gap-3">
                 {% if request.user.is_authenticated %}
 
-                <a href="{% url 'ver_favoritos' %}" class="d-flex align-items-center text-decoration-none">
-                    <i class="bi bi-heart-fill" style="color: red; font-size: 2.2rem;"></i>
+                <a href="{% url 'ver_favoritos' %}" class="d-flex align-items-center justify-content-center"
+                    style="width: 45px; height: 45px;">
+                    <img src="{% static 'img/logofavoritos.png' %}" alt="Favoritos"
+                        style="width:100%; height:100%; object-fit: contain; transform: scale(1.4);">
                 </a>
 
-                <a href="{% url 'perfil' %}"
-                    class="border border-2 border-color4 rounded-pill d-flex align-items-center justify-content-center"
+
+
+                <a href="{% url 'ver_carrito' %}" class="d-flex align-items-center justify-content-center"
+                    style="width: 45px; height: 45px;">
+                    <img src="{% static 'img/logocarrito1.png' %}" alt="Carro de compras"
+                        style="width:100%; height:100%; object-fit: contain; transform: scale(1.4);"
+                        class="rounded-pill">
+                </a>
+
+                <a href="{% url 'perfil' %}" class="rounded-pill d-flex align-items-center justify-content-center"
                     style="width: 45px; height: 45px; overflow: hidden;">
                     {% if request.user.perfil.foto_perfil %}
                     <img src="{{ request.user.perfil.foto_perfil.url }}" alt="Avatar"
@@ -74,12 +83,6 @@
                     <img src="{% static 'img/logo.png' %}" alt="Avatar"
                         style="width:100%; height:100%; object-fit: cover;">
                     {% endif %}
-                </a>
-
-                <a href="{% url 'ver_carrito' %}" class="d-flex align-items-center justify-content-center"
-                    style="width: 45px; height: 45px;">
-                    <img src="{% static 'img/caroo.png' %}" alt="Carro de compras"
-                        style="width:100%; height:100%; object-fit: contain;" class="rounded-pill">
                 </a>
 
                 {% else %}
