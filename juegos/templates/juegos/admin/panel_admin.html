@@ -274,7 +274,11 @@
                                             <td><strong>{{ compra.juego.titulo }}</strong></td>
                                             <td>{{ compra.usuario.username }}</td>
                                             <td>{{ compra.fecha_compra|date:"d/m/Y H:i" }}</td>
-                                            <td style="color: #00ffff;">${{ compra.precio_pagado }}</td>
+                                            {% if compra.juego.en_oferta %}
+                                                <td style="color: #00ffff;">Oferta: ${{ compra.juego.precio_oferta }}</td>
+                                            {% else %}
+                                                <td style="color: #00ffff;">${{ compra.precio_pagado }}</td>
+                                            {% endif %}
                                         </tr>
                                         {% empty %}
                                         <tr>

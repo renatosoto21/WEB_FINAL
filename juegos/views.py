@@ -161,8 +161,8 @@ def panel_admin(request):
     usuarios_registrados = User.objects.all()
     categorias = Categoria.objects.all()
 
-    
-    
+
+
     context = {
         'videojuegos': videojuegos,
         'usuarios': usuarios_registrados,
