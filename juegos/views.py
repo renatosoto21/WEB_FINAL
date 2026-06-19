@@ -148,19 +148,30 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('index')
 
+
+
 # ========== VISTAS ADMIN - VIDEOJUEGOS ==========
 
 @staff_member_required(login_url='/iniciar-sesion/')
 def panel_admin(request):
+    total_juegos = Videojuego.objects.count()
+    total_vendidos = Compra.objects.count()
+    ultimas_ventas = Compra.objects.all().order_by('-fecha_compra')[:5]
     videojuegos = Videojuego.objects.all()
     usuarios_registrados = User.objects.all()
     categorias = Categoria.objects.all()
 
+    
+    
     context = {
         'videojuegos': videojuegos,
         'usuarios': usuarios_registrados,
         'categorias': categorias,
+        'total_juegos': total_juegos,
+        'total_vendidos': total_vendidos,
+        'ultimas_ventas': ultimas_ventas,
     }
+    
     return render(request, 'juegos/admin/panel_admin.html', context)
 
 @staff_member_required(login_url='/iniciar-sesion/')

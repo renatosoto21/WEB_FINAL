@@ -189,14 +189,21 @@
 
                 <!-- Control de Pestañas Nav-Pills de Bootstrap -->
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link-custom w-100 text-start border-0 active" id="v-pills-juegos-tab"
+                    <button class="nav-link-custom w-100 text-start border-0 active" id="v-pills-dashboard-tab"
+                        data-bs-toggle="pill" data-bs-target="#v-pills-dashboard" type="button" role="tab">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </button>
+
+                    <button class="nav-link-custom w-100 text-start border-0" id="v-pills-juegos-tab"
                         data-bs-toggle="pill" data-bs-target="#v-pills-juegos" type="button" role="tab">
                         <i class="bi bi-controller me-2"></i> Videojuegos
                     </button>
+
                     <button class="nav-link-custom w-100 text-start border-0" id="v-pills-categorias-tab"
                         data-bs-toggle="pill" data-bs-target="#v-pills-categorias" type="button" role="tab">
                         <i class="bi bi-tags me-2"></i> Categorías
                     </button>
+
                     <button class="nav-link-custom w-100 text-start border-0" id="v-pills-usuarios-tab"
                         data-bs-toggle="pill" data-bs-target="#v-pills-usuarios" type="button" role="tab">
                         <i class="bi bi-people me-2"></i> Usuarios Registrados
@@ -213,8 +220,73 @@
             <div class="col-md-9 col-lg-10 p-4">
                 <div class="tab-content" id="v-pills-tabContent">
 
+                    <!-- DashBoard -->
+                    <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2>Dashboard Resumen</h2>
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100" style="background-color: #151515; border: 1px solid #2a2f36; border-radius: 8px;">
+                                    <div class="card-body d-flex align-items-center">
+                                        <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; background-color: rgba(0, 255, 255, 0.1);">
+                                            <i class="bi bi-controller fs-2" style="color: #00ffff;"></i>
+                                        </div>
+                                        <div class="ms-4">
+                                            <h5 class="text-white mb-0">Total Juegos en Catálogo</h5>
+                                            <h2 class="mb-0 fw-bold" style="color: #ffffff;">{{ total_juegos }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100" style="background-color: #151515; border: 1px solid #2a2f36; border-radius: 8px;">
+                                    <div class="card-body d-flex align-items-center">
+                                        <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; background-color: rgba(61, 43, 86, 0.5);">
+                                            <i class="bi bi-cart-check fs-2" style="color: #b388ff;"></i>
+                                        </div>
+                                        <div class="ms-4">
+                                            <h5 class="text-white mb-0">Total Juegos Vendidos</h5>
+                                            <h2 class="mb-0 fw-bold" style="color: #ffffff;">{{ total_vendidos }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mb-3" style="color: #00ffff;">Historial de Últimas Ventas</h4>
+                        <table class="table table-custom table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID Venta</th>
+                                    <th>Juego</th>
+                                    <th>Comprador</th>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                        {% for compra in ultimas_ventas %}
+                                        <tr>
+                                            <td>#{{ compra.id }}</td>
+                                            <td><strong>{{ compra.juego.titulo }}</strong></td>
+                                            <td>{{ compra.usuario.username }}</td>
+                                            <td>{{ compra.fecha_compra|date:"d/m/Y H:i" }}</td>
+                                            <td style="color: #00ffff;">${{ compra.precio_pagado }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-white-50 py-4">Aún no hay ventas registradas.</td>
+                                        </tr>
+                                        {% endfor %}
+                                </tbody>
+                        </table>
+                    </div>
+
                     <!-- PESTAÑA 1: GESTIÓN DE VIDEOJUEGOS -->
-                    <div class="tab-pane fade show active" id="v-pills-juegos" role="tabpanel">
+                    <div class="tab-pane fade show" id="v-pills-juegos" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h2>Gestión de Inventario</h2>
                             <a href="/admin-panel/agregar/" class="btn text-white" style="background-color: #3d2b56;">+
