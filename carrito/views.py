@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from juegos.models import Videojuego
 from juegos.models import Videojuego, Compra, Categoria
-
+from django.core.mail import send_mail
 
 def compra(request):
     return render(request, 'carrito/compra.html')
@@ -129,6 +129,7 @@ def finalizar_compra(request):
     # 1. Obtenemos el carro actual de la memoria de la sesión
     carro = request.session.get('carro', {})
     
+    mensaje_recibo = "¡Hola! Gracias por tu compra en Gaming Store .\n\nAquí tienes el detalle de tu pedido:\n\n"
     # 2. Recorremos cada juego que está dentro del carro
     for juego_id, info in carro.items():
         try:
@@ -154,11 +155,27 @@ def finalizar_compra(request):
                         juego=juego_db,
                         precio_pagado=info['precio']
                     )
-            # -----------------------------------------------------------------
+            # 
             
+            mensaje_recibo += f"- {info['cantidad']}x {info['titulo']} (Pagado: ${info['precio']})\n"
         except Videojuego.DoesNotExist:
             # Si el juego ya no existe en la base de datos, simplemente continúa con el siguiente
             continue
+
+    mensaje_recibo += "\n¡Que disfrutes tus juegos!\nEl equipo de Gaming Store."
+    
+    if request.user.is_authenticated and request.user.email:
+        try:
+            send_mail(
+                subject='Tu recibo de compra - Gaming Store 🎮',
+                message=mensaje_recibo,
+                from_email='pastita20017@gmail.com',  
+                recipient_list=[request.user.email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(f"Error al enviar el correo: {e}")
+    # -------------------------------------------------------------
 
     # 3. Una vez que ya restamos el stock de todos, ahora sí vaciamos el carro
     request.session['carro'] = {}

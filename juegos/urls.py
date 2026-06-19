@@ -18,6 +18,8 @@ urlpatterns = [
     path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
     path('terminos-de-servicio/', views.terminos_servicio, name='terminos_servicio'),
     path('politica-de-privacidad/', views.politica_privacidad, name='politica_privacidad'),
+    
+    
     # Autenticación 
     path('iniciar-sesion/', views.iniciar_sesion, name='login'),
     path('cerrar-sesion/', views.cerrar_sesion, name='logout'),
