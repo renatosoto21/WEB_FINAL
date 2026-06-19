@@ -19,14 +19,15 @@
 
         <div class="col-md-7">
 
-            <div id="carruselJuego" class="carousel slide mb-5" data-bs-ride="carousel">
+            <div id="carruselJuego" class="carousel slide mb-5" data-bs-ride="false" data-bs-interval="false">
                 <div class="carousel-inner text-center">
 
-                    {% if juego.url %}
+                    {% if juego.url %}  
                     <div class="carousel-item active">
                         <div class="ratio ratio-16x9 mx-auto"
                             style="max-width: 800px; border-radius: 8px; overflow: hidden; border: 1px solid #444;">
-                            <iframe src="{{ juego.url }}" title="Trailer de {{ juego.titulo }}" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                            <iframe src="{{ juego.url }}" title="Trailer de {{ juego.titulo }}" allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
                     </div>
                     {% endif %}
