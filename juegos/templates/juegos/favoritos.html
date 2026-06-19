@@ -23,16 +23,19 @@
                 {% endif %}
 
                 <div class="ms-4 flex-grow-1">
-                    <h4 class="m-0 fw-bold">{{ juego.titulo }}</h4>
-                    <span class="text-white-50" style="font-size: 1.1rem;">${{ juego.precio }}</span>
-
-                    <br>
-
-                    {% if juego.stock > 0 %}
-                    <span style="color: #4af255; font-size: 0.95rem; font-weight: bold;">✓ ¡Ya tiene stock!</span>
+                    {% if juego.en_oferta %}
+                        <h4 class="m-0 fw-bold">{{ juego.titulo }}</h4>
+                        <span class="text-white-50" style="font-size: 1.1rem;">${{ juego.precio_oferta }}</span>
                     {% else %}
-                    <span style="color: #f24a4a; font-size: 0.95rem; font-weight: bold;">✗ Agotado temporalmente</span>
+                        <h4 class="m-0 fw-bold">{{ juego.titulo }}</h4>
+                        <span class="text-white-50" style="font-size: 1.1rem;">${{ juego.precio }}</span>
                     {% endif %}
+                        <br>
+                        {% if juego.stock > 0 %}
+                        <span style="color: #4af255; font-size: 0.95rem; font-weight: bold;">✓ ¡Ya tiene stock!</span>
+                        {% else %}
+                        <span style="color: #f24a4a; font-size: 0.95rem; font-weight: bold;">✗ Agotado temporalmente</span>
+                        {% endif %}
                 </div>
 
                 <div class="d-flex flex-column" style="gap: 8px;">

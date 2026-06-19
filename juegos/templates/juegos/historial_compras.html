@@ -26,8 +26,14 @@
                 </div>
                 
                 <div class="text-end">
-                    <span class="d-block text-white-50 small">Precio pagado</span>
-                    <span class="fw-bold" style="color: #00ffff; font-size: 1.2rem;">${{ compra.precio_pagado }}</span>
+                    {% if compra.juego.en_oferta %}
+                        <span class="d-block text-white-50 small">Precio pagado</span>
+                        <span class="fw-bold" style="color: #00ffff; font-size: 1.2rem;">${{ compra.juego.precio_oferta }}</span>
+                    {% else %}
+                        <span class="d-block text-white-50 small">Precio pagado</span>
+                        <span class="fw-bold" style="color: #00ffff; font-size: 1.2rem;">${{ compra.precio_pagado }}</span>
+                    {% endif %}
+                    
                 </div>
             </div>
 
