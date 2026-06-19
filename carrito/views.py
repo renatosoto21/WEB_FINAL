@@ -129,58 +129,79 @@ def eliminar_del_carrito(request, juego_id):
 
 
 def finalizar_compra(request):
-    # 1. Obtenemos el carro actual de la memoria de la sesión
     carro = request.session.get('carro', {})
     
-    mensaje_recibo = "¡Hola! Gracias por tu compra en Gaming Store .\n\nAquí tienes el detalle de tu pedido:\n\n"
-    # 2. Recorremos cada juego que está dentro del carro
+    # 1. Tu mensaje de texto normal (de respaldo por si falla el HTML)
+    mensaje_recibo = "¡Hola! Gracias por tu compra en Gaming Store.\n\nAquí tienes el detalle de tu pedido:\n\n"
+    
+    # 2. Tu versión HTML con diseño oscuro y tu logo neón
+    mensaje_html = """""
+    <html>
+        <body style="font-family: Arial, sans-serif; background-color: #0b0612; color: #ffffff; padding: 20px;">
+            <div style="text-align: center; margin-bottom: 25px;">
+                
+                <img src="https://i.postimg.cc/1zcjQvBj/logogo.png" alt="Gaming Store Logo" style="width: 280px; max-width: 100%; height: auto;">
+                
+            </div>
+            <h2 style="color: #00ffff; text-align: center; font-size: 24px; margin-bottom: 20px;">¡Gracias por tu compra! 🎮</h2>
+            <p style="color: #e0e0e0; font-size: 16px;">Aquí tienes el detalle de tu pedido:</p>
+            <ul style="list-style-type: none; padding: 0;">
+    """
+
     for juego_id, info in carro.items():
         try:
-            # Buscamos el juego real en la base de datos usando su ID
             juego_db = Videojuego.objects.get(id=int(juego_id))
-            
-            # Restamos el stock actual menos la cantidad comprada
             juego_db.stock = juego_db.stock - info['cantidad']
             
             if juego_db.stock < 0:
                 juego_db.stock = 0
-                
-            # Guardamos los cambios de este juego en la base de datos
             juego_db.save()
             
-            # EL REGISTRO AL HISTORIAL <---
             if request.user.is_authenticated:
-                # Si compró más de 1 unidad del mismo juego, creamos un recibo por cada unidad
                 for _ in range(info['cantidad']):
                     Compra.objects.create(
                         usuario=request.user,
                         juego=juego_db,
                         precio_pagado=info['precio']
                     )
-            # 
             
+            # Sumamos al texto normal
             mensaje_recibo += f"- {info['cantidad']}x {info['titulo']} (Pagado: ${info['precio']})\n"
+            
+            # Sumamos al HTML (con diseño estilizado de lista)
+            mensaje_html += f"""
+            <li style='padding: 12px; border-bottom: 1px solid #2a1b40; background-color: #130924; margin-bottom: 5px; border-radius: 4px;'>
+                <span style='color: #00ffff; font-weight: bold;'>{info['cantidad']}x</span> <b style='color: #ffffff;'>{info['titulo']}</b> - <span style='color: #ff00ff; font-weight: bold;'>${info['precio']}</span>
+            </li>
+            """
+            
         except Videojuego.DoesNotExist:
-            # Si el juego ya no existe en la base de datos, simplemente continúa con el siguiente
             continue
 
+    # Cerramos ambos mensajes
     mensaje_recibo += "\n¡Que disfrutes tus juegos!\nEl equipo de Gaming Store."
+    mensaje_html += """
+            </ul>
+            <p style="text-align: center; margin-top: 35px; color: #a0a4b0; font-size: 15px;">¡Que disfrutes tus juegos!</p>
+            <p style="text-align: center; font-weight: bold; color: #9d4edd; font-size: 16px; margin-top: 5px;">El equipo de Gaming Store.</p>
+        </body>
+    </html>
+    """
     
     if request.user.is_authenticated and request.user.email:
         try:
             send_mail(
-                subject='Tu recibo de compra - Gaming Store 🎮',
-                message=mensaje_recibo,
-                from_email='pastita20017@gmail.com',  
+                subject='Tu recibo de compra - Gaming Store',
+                message=mensaje_recibo, 
+                from_email='gamingstore20261@gmail.com',  
                 recipient_list=[request.user.email],
                 fail_silently=False,
+                html_message=mensaje_html, 
             )
         except Exception as e:
             print(f"Error al enviar el correo: {e}")
 
-    # 3. Una vez que ya restamos el stock de todos, ahora sí vaciamos el carro
     request.session['carro'] = {}
     request.session.modified = True
     
-    # 4. Mostramos la pantalla de agradecimiento centrado que editamos antes
     return render(request, 'carrito/gracias.html')
