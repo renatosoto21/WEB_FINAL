@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Perfil
+from django.core.exceptions import ValidationError
 
 class RegistroUsuarioForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), label="Contraseña")
@@ -32,6 +33,14 @@ class RegistroUsuarioForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+    def verificar_email(self):
+        email = self.cleaned_data.get('email')
+        # Verificamos si escribieron algo y si NO termina en @gmail.com
+        if email and not email.endswith('@gmail.com'):
+            # Si no es gmail, detenemos el registro y lanzamos un error en la pantalla
+            raise ValidationError('Solo se permiten cuentas de @gmail.com en esta tienda.')
+        return email
     
 # Formulario para actualizar los datos básicos
 class UsuarioUpdateForm(forms.ModelForm):

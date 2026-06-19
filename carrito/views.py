@@ -140,7 +140,7 @@ def finalizar_compra(request):
         <body style="font-family: Arial, sans-serif; background-color: #0b0612; color: #ffffff; padding: 20px;">
             <div style="text-align: center; margin-bottom: 25px;">
                 
-                <img src="https://i.postimg.cc/1zcjQvBj/logogo.png" alt="Gaming Store Logo" style="width: 280px; max-width: 100%; height: auto;">
+                <img src="https://i.postimg.cc/MKm9fDvw/logogo.png" alt="Gaming Store Logo" style="width: 280px; max-width: 100%; height: auto;">
                 
             </div>
             <h2 style="color: #00ffff; text-align: center; font-size: 24px; margin-bottom: 20px;">¡Gracias por tu compra! </h2>
