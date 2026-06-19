@@ -131,10 +131,10 @@ def eliminar_del_carrito(request, juego_id):
 def finalizar_compra(request):
     carro = request.session.get('carro', {})
     
-    # 1. Tu mensaje de texto normal (de respaldo por si falla el HTML)
+    # mensaje de texto normal  
     mensaje_recibo = "¡Hola! Gracias por tu compra en Gaming Store.\n\nAquí tienes el detalle de tu pedido:\n\n"
     
-    # 2. Tu versión HTML con diseño oscuro y tu logo neón
+    # versión HTML con diseño oscuro y logo neón
     mensaje_html = """""
     <html>
         <body style="font-family: Arial, sans-serif; background-color: #0b0612; color: #ffffff; padding: 20px;">
@@ -143,7 +143,7 @@ def finalizar_compra(request):
                 <img src="https://i.postimg.cc/1zcjQvBj/logogo.png" alt="Gaming Store Logo" style="width: 280px; max-width: 100%; height: auto;">
                 
             </div>
-            <h2 style="color: #00ffff; text-align: center; font-size: 24px; margin-bottom: 20px;">¡Gracias por tu compra! 🎮</h2>
+            <h2 style="color: #00ffff; text-align: center; font-size: 24px; margin-bottom: 20px;">¡Gracias por tu compra! </h2>
             <p style="color: #e0e0e0; font-size: 16px;">Aquí tienes el detalle de tu pedido:</p>
             <ul style="list-style-type: none; padding: 0;">
     """
