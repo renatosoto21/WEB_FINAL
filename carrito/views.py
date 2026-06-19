@@ -125,6 +125,9 @@ def eliminar_del_carrito(request, juego_id):
     # 4. Redirigimos de vuelta a la pantalla del carrito para ver los cambios
     return redirect('ver_carrito')
 
+
+
+
 def finalizar_compra(request):
     # 1. Obtenemos el carro actual de la memoria de la sesión
     carro = request.session.get('carro', {})
@@ -139,14 +142,13 @@ def finalizar_compra(request):
             # Restamos el stock actual menos la cantidad comprada
             juego_db.stock = juego_db.stock - info['cantidad']
             
-            # Si por alguna razón el stock da negativo, lo dejamos en 0 para que no se vea feo
             if juego_db.stock < 0:
                 juego_db.stock = 0
                 
             # Guardamos los cambios de este juego en la base de datos
             juego_db.save()
             
-            # ---> AQUÍ AÑADIMOS LO QUE FALTABA: EL REGISTRO AL HISTORIAL <---
+            # EL REGISTRO AL HISTORIAL <---
             if request.user.is_authenticated:
                 # Si compró más de 1 unidad del mismo juego, creamos un recibo por cada unidad
                 for _ in range(info['cantidad']):
@@ -175,7 +177,6 @@ def finalizar_compra(request):
             )
         except Exception as e:
             print(f"Error al enviar el correo: {e}")
-    # -------------------------------------------------------------
 
     # 3. Una vez que ya restamos el stock de todos, ahora sí vaciamos el carro
     request.session['carro'] = {}
