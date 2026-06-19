@@ -109,61 +109,61 @@
 <div class="container mt-4 pt-3">
     <div class="row row-cols-5 row-cols-md-5 g-2">
         {% for juego in juegos%}
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <a href="{% url 'agregar_favoritos' juego.id %}"
-                        style="position: absolute; top: 0px; right: 15px; z-index: 10; color: white; font-size: 35px; font-weight: bold; text-decoration: none; text-shadow: 2px 2px 4px black;"
-                        title="Agregar a favoritos">
-                        ♡
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <a href="{% url 'agregar_favoritos' juego.id %}"
+                    style="position: absolute; top: 0px; right: 15px; z-index: 10; font-size: 35px; font-weight: bold; text-decoration: none; color: {% if juego.id in favoritos_ids %}red{% else %}white{% endif %};"
+                    title="Agregar a favoritos">
+                    {% if juego.id in favoritos_ids %}♥{% else %}♡{% endif %}
+                </a>
+                <a href="{% url 'detalle_juego' juego.id %}">
+                    {% if juego.portada %}
+                    <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
+                        style="object-fit: cover; height: 315px;">
+                    {% else %}
+                    <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin"
+                        style="object-fit: cover; height: 315px;">
+                    {% endif %}
+                </a>
+                <div class="card-body text-center d-flex flex-column">
+                    <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
+                        <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                        <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.plataforma}} </h5>
                     </a>
-                    <a href="{% url 'detalle_juego' juego.id %}">
-                        {% if juego.portada %}
-                        <img class="card-img-top" src="{{ juego.portada.url }}" alt="{{ juego.titulo }}"
-                            style="object-fit: cover; height: 315px;">
-                        {% else %}
-                        <img class="card-img-top" src="{% static 'img/no-image.png' %}" alt="Sin"
-                            style="object-fit: cover; height: 315px;">
-                        {% endif %}
-                    </a>
-                    <div class="card-body text-center d-flex flex-column">
-                        <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
-                            <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
-                            <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.plataforma}} </h5>
+                    {% if juego.en_oferta %}
+                    <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
+                    <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio_oferta }}</h5>
+                    {% else %}
+                    <br>
+                    <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
+                    {% endif %}
+                    <div class="mt-auto">
+                        {% if request.user.is_authenticated %}
+                        {% if juego.stock > 0 %}
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                            <button class="btn w-100 mb-3"
+                                style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                                Agregar al Carrito
+                            </button>
                         </a>
-                        {% if juego.en_oferta %}
-                        <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
-                        <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio_oferta }}</h5>
                         {% else %}
-                        <br>
-                        <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
+                        <button class="btn w-100 mb-3" disabled
+                            style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
+                            Sin Stock
+                        </button>
                         {% endif %}
-                        <div class="mt-auto">
-                            {% if request.user.is_authenticated %}
-                                {% if juego.stock > 0 %}
-                                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                                        <button class="btn w-100 mb-3"
-                                            style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
-                                            Agregar al Carrito
-                                        </button>
-                                    </a>
-                                {% else %}
-                                    <button class="btn w-100 mb-3" disabled
-                                        style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
-                                        Sin Stock
-                                    </button>
-                                {% endif %}
-                            {% else %}
-                                    <a href="{% url 'iniciar_sesion' %}" style="text-decoration: none;">
-                                        <button class="btn w-100 mb-3"
-                                            style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
-                                            Agregar al Carrito
-                                        </button>
-                                    </a>
-                            {% endif %}
-                        </div>
+                        {% else %}
+                        <a href="{% url 'iniciar_sesion' %}" style="text-decoration: none;">
+                            <button class="btn w-100 mb-3"
+                                style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                                Agregar al Carrito
+                            </button>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+        </div>
         {% empty %}
         <div class="col-12">
             <p class="text-white text-center">No hay juegos disponibles.</p>

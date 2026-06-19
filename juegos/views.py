@@ -16,6 +16,7 @@ def index(request):
     juegos_en_oferta = Videojuego.objects.filter(en_oferta=True)[:4]
     juegos_destacados = Videojuego.objects.filter(destacado=True)[:4]
     categorias = Categoria.objects.all()
+    
 
     # 1. Creamos nuestra lista vacía tradicional
     favoritos_guardados = []
@@ -34,7 +35,7 @@ def index(request):
         'ofertas': juegos_en_oferta,
         'destacados': juegos_destacados,
         'categorias': categorias,
-        'favoritos': favoritos_guardados,  # <--- Aquí va nuestra lista nueva
+        'favoritos_ids': favoritos_guardados, # <--- Le agregamos el _ids
     }
     
     return render(request, 'juegos/index.html', contexto)
@@ -43,10 +44,21 @@ def mas_ventas(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.all()[:99]
     ofertas = Videojuego.objects.filter(en_oferta=True)[:99]
+    favoritos_guardados = []
+    
+    # 2. Validamos si la persona tiene su sesión iniciada
+    if request.user.is_authenticated:
+        mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
+        
+        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
+        for juego in mis_juegos_favoritos:
+            favoritos_guardados.append(juego.id)
+    
     context = {
         'categorias': categorias,
         'juegos': juegos,
         'ofertas': ofertas,
+        'favoritos_ids': favoritos_guardados, # <--- Le agregamos el _ids
     }
     return render(request, 'juegos/mas_ventas.html', context)
 
@@ -54,19 +66,42 @@ def nuevos_lanzamientos(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.order_by('-fecha_creacion')[:99]
     juegos_destacados = Videojuego.objects.filter(destacado=True)[:99]
+        # 1. Creamos nuestra lista vacía tradicional
+    favoritos_guardados = []
+    
+    # 2. Validamos si la persona tiene su sesión iniciada
+    if request.user.is_authenticated:
+        mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
+        
+        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
+        for juego in mis_juegos_favoritos:
+            favoritos_guardados.append(juego.id)
     context = {
         'categorias': categorias,
         'juegos': juegos,
         'destacados': juegos_destacados,
+        'favoritos_ids': favoritos_guardados,
     }
     return render(request, 'juegos/nuevos_lanzamientos.html', context)
 
 def nuestro_catalogo(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.order_by('titulo')
+        # 1. Creamos nuestra lista vacía tradicional
+    favoritos_guardados = []
+    
+    # 2. Validamos si la persona tiene su sesión iniciada
+    if request.user.is_authenticated:
+        mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
+        
+        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
+        for juego in mis_juegos_favoritos:
+            favoritos_guardados.append(juego.id)
+            
     context = {
         'categorias': categorias,
         'juegos': juegos,
+        'favoritos_ids': favoritos_guardados,
     }
     return render(request, 'juegos/nuestro_catalogo.html', context)
 
@@ -74,11 +109,23 @@ def ver_categoria(request, slug):
     categoria = get_object_or_404(Categoria, slug=slug)
     juegos = categoria.videojuegos.all()
     categorias = Categoria.objects.all()
+            # 1. Creamos nuestra lista vacía tradicional
+    favoritos_guardados = []
+    
+    # 2. Validamos si la persona tiene su sesión iniciada
+    if request.user.is_authenticated:
+        mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
+        
+        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
+        for juego in mis_juegos_favoritos:
+            favoritos_guardados.append(juego.id)
+            
 
     context = {
         'categoria': categoria,
         'juegos': juegos,
         'categorias': categorias,
+        'favoritos_ids': favoritos_guardados,
     }
     return render(request, 'juegos/categoria_detail.html', context)
 

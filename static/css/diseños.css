@@ -195,3 +195,45 @@
         color: #b3b3b3;
         font-size: 1.1rem;
     }
+
+
+
+/* --- ESTILOS PARA FAVORITOS --- */
+
+/* Contenedor del botón, manteniéndolo en la esquina superior derecha */
+.btn-favorito-contenedor {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.4); /* Fondo sutil para que resalte */
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+/* El ícono del corazón por defecto (no favorito) */
+.btn-favorito-contenedor .fa-heart {
+    color: #b0b0b0; /* Color gris suave */
+    font-size: 1.3rem;
+    transition: transform 0.2s ease;
+}
+
+/* Efecto hover: El corazón se hace un poco más grande al pasar el mouse */
+.btn-favorito-contenedor:hover .fa-heart {
+    transform: scale(1.1);
+}
+
+/* === ESTADO ACTIVO (Cuando ya es favorito) === */
+
+/* El ícono lleno y de color brillante. Usaremos el magenta/rosa de tu logo */
+.btn-favorito-contenedor.es-favorito .fa-heart {
+    color: #ff0000; /* Color magenta neón */
+}
+
+/* Añadimos un pequeño "brillo" neón al contenedor */
+.btn-favorito-contenedor.es-favorito {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.1); /* Fondo rosado muy sutil */
+}
