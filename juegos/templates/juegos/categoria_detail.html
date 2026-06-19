@@ -139,16 +139,27 @@
                         <h5 class="card-title fw-bold" style="font-size: 2rem;">${{ juego.precio }}</h5>
                         {% endif %}
                         <div class="mt-auto">
-                            {% if juego.stock > 0 %}
-                            <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
-                                <button class="btn btn-sm"
-                                    style="background-color: #3d2b56; color: white; width: 100%; padding: 8px 0;">Agregar al
-                                    Carrito</button>
-                            </a>
+                            {% if request.user.is_authenticated %}
+                                {% if juego.stock > 0 %}
+                                    <a href="{% url 'agregar_al_carrito' juego.id %}" style="text-decoration: none;">
+                                        <button class="btn w-100 mb-3"
+                                            style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                                            Agregar al Carrito
+                                        </button>
+                                    </a>
+                                {% else %}
+                                    <button class="btn w-100 mb-3" disabled
+                                        style="background-color: #444; color: #888; padding: 10px; font-size: 16px; font-weight: bold; border: none; cursor: not-allowed;">
+                                        Sin Stock
+                                    </button>
+                                {% endif %}
                             {% else %}
-                            <button class="btn btn-sm" disabled
-                                style="background-color: #555; color: #999; width: 100%; padding: 8px 0; cursor: not-allowed;">Sin
-                                Stock</button>
+                                    <a href="{% url 'iniciar_sesion' %}" style="text-decoration: none;">
+                                        <button class="btn w-100 mb-3"
+                                            style="background-color: #3d2b56; color: white; padding: 10px; font-size: 16px; font-weight: bold; border: none;">
+                                            Agregar al Carrito
+                                        </button>
+                                    </a>
                             {% endif %}
                         </div>
                     </div>
