@@ -257,7 +257,7 @@
                         </div>
 
                         <h4 class="mb-3" style="color: #00ffff;">Historial de Últimas Ventas</h4>
-                        <table class="table table-custom table-hover">
+                        <table class="table table-custom table-hover" id="tabla-dashboard">
                             <thead>
                                 <tr>
                                     <th>ID Venta</th>
@@ -318,7 +318,7 @@
                                         <img src="{{ juego.portada.url }}" alt="{{ juego.titulo }}" class="img-thumbnail"
                                             style="max-width: 100px; height: auto;">
                                         {% else %}
-                                        <span class="text-muted">Sin portada</span>
+                                        <span class="text-white">Sin portada</span>
                                         {% endif %}
                                     </td>
                                     <td>{{ juego.titulo}}</td>
@@ -516,6 +516,9 @@
     <script>
         $(document).ready(function () {
             // Fíjate que ahora usamos los IDs exactos con el guion (-)
+            $('#tabla-dashboard').DataTable({
+                "language": { "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json" }
+            });
             $('#tabla-juegos').DataTable({
                 "language": { "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json" }
             });

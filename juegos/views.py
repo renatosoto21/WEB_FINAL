@@ -203,7 +203,7 @@ def cerrar_sesion(request):
 def panel_admin(request):
     total_juegos = Videojuego.objects.count()
     total_vendidos = Compra.objects.count()
-    ultimas_ventas = Compra.objects.all().order_by('-fecha_compra')[:5]
+    ultimas_ventas = Compra.objects.all().order_by('-fecha_compra')[:99]
     videojuegos = Videojuego.objects.all()
     usuarios_registrados = User.objects.all()
     categorias = Categoria.objects.all()
