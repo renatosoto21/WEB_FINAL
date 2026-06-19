@@ -33,15 +33,37 @@ class RegistroUsuarioForm(forms.ModelForm):
             user.save()
         return user
     
-    # Formulario para actualizar los datos básicos
-
+# Formulario para actualizar los datos básicos
 class UsuarioUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
+        labels = {
+            'username': 'Nombre de usuario',
+            'first_name': 'Nombre',
+            'last_name': 'Apellido',
+            'email': 'Correo electrónico',
+
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control text-white', 'style': 'background-color: #2a2a2a; border: 1px solid #444;'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control text-white', 'style': 'background-color: #2a2a2a; border: 1px solid #444;'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control text-white', 'style': 'background-color: #2a2a2a; border: 1px solid #444;'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control text-white', 'style': 'background-color: #2a2a2a; border: 1px solid #444;'}),
+        }
+        help_texts = {
+            'username': None,
+        }
 
 # Formulario exclusivo para subir la foto
 class PerfilUpdateForm(forms.ModelForm):
     class Meta:
         model = Perfil
         fields = ['foto_perfil']
+        labels = {
+            'foto_perfil': 'Foto de Perfil',
+        }
+        widgets = {
+            # Al usar FileInput en lugar del que viene por defecto, desaparece el texto "Currently / Change"
+            'foto_perfil': forms.FileInput(attrs={'class': 'form-control text-white', 'style': 'background-color: #2a2a2a; border: 1px solid #444;'}),
+        }

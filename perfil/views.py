@@ -71,7 +71,7 @@ def cerrar_sesion(request):
 def editar_perfil(request):
     # Buscamos el perfil del usuario, o le creamos uno en blanco si no tiene
     perfil, created = Perfil.objects.get_or_create(usuario=request.user)
-
+    categorias = Categoria.objects.all()
     if request.method == 'POST':
         # Recibimos el texto (POST) y la foto (FILES)
         u_form = UsuarioUpdateForm(request.POST, instance=request.user)
@@ -89,6 +89,7 @@ def editar_perfil(request):
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'categorias': categorias,
     }
     return render(request, 'perfil/editar_perfil.html', context)
