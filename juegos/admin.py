@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Videojuego, Categoria
 from .models import Videojuego, Compra
-
+from .forms import VideojuegoForm, CategoriaForm
 class VideojuegoInline(admin.TabularInline):
     model = Videojuego
     extra = 0
@@ -21,6 +21,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(Videojuego)
 class VideojuegoAdmin(admin.ModelAdmin):
+    form=VideojuegoForm
     list_display = ['titulo', 'categoria', 'precio', 'stock', 'en_oferta','plataforma']
     list_filter = ['categoria', 'en_oferta', 'destacado', 'fecha_creacion']
     search_fields = ['titulo', 'descripcion']
@@ -37,5 +38,9 @@ class VideojuegoAdmin(admin.ModelAdmin):
         ('Estado', {
             'fields': ('destacado', )
         }),
+        ('URL del Trailer', {
+            'fields': ('url', )
+        }),
+        
     )
     admin.site.register(Compra)

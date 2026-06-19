@@ -211,7 +211,7 @@ def eliminar_juego(request, pk):
 
     return render(request, 'juegos/admin/eliminar_juego.html', {'juego': juego})
 
-# ========== VISTAS ADMIN - CATEGORÍAS ==========
+#  VISTAS ADMIN - CATEGORÍAS 
 
 @staff_member_required(login_url='/iniciar-sesion/')
 def admin_categorias(request):

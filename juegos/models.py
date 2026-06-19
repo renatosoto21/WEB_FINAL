@@ -36,16 +36,19 @@ class Videojuego(models.Model):
     precio = models.IntegerField()
     stock = models.IntegerField(default=0)
     portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
+    
     # Imágenes adicionales para el detalle del juego
     imagen1 = models.ImageField(upload_to='juegos/', null=True, blank=True)
     imagen2 = models.ImageField(upload_to='juegos/', null=True, blank=True)
     imagen3 = models.ImageField(upload_to='juegos/', null=True, blank=True)
+
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     en_oferta = models.BooleanField(default=False)
     precio_oferta = models.IntegerField(null=True, blank=True)
     fecha_oferta = models.DateTimeField(null=True, blank=True)
     destacado = models.BooleanField(default=False)
     fecha_destacado = models.DateTimeField(null=True, blank=True)
+    url= models.CharField(max_length=200, null=True, blank=True)
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.SET_NULL,
