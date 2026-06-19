@@ -128,6 +128,7 @@
                     <div class="card-body text-center d-flex flex-column">
                         <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
                             <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                            <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.plataforma}} </h5>
                         </a>
                         {% if juego.en_oferta %}
                         <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>

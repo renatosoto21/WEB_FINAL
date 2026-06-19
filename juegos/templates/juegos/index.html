@@ -17,18 +17,18 @@
         <div class="carousel-inner">
 
             <div class="carousel-item active">
-                <a href="{% url 'detalle_juego' 1 %}" style="text-decoration: none; color: white;">
-                    <img src="{% static 'img/minecraft-banner2.jpg' %}" alt="Minecraft"
-                        style="height: 450px ;object-fit: fill;" class="d-block w-100">
+                <a href="{% url 'detalle_juego' 18 %}" style="text-decoration: none; color: white;">
+                    <img src="{% static 'img/Eldenring-banner.jpg' %}" alt="Elden Ring"
+                        style="height: 550px ;object-fit: fill;" class="d-block w-100">
                     <div class="carousel-caption">
-                        <h3>Minecraft</h3>
+                        <h3>Elden Ring</h3>
                     </div>
                 </a>
             </div>
 
             <div class="carousel-item">
                 <a href="{% url 'detalle_juego' 39 %}" style="text-decoration: none; color: white;">
-                    <img src="{% static 'img/rust_banner.jpg' %}" alt="Rust" style="height: 450px ;object-fit: fill;"
+                    <img src="{% static 'img/rust_banner.jpg' %}" alt="Rust" style="height: 550px ;object-fit: fill;"
                         class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Rust</h3>
@@ -39,7 +39,7 @@
             <div class="carousel-item">
                 <a href="{% url 'detalle_juego' 29 %}" style="text-decoration: none; color: white;">
                     <img src="{% static 'img/Hollow_knight-banner.png' %}" alt="Hollow Knight"
-                        style="height: 450px ;object-fit: fill;" class="d-block w-100">
+                        style="height: 550px ;object-fit: fill;" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Hollow Knight</h3>
                     </div>
@@ -49,7 +49,7 @@
             <div class="carousel-item">
                 <a href="{% url 'detalle_juego' 46 %}" style="text-decoration: none; color: white;">
                     <img src="{% static 'img/banner Until dawn.jpg' %}" alt="Until Dawn"
-                        style="height: 450px ;object-fit: fill;" class="d-block w-100">
+                        style="height: 550px ;object-fit: fill;" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Until Dawn</h3>
                     </div>
@@ -59,7 +59,7 @@
             <div class="carousel-item">
                 <a href="{% url 'detalle_juego' 45 %}" style="text-decoration: none; color: white;">
                     <img src="{% static 'img/tlou-banner.jpg' %}" alt="The Last of Us Part II"
-                        style="height: 450px ;object-fit: fill;" class="d-block w-100">
+                        style="height: 550px ;object-fit: fill;" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>The Last of Us Part II</h3>
                     </div>
@@ -181,6 +181,7 @@
                         <div class="card-body text-center d-flex flex-column">
                             <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
                                 <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                                <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.plataforma}} </h5>
                             </a>
                             {% if juego.en_oferta %}
                             <strike class="fw-bold mb-2" style="font-size: 18px; color: #ff4d4d;">${{ juego.precio }}</strike>
@@ -256,6 +257,7 @@
 
                                 <a href="{% url 'detalle_juego' juego.id %}" style="text-decoration: none; color: white;">
                                     <h5 class="card-title fw-bold" style="font-size: 1.25rem;">{{ juego.titulo }}</h5>
+                                    <h5 class="text-uppercase" style="color: #aaa; font-size: 18px;">{{juego.plataforma}} </h5>
                                 </a>
 
                                 {% if juego.en_oferta %}
