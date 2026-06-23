@@ -1,5 +1,6 @@
 from django import forms
 from .models import Videojuego, Categoria
+from django.core.exceptions import ValidationError
 
 class VideojuegoForm(forms.ModelForm):
     class Meta:
@@ -31,6 +32,19 @@ class VideojuegoForm(forms.ModelForm):
         if enlace and 'watch?v=' in enlace:
             enlace = enlace.replace('watch?v=', 'embed/')
         return enlace
+    
+
+    def clean_precio(self):
+        precio = self.cleaned_data.get('precio')
+        if precio is not None and precio < 0:
+            raise ValidationError('El precio no puede ser un número negativo.')
+        return precio
+
+    def clean_stock(self):
+        stock = self.cleaned_data.get('stock')
+        if stock is not None and stock < 0:
+            raise ValidationError('El stock no puede ser un número negativo.')
+        return stock
 
 class CategoriaForm(forms.ModelForm):
     class Meta:

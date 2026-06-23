@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Videojuego, Categoria
 from .models import Videojuego, Compra
 from .forms import VideojuegoForm, CategoriaForm
+
+
 class VideojuegoInline(admin.TabularInline):
     model = Videojuego
     extra = 0
