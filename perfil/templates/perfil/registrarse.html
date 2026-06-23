@@ -25,12 +25,20 @@
         
         <form method="POST" action="">
             {% csrf_token %}
+
             {% for field in form %}
                 <div class="mb-2">
                     <label class="form-label text-white-50 small mb-1">{{ field.label }}</label>
                     {{ field }}
+                    {% if field.errors %}
+                        <div style="color: #ff4444; font-size: 13px; margin-top: 5px;">
+                            {{ field.errors.0 }}
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
+
+
             <button type="submit" class="btn btn-gaming w-100 py-2 mt-3">Crear Cuenta</button>
             <p class="text-center text-white-50 mt-3 small mb-0">¿Ya tienes cuenta? <a href="/iniciar-sesion/" style="color: #00ffff; text-decoration: none;">Inicia sesión</a></p>
         </form>
