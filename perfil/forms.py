@@ -90,7 +90,58 @@ class UsuarioUpdateForm(forms.ModelForm):
             'username': None,
         }
 
-# Formulario exclusivo para subir la foto
+        
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+        if password != password_confirm:
+            # CAMBIAMOS ESTA LÍNEA: Amarramos el error directamente al campo específico
+            self.add_error('password_confirm', "Las contraseñas no coinciden.")
+            
+        return cleaned_data
+    # Guardamos encriptando la contraseña
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+    
+#verificacion de los caractares minimos.
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and not email.endswith('@gmail.com'):
+            # Si no es gmail, detenemos el registro y lanzamos un error en la pantalla
+            raise ValidationError('Solo se permiten registrar cuentas de @gmail.com.')
+        return email
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username and len(username) < 5:
+            raise ValidationError('El nombre de usuario debe tener al menos 5 caracteres.')
+        return username
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if first_name and len(first_name) < 2:
+            raise ValidationError('El nombre debe tener al menos 2 caracteres.')
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if last_name and len(last_name) < 2:
+            raise ValidationError('El apellido debe tener al menos 2 caracteres.')
+        return last_name
+    
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password and len(password) < 6:
+            raise ValidationError('La contraseña debe tener al menos 6 caracteres.')
+        return password
+
+# para subir la foto
 class PerfilUpdateForm(forms.ModelForm):
     class Meta:
         model = Perfil

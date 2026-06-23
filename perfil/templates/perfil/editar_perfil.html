@@ -4,15 +4,35 @@
 {% block content %}
 
 
-    <link rel="stylesheet" href="{% static 'css/diseños.css' %}">
-    <style>
-        /* Estilos para que el formulario se vea modo oscuro */
-        body { background-color: #0a0a0a; color: white; }
-      
-        .form-control:focus { background-color: #221535; color: white; border-color: #00ffff; box-shadow: none; }
-        label { font-weight: bold; margin-top: 10px; margin-bottom: 5px; color: #b3b3b3; }
-        .card-custom { background-color: #111111; border: 1px solid #2a2f36; border-radius: 8px; }
-    </style>
+<link rel="stylesheet" href="{% static 'css/diseños.css' %}">
+<style>
+    /* Estilos para que el formulario se vea modo oscuro */
+    body {
+        background-color: #0a0a0a;
+        color: white;
+    }
+
+    .form-control:focus {
+        background-color: #221535;
+        color: white;
+        border-color: #00ffff;
+        box-shadow: none;
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: #b3b3b3;
+    }
+
+    .card-custom {
+        background-color: #111111;
+        border: 1px solid #2a2f36;
+        border-radius: 8px;
+    }
+</style>
+
 <body>
 
     <div class="container mt-5 mb-5">
@@ -20,17 +40,36 @@
             <div class="col-md-6">
                 <div class="card-custom p-4 shadow">
                     <h2 class="text-center mb-4" style="color: #00ffff;">Actualizar Mis Datos</h2>
-                    
+
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                        
-                        {{ u_form.as_p }}
-                        
-                        {{ p_form.as_p }}
-                        
+                      {% for field in u_form %}
+                        <div class="mb-2">
+                            <label class="form-label text-white-50 small mb-1">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div style="color: #ff4444; font-size: 13px; margin-top: 5px;">
+                                {{ field.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        {% for field in p_form %}
+                        <div class="mb-2">
+                            <label class="form-label text-white-50 small mb-1">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div style="color: #ff4444; font-size: 13px; margin-top: 5px;">
+                                {{ field.errors.0 }}
+                            </div>  
+                            {% endif %}
+                        </div>
+                        {% endfor %}
                         <div class="d-flex gap-3 mt-4">
                             <a href="{% url 'perfil' %}" class="btn btn-outline-light w-50">Cancelar</a>
-                            <button type="submit" class="btn text-white w-50 fw-bold" style="background-color: #3d2b56;">Guardar Cambios</button>
+                            <button type="submit" class="btn text-white w-50 fw-bold"
+                                style="background-color: #3d2b56;">Guardar Cambios</button>
                         </div>
                     </form>
                 </div>
@@ -40,5 +79,6 @@
 
 
 </body>
+
 </html>
 {% endblock %}
