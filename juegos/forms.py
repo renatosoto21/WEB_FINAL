@@ -45,6 +45,12 @@ class VideojuegoForm(forms.ModelForm):
         if stock is not None and stock < 0:
             raise ValidationError('El stock no puede ser un número negativo.')
         return stock
+    
+    def clean_precio_oferta(self):
+        precio_oferta = self.cleaned_data.get('precio_oferta')
+        if precio_oferta is not None and precio_oferta < 0:
+            raise ValidationError('El precio de oferta no puede ser un número negativo.')
+        return precio_oferta
 
 class CategoriaForm(forms.ModelForm):
     class Meta:
