@@ -254,10 +254,9 @@ def editar_juego(request, pk):
 
 @staff_member_required(login_url='/iniciar-sesion/')
 
-def eliminar_juego(request, id):
-    juego = Videojuego.objects.get(id=id)   
-    juego.activo = False 
-    juego.save() 
+def eliminar_juego(request, pk):
+    juego = Videojuego.objects.get(pk=pk)
+    juego.delete()
     return redirect('panel_admin')
 
 #  VISTAS ADMIN - CATEGORÍAS 
@@ -351,7 +350,7 @@ def buscar(request):
         'juegos': juegos_encontrados,
         'texto_busqueda': texto_busqueda
     }
-        
+
     return render(request, 'juegos/resultados_busqueda.html', contexto)
 
 
