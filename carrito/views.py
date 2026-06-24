@@ -108,7 +108,7 @@ def agregar_al_carrito(request, juego_id):
         request.session['carro'] = carro
         request.session.modified = True
 
-    return redirect('ver_carrito')
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
 
 
 
@@ -126,7 +126,24 @@ def eliminar_del_carrito(request, juego_id):
     
     return redirect('ver_carrito')
 
+def actualizar_carrito(request, juego_id):
+    if request.method == 'POST':
+        cantidad_elegida = request.POST.get('nueva_cantidad')
+        numero_entero = int(cantidad_elegida)
+        carro = request.session.get('carro', {})
+        id_texto = str(juego_id)
+        juego_db = Videojuego.objects.get(id=juego_id)
+        
+        if id_texto in carro:
+            if numero_entero <= juego_db.stock:
+                carro[id_texto]['cantidad'] = numero_entero
+            else:
+                carro[id_texto]['cantidad'] = juego_db.stock
 
+            request.session['carro'] = carro
+            request.session.modified = True
+
+    return redirect('ver_carrito')
 
 def finalizar_compra(request):
     carro = request.session.get('carro', {})
