@@ -19,7 +19,7 @@ categorias_nombres = [
     'Novela visual',
     'Puzzle',
     'Deportes',
-    'Carreras',
+    'Carreras', 
     'Juegos de Mesa',
 ]
 

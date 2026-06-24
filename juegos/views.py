@@ -12,38 +12,33 @@ from django.http import JsonResponse
 # ========== VISTAS PÚBLICAS ==========
 
 def index(request):
-    ultimos_añadidos = Videojuego.objects.order_by('-fecha_creacion')[:4]
-    juegos_en_oferta = Videojuego.objects.filter(en_oferta=True)[:4]
-    juegos_destacados = Videojuego.objects.filter(destacado=True)[:4]
+    ultimos_añadidos = Videojuego.objects.filter(activo=True).order_by('-fecha_creacion')[:4]  
+    juegos_en_oferta = Videojuego.objects.filter(en_oferta=True, activo=True)[:4]
+    juegos_destacados = Videojuego.objects.filter(destacado=True, activo=True)[:4]
     categorias = Categoria.objects.all()
-    
 
-    # 1. Creamos nuestra lista vacía tradicional
+#guardar los juegos favoritos 
     favoritos_guardados = []
-    
-    # 2. Validamos si la persona tiene su sesión iniciada
     if request.user.is_authenticated:
         mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
-        
-        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
         for juego in mis_juegos_favoritos:
             favoritos_guardados.append(juego.id)
 
-    # 4. Agregamos los favoritos al diccionario (context) que ya tenías
+   
     contexto = {
         'ultimos': ultimos_añadidos,
         'ofertas': juegos_en_oferta,
         'destacados': juegos_destacados,
         'categorias': categorias,
-        'favoritos_ids': favoritos_guardados, # <--- Le agregamos el _ids
+        'favoritos_ids': favoritos_guardados,
     }
     
     return render(request, 'juegos/index.html', contexto)
 
 def mas_ventas(request):
     categorias = Categoria.objects.all()
-    juegos = Videojuego.objects.all()[:99]
-    ofertas = Videojuego.objects.filter(en_oferta=True)[:99]
+    juegos = Videojuego.objects.filter(activo=True)[:99]
+    ofertas = Videojuego.objects.filter(en_oferta=True, activo=True)[:99]
     favoritos_guardados = []
     
     # 2. Validamos si la persona tiene su sesión iniciada
@@ -64,8 +59,8 @@ def mas_ventas(request):
 
 def nuevos_lanzamientos(request):
     categorias = Categoria.objects.all()
-    juegos = Videojuego.objects.order_by('-fecha_creacion')[:99]
-    juegos_destacados = Videojuego.objects.filter(destacado=True)[:99]
+    juegos = Videojuego.objects.filter(activo=True).order_by('-fecha_creacion')[:99]
+    juegos_destacados = Videojuego.objects.filter(destacado=True, activo=True)[:99]
         # 1. Creamos nuestra lista vacía tradicional
     favoritos_guardados = []
     
@@ -86,7 +81,7 @@ def nuevos_lanzamientos(request):
 
 def nuestro_catalogo(request):
     categorias = Categoria.objects.all()
-    juegos = Videojuego.objects.order_by('titulo')
+    juegos = Videojuego.objects.filter(activo=True).order_by('titulo')
         # 1. Creamos nuestra lista vacía tradicional
     favoritos_guardados = []
     
@@ -107,7 +102,7 @@ def nuestro_catalogo(request):
 
 def ver_categoria(request, slug):
     categoria = get_object_or_404(Categoria, slug=slug)
-    juegos = categoria.videojuegos.all()
+    juegos = categoria.videojuegos.filter(activo=True)
     categorias = Categoria.objects.all()
             # 1. Creamos nuestra lista vacía tradicional
     favoritos_guardados = []
@@ -208,8 +203,6 @@ def panel_admin(request):
     usuarios_registrados = User.objects.all()
     categorias = Categoria.objects.all()
 
-
-
     context = {
         'videojuegos': videojuegos,
         'usuarios': usuarios_registrados,
@@ -260,14 +253,12 @@ def editar_juego(request, pk):
     return render(request, 'juegos/admin/form_juego.html', {'form': form, 'accion': 'Editar'})
 
 @staff_member_required(login_url='/iniciar-sesion/')
-def eliminar_juego(request, pk):
-    juego = get_object_or_404(Videojuego, pk=pk)
 
-    if request.method == 'POST':
-        juego.delete()
-        return redirect('panel_admin')
-
-    return render(request, 'juegos/admin/eliminar_juego.html', {'juego': juego})
+def eliminar_juego(request, id):
+    juego = Videojuego.objects.get(id=id)   
+    juego.activo = False 
+    juego.save() 
+    return redirect('panel_admin')
 
 #  VISTAS ADMIN - CATEGORÍAS 
 
@@ -353,13 +344,14 @@ def buscar(request):
     # 3. Si el usuario escribió algo, buscamos en la base de datos
     if texto_busqueda:
         # __icontains busca si el texto está en cualquier parte del título (sin importar mayúsculas)
-        juegos_encontrados = Videojuego.objects.filter(titulo__icontains=texto_busqueda)
+        # ---> AÑADIMOS activo=True AL FINAL DE ESTA LÍNEA <---
+        juegos_encontrados = Videojuego.objects.filter(titulo__icontains=texto_busqueda, activo=True)
         
     contexto = {
         'juegos': juegos_encontrados,
         'texto_busqueda': texto_busqueda
     }
-    
+        
     return render(request, 'juegos/resultados_busqueda.html', contexto)
 
 
@@ -369,7 +361,7 @@ def buscar_en_vivo(request):
     juegos_lista = []
     
     if texto != '':
-        juegos = Videojuego.objects.filter(titulo__icontains=texto)[0:5]
+        juegos = Videojuego.objects.filter(titulo__icontains=texto, activo=True)[0:5]
         
         for juego in juegos:
             # 1. Creamos una variable simple para guardar la ruta de la foto

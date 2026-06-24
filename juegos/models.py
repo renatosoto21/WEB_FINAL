@@ -49,6 +49,7 @@ class Videojuego(models.Model):
     destacado = models.BooleanField(default=False)
     fecha_destacado = models.DateTimeField(null=True, blank=True)
     url= models.CharField(max_length=200, null=True, blank=True)
+    activo = models.BooleanField(default=True)
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.SET_NULL,

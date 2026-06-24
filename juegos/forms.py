@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 class VideojuegoForm(forms.ModelForm):
     class Meta:
         model = Videojuego
-        fields = ['titulo', 'descripcion', 'precio', 'stock', 'portada', 'imagen1', 'imagen2', 'imagen3', 'categoria','plataforma','precio_oferta', 'en_oferta', 'destacado', 'url']
+        fields = ['titulo', 'descripcion', 'precio', 'stock', 'portada', 'imagen1', 'imagen2', 'imagen3', 'categoria','plataforma','precio_oferta', 'en_oferta', 'destacado', 'url', 'activo']
 
         labels = {
     
@@ -24,6 +24,7 @@ class VideojuegoForm(forms.ModelForm):
             'categoria': forms.Select(attrs={'class': 'form-control'}),
             'plataforma': forms.Select(attrs={'class': 'form-control'}),
             'url': forms.URLInput(attrs={'class': 'form-control'}),
+            #'activo': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
 
         # Añadimos la función para convertir el link de YouTube al formato embed

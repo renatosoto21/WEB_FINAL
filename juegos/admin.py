@@ -14,7 +14,7 @@ class CategoriaAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'get_juegos_count', 'fecha_creacion']
     search_fields = ['nombre']
     prepopulated_fields = {'slug': ('nombre',)}
-
+    list_filter = ['nombre']
     def get_juegos_count(self, obj):
         return obj.videojuegos.count()
     get_juegos_count.short_description = 'Cantidad de Juegos'
@@ -24,12 +24,13 @@ class CategoriaAdmin(admin.ModelAdmin):
 @admin.register(Videojuego)
 class VideojuegoAdmin(admin.ModelAdmin):
     form=VideojuegoForm
-    list_display = ['titulo', 'categoria', 'precio', 'stock', 'en_oferta','plataforma']
+    list_display = ['titulo', 'categoria', 'precio', 'stock', 'en_oferta', 'plataforma', 'activo']
     list_filter = ['categoria', 'en_oferta', 'destacado', 'fecha_creacion']
+    list_editable = ['activo']
     search_fields = ['titulo', 'descripcion']
     fieldsets = (
         ('Información Básica', {
-            'fields': ('titulo', 'descripcion', 'categoria')
+            'fields': ('titulo', 'descripcion', 'categoria', 'activo')
         }),
         ('Precios y Stock', {
             'fields': ('precio', 'stock', 'en_oferta', 'precio_oferta')
@@ -45,4 +46,7 @@ class VideojuegoAdmin(admin.ModelAdmin):
         }),
         
     )
-    admin.site.register(Compra)
+    
+    def has_delete_permission(self, request, obj=None):
+        return False  
+admin.site.register(Compra)  
