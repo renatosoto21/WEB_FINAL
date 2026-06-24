@@ -10,6 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         /* ================= STYLES GENERALES DEL PANEL ================= */
         body {
@@ -520,9 +522,8 @@
         </div>
     </div>
 
-    <!-- ================= SCRIPTS PARA INICIALIZAR DATATABLES EN CADA TABLA ================= -->
     <script>
-
+            //sirve para clear las tablas 
         $(document).ready(function () {
             $('#tabla-dashboard').DataTable({
                 "language": { "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json" }
@@ -541,9 +542,4 @@
 </body>
 </html>
   
-
-    <!-- Scripts necesarios para que las pestañas de Bootstrap cambien solas -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
 </html>
