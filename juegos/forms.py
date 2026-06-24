@@ -31,20 +31,33 @@ class VideojuegoForm(forms.ModelForm):
     #valida que el precio, stock y precio de oferta no sean negativos
     def clean_precio(self):
         precio = self.cleaned_data.get('precio')
-        if precio is not None and precio < 0:
-            raise ValidationError('El precio no puede ser un número negativo.')
+        if precio is not None:
+            if precio < 0:
+                raise ValidationError('El precio no puede ser un número negativo.')
+            
+            if precio > 200_000:
+                raise ValidationError('El Precio no puede superar los $200.000')
+    
         return precio
 
     def clean_stock(self):
         stock = self.cleaned_data.get('stock')
-        if stock is not None and stock < 0:
-            raise ValidationError('El stock no puede ser un número negativo.')
+        if stock is not None:
+            if stock < 0:
+                raise ValidationError('El stock no puede ser un número negativo.')
+            
+            if stock > 1000:
+                raise ValidationError('El stock no puede superar las 1000 unidades')
         return stock
     
     def clean_precio_oferta(self):
         precio_oferta = self.cleaned_data.get('precio_oferta')
-        if precio_oferta is not None and precio_oferta < 0:
-            raise ValidationError('El precio de oferta no puede ser un número negativo.')
+        if precio_oferta is not None:
+            if precio_oferta < 0:
+                raise ValidationError('El precio de oferta no puede ser un número negativo.')
+            
+            if precio_oferta > 200_000:
+                raise ValidationError('El Precio no puede superar los $200.000')            
         return precio_oferta
 
 class CategoriaForm(forms.ModelForm):
