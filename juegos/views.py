@@ -24,14 +24,8 @@ def index(request):
         for juego in mis_juegos_favoritos:
             favoritos_guardados.append(juego.id)
 
-   
-    contexto = {
-        'ultimos': ultimos_añadidos,
-        'ofertas': juegos_en_oferta,
-        'destacados': juegos_destacados,
-        'categorias': categorias,
-        'favoritos_ids': favoritos_guardados,
-    }
+    contexto = {'ultimos': ultimos_añadidos,'ofertas': juegos_en_oferta,'destacados': 
+                juegos_destacados,'categorias': categorias,'favoritos_ids': favoritos_guardados,}
     
     return render(request, 'juegos/index.html', contexto)
 
@@ -40,132 +34,93 @@ def mas_ventas(request):
     juegos = Videojuego.objects.filter(activo=True)[:99]
     ofertas = Videojuego.objects.filter(en_oferta=True, activo=True)[:99]
     favoritos_guardados = []
-    
-    # 2. Validamos si la persona tiene su sesión iniciada
+
+    #Validamos si la persona tiene su sesión iniciada
     if request.user.is_authenticated:
         mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
         
-        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
         for juego in mis_juegos_favoritos:
             favoritos_guardados.append(juego.id)
     
-    context = {
-        'categorias': categorias,
-        'juegos': juegos,
-        'ofertas': ofertas,
-        'favoritos_ids': favoritos_guardados, # <--- Le agregamos el _ids
-    }
+    context = {'categorias': categorias,'juegos': juegos,'ofertas': ofertas,'favoritos_ids': favoritos_guardados, }
     return render(request, 'juegos/mas_ventas.html', context)
+
 
 def nuevos_lanzamientos(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.filter(activo=True).order_by('-fecha_creacion')[:99]
     juegos_destacados = Videojuego.objects.filter(destacado=True, activo=True)[:99]
-        # 1. Creamos nuestra lista vacía tradicional
     favoritos_guardados = []
     
-    # 2. Validamos si la persona tiene su sesión iniciada
     if request.user.is_authenticated:
         mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
         
-        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
         for juego in mis_juegos_favoritos:
             favoritos_guardados.append(juego.id)
-    context = {
-        'categorias': categorias,
-        'juegos': juegos,
-        'destacados': juegos_destacados,
-        'favoritos_ids': favoritos_guardados,
-    }
+    context = {'categorias': categorias,'juegos': juegos,'destacados': juegos_destacados,'favoritos_ids': favoritos_guardados, }
     return render(request, 'juegos/nuevos_lanzamientos.html', context)
 
 def nuestro_catalogo(request):
     categorias = Categoria.objects.all()
     juegos = Videojuego.objects.filter(activo=True).order_by('titulo')
-        # 1. Creamos nuestra lista vacía tradicional
     favoritos_guardados = []
     
-    # 2. Validamos si la persona tiene su sesión iniciada
     if request.user.is_authenticated:
         mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
         
-        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
         for juego in mis_juegos_favoritos:
             favoritos_guardados.append(juego.id)
             
-    context = {
-        'categorias': categorias,
-        'juegos': juegos,
-        'favoritos_ids': favoritos_guardados,
-    }
+    context = {'categorias': categorias,'juegos': juegos,'favoritos_ids': favoritos_guardados,}
     return render(request, 'juegos/nuestro_catalogo.html', context)
+
 
 def ver_categoria(request, slug):
     categoria = get_object_or_404(Categoria, slug=slug)
     juegos = categoria.videojuegos.filter(activo=True)
     categorias = Categoria.objects.all()
-            # 1. Creamos nuestra lista vacía tradicional
+          
     favoritos_guardados = []
     
-    # 2. Validamos si la persona tiene su sesión iniciada
     if request.user.is_authenticated:
         mis_juegos_favoritos = request.user.perfil.juegos_favoritos.all()
         
-        # 3. Usamos un ciclo simple para ir guardando número por número (los IDs)
         for juego in mis_juegos_favoritos:
             favoritos_guardados.append(juego.id)
             
-
-    context = {
-        'categoria': categoria,
-        'juegos': juegos,
-        'categorias': categorias,
-        'favoritos_ids': favoritos_guardados,
-    }
+    context = {'categoria': categoria,'juegos': juegos,'categorias': categorias,'favoritos_ids': favoritos_guardados,}
     return render(request, 'juegos/categoria_detail.html', context)
+
+
 
 def listar_categorias(request):
     categorias = Categoria.objects.all()
     context = {'categorias': categorias}
     return render(request, 'juegos/categorias_list.html', context)
 
-# Función 1: Muestra la página de favoritos
+
 def ver_favoritos(request):
     categorias = Categoria.objects.all()
     print("--- CARGANDO PANTALLA DE FAVORITOS ---")
+
     if request.user.is_authenticated:
         mis_juegos = request.user.perfil.juegos_favoritos.all()
         print(f"Juegos encontrados: {mis_juegos}")
     else:
         mis_juegos = []
         
-    contexto = {
-        'categorias': categorias,
-        'mis_juegos': mis_juegos,
-    }
-        
-    # ¡ESTA LÍNEA ES LA CLAVE! Si no tiene el diccionario al final, el HTML no sabrá qué mostrar
+    contexto = {'categorias': categorias,'mis_juegos': mis_juegos,}   
     return render(request, 'juegos/favoritos.html', contexto)
 
 
-# Función 2: Atrapa el ID, guarda el juego y avisa a JavaScript el color
 def agregar_favorito(request, juego_id):
-    print(f"--- INTENTANDO AGREGAR JUEGO ID: {juego_id} ---") # Chismoso 1
-
     if request.user.is_authenticated:
-        print(f"Usuario detectado: {request.user.username}") # Chismoso 2
-
         juego_seleccionado = get_object_or_404(Videojuego, id=juego_id)
 
         if juego_seleccionado in request.user.perfil.juegos_favoritos.all():
             request.user.perfil.juegos_favoritos.remove(juego_seleccionado)
-            print("Resultado: El juego ya estaba, así que lo QUILTE.") # Chismoso 3
         else:
             request.user.perfil.juegos_favoritos.add(juego_seleccionado)
-            print("Resultado: Juego AGREGADO exitosamente a la base de datos.") # Chismoso 4
-    else:
-        print("ERROR: El sistema dice que el usuario NO ha iniciado sesión.") # Chismoso 5
-
     return redirect(request.META.get('HTTP_REFERER', 'index'))
 
 
@@ -203,14 +158,8 @@ def panel_admin(request):
     usuarios_registrados = User.objects.all()
     categorias = Categoria.objects.all()
 
-    context = {
-        'videojuegos': videojuegos,
-        'usuarios': usuarios_registrados,
-        'categorias': categorias,
-        'total_juegos': total_juegos,
-        'total_vendidos': total_vendidos,
-        'ultimas_ventas': ultimas_ventas,
-    }
+    context = {'videojuegos': videojuegos,'usuarios': usuarios_registrados,'categorias': categorias,'total_juegos': total_juegos,
+               'total_vendidos': total_vendidos,'ultimas_ventas': ultimas_ventas,}
     
     return render(request, 'juegos/admin/panel_admin.html', context)
 
@@ -259,6 +208,7 @@ def eliminar_juego(request, pk):
     juego.delete()
     return redirect('panel_admin')
 
+
 #  VISTAS ADMIN - CATEGORÍAS 
 
 @staff_member_required(login_url='/iniciar-sesion/')
@@ -270,32 +220,24 @@ def admin_categorias(request):
 @staff_member_required(login_url='/iniciar-sesion/')
 def crear_categoria(request):
     if request.method == 'POST':
-        nombre_recibido = request.POST.get('nombre') # Captura lo que se escribió en el input
-        
+        nombre_recibido = request.POST.get('nombre') 
         if nombre_recibido:
-            # Creamos el registro en la base de datos
             Categoria.objects.create(nombre=nombre_recibido)
-            
-    return redirect('panel_admin') # Regresa al panel con los datos actualizados
+    return redirect('panel_admin')
 
 @staff_member_required(login_url='/iniciar-sesion/')
 def editar_categoria(request, cat_id):
-    # Buscamos la categoría o devolvemos error 404 si no existe
     categoria = get_object_or_404(Categoria, id=cat_id)
     
     if request.method == 'POST':
-        # Capturamos el nuevo nombre del formulario
         nuevo_nombre = request.POST.get('nuevo_nombre')
         if nuevo_nombre:
             categoria.nombre = nuevo_nombre
             categoria.save()
-            
-    # Siempre redirigimos al panel, ya sea después de editar o si alguien entró por accidente
     return redirect('panel_admin')
 
 @staff_member_required(login_url='/iniciar-sesion/')
 def eliminar_categoria(request, cat_id):
-    # Buscamos la categoría y la borramos de una
     categoria_a_borrar = Categoria.objects.get(id=cat_id)
     categoria_a_borrar.delete()
     
@@ -303,54 +245,33 @@ def eliminar_categoria(request, cat_id):
 
 @staff_member_required(login_url='/iniciar-sesion/')
 def eliminar_usuario(request, user_id):
-    # Buscamos al usuario en la base de datos
     usuario_a_eliminar = User.objects.get(id=user_id)
     
-    # Doble chequeo de seguridad: que el usuario que intenta borrar no sea él mismo
     if request.user.id != usuario_a_eliminar.id:
-        usuario_a_eliminar.delete() # ¡Adiós usuario!
+        usuario_a_eliminar.delete() 
         
-    # Redirigimos de vuelta al panel de admin
-    return redirect('panel_admin') # Cambia 'panel_admin' si el nombre de tu URL es distinto
+    return redirect('panel_admin') 
 
 
 # VISTA DETALLE DE JUEGO (PÚBLICA)
 def detalle_juego(request, juego_id):
-    # 1. Atrapamos el juego actual
     juego_actual = get_object_or_404(Videojuego, id=juego_id)
-
-    # 2. Buscamos juegos de la misma categoría, excluyendo el actual (máximo 4)
     lista_similares = Videojuego.objects.filter(categoria=juego_actual.categoria).exclude(id=juego_actual.id)[0:4]
-
-    # 3. Traemos TODAS las categorías para mandarlas al menú lateral
     lista_categorias = Categoria.objects.all()
 
-    contexto = {
-        'juego': juego_actual,
-        'similares': lista_similares, 
-        'categorias': lista_categorias,  # <--- Agregamos esta variable al diccionario
-    }
+    contexto = {'juego': juego_actual,'similares': lista_similares, 'categorias': lista_categorias, }
 
     return render(request, 'juegos/detalle_juego.html', contexto)
 
+
 def buscar(request):
-    # 1. Atrapamos lo que el usuario escribió (la variable 'q')
     texto_busqueda = request.GET.get('q', '')
-    
-    # 2. Creamos una lista vacía por si no encuentra nada
     juegos_encontrados = []
     
-    # 3. Si el usuario escribió algo, buscamos en la base de datos
     if texto_busqueda:
-        # __icontains busca si el texto está en cualquier parte del título (sin importar mayúsculas)
-        # ---> AÑADIMOS activo=True AL FINAL DE ESTA LÍNEA <---
         juegos_encontrados = Videojuego.objects.filter(titulo__icontains=texto_busqueda, activo=True)
         
-    contexto = {
-        'juegos': juegos_encontrados,
-        'texto_busqueda': texto_busqueda
-    }
-
+    contexto = {'juegos': juegos_encontrados,'texto_busqueda': texto_busqueda}
     return render(request, 'juegos/resultados_busqueda.html', contexto)
 
 
@@ -363,29 +284,19 @@ def buscar_en_vivo(request):
         juegos = Videojuego.objects.filter(titulo__icontains=texto, activo=True)[0:5]
         
         for juego in juegos:
-            # 1. Creamos una variable simple para guardar la ruta de la foto
             ruta_foto = ""
-            
-            # 2. Si el juego tiene portada guardada, obtenemos su URL
             if juego.portada:
                 ruta_foto = juego.portada.url
-                
-            # 3. Agregamos la foto a nuestro diccionario
-            diccionario = {
-                'id': juego.id,
-                'titulo': juego.titulo,
-                'portada': ruta_foto
-            }
+            diccionario = {'id': juego.id,'titulo': juego.titulo,'portada': ruta_foto}
             juegos_lista.append(diccionario)
             
     return JsonResponse(juegos_lista, safe=False)
 
+
+
 def historial_compras(request):
-    # Protegemos la vista para que solo entren usuarios logueados
     if not request.user.is_authenticated:
-        return redirect('index') # O a tu página de login
-        
-    # Buscamos las compras del usuario y las ordenamos por la más reciente
+        return redirect('index') 
     compras = Compra.objects.filter(usuario=request.user).order_by('-fecha_compra')
     
     return render(request, 'juegos/historial_compras.html', {'compras': compras})
@@ -393,22 +304,17 @@ def historial_compras(request):
 
 
 def procesar_compra_directa(request, juego_id):
-    # 1. Si el usuario no ha iniciado sesión, lo mandamos a loguearse
     if not request.user.is_authenticated:
         return redirect('login')
         
     if request.method == 'POST' or request.method == 'GET':
-        # 2. Buscamos el videojuego que quiere comprar
         juego = get_object_or_404(Videojuego, id=juego_id)
         
-        # 3. CREAMOS EL RECIBO REAL EN LA BASE DE DATOS
         Compra.objects.create(
             usuario=request.user,
             juego=juego,
-            precio_pagado=juego.precio # Guardamos el precio de ESTE momento exacto
-        )
-        
-        # 4. Lo redirigimos automáticamente a su historial para que vea su juego
+            precio_pagado=juego.precio 
+        )   
         return redirect('historial_compras')
 
 

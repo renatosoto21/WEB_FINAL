@@ -28,23 +28,10 @@ class VideojuegoAdmin(admin.ModelAdmin):
     list_filter = ['categoria', 'en_oferta', 'destacado', 'fecha_creacion']
     list_editable = ['activo']
     search_fields = ['titulo', 'descripcion']
-    fieldsets = (
-        ('Información Básica', {
-            'fields': ('titulo', 'descripcion', 'categoria', 'activo')
-        }),
-        ('Precios y Stock', {
-            'fields': ('precio', 'stock', 'en_oferta', 'precio_oferta')
-        }),
-        ('Imagenes', {
-            'fields': ('portada', 'imagen1', 'imagen2', 'imagen3')
-        }),
-        ('Estado', {
-            'fields': ('destacado', )
-        }),
-        ('URL del Trailer', {
-            'fields': ('url', )
-        }),
-        
-    )
-
+    
+    fieldsets = (('Información Básica', {'fields': ('titulo', 'descripcion', 'categoria', 'activo')}),
+                ('Precios y Stock', {'fields': ('precio', 'stock', 'en_oferta', 'precio_oferta')}),
+                ('Imagenes', {'fields': ('portada', 'imagen1', 'imagen2', 'imagen3')}),
+                ('Estado', {'fields': ('destacado', )}),
+                ('URL del Trailer', {'fields': ('url', )}))
 admin.site.register(Compra)  

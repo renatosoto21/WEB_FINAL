@@ -14,7 +14,8 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nombre
-
+    
+    #valida que el slug sea unico y no se repita
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.nombre)
@@ -22,16 +23,11 @@ class Categoria(models.Model):
 
 class Videojuego(models.Model):
     titulo = models.CharField(max_length=100)
-
-    PLATAFORMAS = [
-        ('PS5', 'PlayStation 5'),
-        ('Xbox Series X', 'Xbox Series X'),
-        ('Nintendo Switch', 'Nintendo Switch'),
-        ('PS4', 'PlayStation 4'),
-        ('Xbox One', 'Xbox One'),
-        ('Xbox Tresesenta','Xbox 360'),
-    ]
-    plataforma = models.CharField(max_length=50, choices=PLATAFORMAS, default='PS5')
+    plataforma = [('PS5', 'PlayStation 5'),('Xbox Series X', 'Xbox Series X'),
+                   ('Nintendo Switch', 'Nintendo Switch'),('PS4', 'PlayStation 4'),
+                   ('Xbox One', 'Xbox One'),('Xbox Tresesenta','Xbox 360'),]
+    
+    plataforma = models.CharField(max_length=50, choices=plataforma, default='PS5')
     descripcion = models.TextField()
     precio = models.IntegerField()
     stock = models.IntegerField(default=0)
@@ -50,13 +46,7 @@ class Videojuego(models.Model):
     fecha_destacado = models.DateTimeField(null=True, blank=True)
     url= models.CharField(max_length=200, null=True, blank=True)
     activo = models.BooleanField(default=True)
-    categoria = models.ForeignKey(
-        Categoria,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='videojuegos'
-    )
+    categoria = models.ForeignKey(Categoria,on_delete=models.SET_NULL,null=True,blank=True,related_name='videojuegos')
 
     def __str__(self):
         return self.titulo
@@ -64,7 +54,7 @@ class Videojuego(models.Model):
 class Compra(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mis_compras')
     juego = models.ForeignKey(Videojuego, on_delete=models.SET_NULL, null=True)
-    precio_pagado = models.IntegerField() # Para saber cuánto costaba en ese momento
+    precio_pagado = models.IntegerField()
     fecha_compra = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

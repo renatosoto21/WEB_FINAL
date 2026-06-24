@@ -6,12 +6,7 @@ class VideojuegoForm(forms.ModelForm):
     class Meta:
         model = Videojuego
         fields = ['titulo', 'descripcion', 'precio', 'stock', 'portada', 'imagen1', 'imagen2', 'imagen3', 'categoria','plataforma','precio_oferta', 'en_oferta', 'destacado', 'url', 'activo']
-
-        labels = {
-    
-            'url': 'URL'
-        }
-
+        labels = {'url': 'URL'}
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
@@ -24,17 +19,16 @@ class VideojuegoForm(forms.ModelForm):
             'categoria': forms.Select(attrs={'class': 'form-control'}),
             'plataforma': forms.Select(attrs={'class': 'form-control'}),
             'url': forms.URLInput(attrs={'class': 'form-control'}),
-            #'activo': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
 
-        # Añadimos la función para convertir el link de YouTube al formato embed
+    #comvierte los link de youtube en embed para que no de error al momento de mostrar el video en la pagina
     def clean_url(self):
         enlace = self.cleaned_data.get('url')
         if enlace and 'watch?v=' in enlace:
             enlace = enlace.replace('watch?v=', 'embed/')
         return enlace
     
-
+    #valida que el precio, stock y precio de oferta no sean negativos
     def clean_precio(self):
         precio = self.cleaned_data.get('precio')
         if precio is not None and precio < 0:
@@ -63,15 +57,3 @@ class CategoriaForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
-
-def clean_url(self):
-        enlace = self.cleaned_data.get('url')
-        if enlace:
-            # Extrae solo el ID del video
-            patron = r'(?:v=|youtu\.be/|embed/)([^&?]+)'
-            match = re.search(patron, enlace)
-            if match:
-                video_id = match.group(1)
-                # CAMBIO AQUÍ: Usamos youtube-nocookie
-                return f"https://www.youtube-nocookie.com/embed/{video_id}"
-        return enlace
