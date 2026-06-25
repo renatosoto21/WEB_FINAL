@@ -89,12 +89,12 @@ class UsuarioUpdateForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
+        nueva_contrasena = self.cleaned_data.get("password")
+        if nueva_contrasena:
+            user.set_password(nueva_contrasena)
         if commit:
             user.save()
         return user
-    
-    #verificacion de los caractares minimos.
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
