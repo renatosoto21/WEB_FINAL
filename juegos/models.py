@@ -25,7 +25,7 @@ class Videojuego(models.Model):
     titulo = models.CharField(max_length=100)
     plataforma = [('PS5', 'PlayStation 5'),('Xbox Series X', 'Xbox Series X'),
                    ('Nintendo Switch', 'Nintendo Switch'),('PS4', 'PlayStation 4'),
-                   ('Xbox One', 'Xbox One'),('Xbox Tresesenta','Xbox 360'),]
+                   ('Xbox One', 'Xbox One'),]
     
     plataforma = models.CharField(max_length=50, choices=plataforma, default='PS5')
     descripcion = models.TextField()

@@ -202,12 +202,16 @@ def editar_juego(request, pk):
     return render(request, 'juegos/admin/form_juego.html', {'form': form, 'accion': 'Editar'})
 
 @staff_member_required(login_url='/iniciar-sesion/')
-
+    #solamente elimina juegos si no tiene ventas
 def eliminar_juego(request, pk):
-    juego = Videojuego.objects.get(pk=pk)
-    juego.delete()
+    juego = Videojuego.objects.get(id=pk)
+    tiene_ventas = Compra.objects.filter(juego=juego).exists()
+    if tiene_ventas:
+        juego.activo = False
+        juego.save()
+    else:
+        juego.delete()
     return redirect('panel_admin')
-
 
 #  VISTAS ADMIN - CATEGORÍAS 
 
